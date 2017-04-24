@@ -26,6 +26,8 @@ public:
 private:
     static const int SIZE = 15;
 
+    void putDot(int x, int y, Value value);
+
     Value values[SIZE][SIZE];
 };
 

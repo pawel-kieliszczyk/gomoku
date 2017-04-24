@@ -1,5 +1,7 @@
 #include "Domain/Board.hpp"
 
+#include <stdexcept>
+
 
 namespace Gomoku
 {
@@ -23,19 +25,28 @@ int Board::getSize()
 
 void Board::putWhiteDot(int x, int y)
 {
-    values[x][y] = Value::WhiteDot;
+    putDot(x, y, Value::WhiteDot);
 }
 
 
 void Board::putBlackDot(int x, int y)
 {
-    values[x][y] = Value::BlackDot;
+    putDot(x, y, Value::BlackDot);
 }
 
 
 Board::Value Board::getValue(int x, int y)
 {
     return values[x][y];
+}
+
+
+void Board::putDot(int x, int y, Value value)
+{
+    if((x < 0) || (y < 0) || (x >= SIZE) || (y >= SIZE))
+        throw std::out_of_range("Putting dots out of the board is forbidden");
+
+    values[x][y] = value;
 }
 
 
