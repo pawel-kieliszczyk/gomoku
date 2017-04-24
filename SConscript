@@ -4,7 +4,7 @@ local_env = env.Clone()
 
 local_env.AppendUnique(CPPPATH = ['libraries/googletest/gtest-1.8.0/include'])
 local_env.AppendUnique(CPPPATH = ['libraries/googlemock/gmock-1.8.0/include'])
-local_env.AppendUnique(CPPPATH = ['../source'])
+local_env.AppendUnique(CPPPATH = ['../include'])
 
 local_env.AppendUnique(LIBPATH = ['libraries/googletest', 'libraries/googlemock'])
 
@@ -18,6 +18,10 @@ if enable_gcov:
 
 
 source_files = ['tests/main.cpp']
+
+source_files += ['source/Domain/Board.cpp']
+
+source_files += ['tests/Domain/BoardTester.cpp']
 
 
 target = 'test'

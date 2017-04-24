@@ -2,7 +2,7 @@ compiler = ARGUMENTS.get('compiler', 'clang++')
 
 
 env = Environment(CXX = compiler)
-env.Append(CXXFLAGS = ['-Wall', '-Werror'])
+env.Append(CXXFLAGS = ['-std=c++14', '-Wall', '-Werror'])
 
 
 SConscript('libraries/googletest/SConscript', variant_dir='bin/libraries/googletest', exports='env', duplicate=0)
