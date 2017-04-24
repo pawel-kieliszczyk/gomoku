@@ -1,0 +1,10 @@
+*.o
+
+libgmock.a
+libgtest.a
+
+test
+
+.DS_Store
+.sconsign.dblite
+
