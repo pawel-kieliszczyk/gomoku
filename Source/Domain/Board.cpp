@@ -52,6 +52,9 @@ void Board::putDot(int x, int y, BoardValue value)
     if((x < 0) || (y < 0) || (x >= SIZE) || (y >= SIZE))
         throw std::out_of_range("Putting dots out of the board is forbidden");
 
+    if(values[x][y] != BoardValue::Blank)
+        throw std::runtime_error("Putting two dots on the same place is forbidden");
+
     values[x][y] = value;
 }
 

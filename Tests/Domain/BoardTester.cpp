@@ -58,6 +58,21 @@ TEST_F(BoardTester, testsPuttingBlackDot)
 }
 
 
+TEST_F(BoardTester, testsClearingBoard)
+{
+    // given
+    board.putWhiteDot(7, 8);
+
+    // when
+    board.clear();
+
+    // then
+    for(int i = 0; i < board.getSize(); ++i)
+        for(int j = 0; j < board.getSize(); ++j)
+            EXPECT_EQ(BoardValue::Blank, board.getValue(i, j));
+}
+
+
 TEST_F(BoardTester, testsExceptionWhenPuttingWhiteDotOutOfRange)
 {
     // when & then
@@ -78,18 +93,14 @@ TEST_F(BoardTester, testsExceptionWhenPuttingBlackDotOutOfRange)
 }
 
 
-TEST_F(BoardTester, testsClearingBoard)
+TEST_F(BoardTester, testsExceptionWhenPuttingTwoPieciesOnTheSamePlace)
 {
     // given
-    board.putWhiteDot(7, 8);
+    board.putWhiteDot(4, 5);
 
-    // when
-    board.clear();
-
-    // then
-    for(int i = 0; i < board.getSize(); ++i)
-        for(int j = 0; j < board.getSize(); ++j)
-            EXPECT_EQ(BoardValue::Blank, board.getValue(i, j));
+    // when and then
+    EXPECT_THROW(board.putWhiteDot(4, 5), std::runtime_error);
+    EXPECT_THROW(board.putBlackDot(4, 5), std::runtime_error);
 }
 
 
