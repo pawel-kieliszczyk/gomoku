@@ -5,6 +5,6 @@ env = Environment(CXX = compiler)
 env.Append(CXXFLAGS = ['-std=c++14', '-Wall', '-Werror'])
 
 
-SConscript('libraries/googletest/SConscript', variant_dir='bin/libraries/googletest', exports='env', duplicate=0)
-SConscript('libraries/googlemock/SConscript', variant_dir='bin/libraries/googlemock', exports='env', duplicate=0)
-SConscript('SConscript', variant_dir='bin', exports='env', duplicate=0)
+SConscript('Libraries/googletest/SConscript', variant_dir='Bin/Libraries/googletest', exports='env', duplicate=0)
+SConscript('Libraries/googlemock/SConscript', variant_dir='Bin/Libraries/googlemock', exports='env', duplicate=0)
+SConscript('SConscript', variant_dir='Bin', exports='env', duplicate=0)

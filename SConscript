@@ -2,11 +2,11 @@ Import('env')
 local_env = env.Clone()
 
 
-local_env.AppendUnique(CPPPATH = ['libraries/googletest/gtest-1.8.0/include'])
-local_env.AppendUnique(CPPPATH = ['libraries/googlemock/gmock-1.8.0/include'])
-local_env.AppendUnique(CPPPATH = ['../include'])
+local_env.AppendUnique(CPPPATH = ['Libraries/googletest/gtest-1.8.0/include'])
+local_env.AppendUnique(CPPPATH = ['Libraries/googlemock/gmock-1.8.0/include'])
+local_env.AppendUnique(CPPPATH = ['../Include'])
 
-local_env.AppendUnique(LIBPATH = ['libraries/googletest', 'libraries/googlemock'])
+local_env.AppendUnique(LIBPATH = ['Libraries/googletest', 'Libraries/googlemock'])
 
 local_env.AppendUnique(LIBS = ['gtest', 'gmock', 'pthread'])
 
@@ -17,11 +17,11 @@ if enable_gcov:
 	local_env.AppendUnique(LINKFLAGS = '-fprofile-arcs')
 
 
-source_files = ['tests/main.cpp']
+source_files = ['Tests/main.cpp']
 
-source_files += ['source/Domain/Board.cpp']
+source_files += ['Source/Domain/Board.cpp']
 
-source_files += ['tests/Domain/BoardTester.cpp']
+source_files += ['Tests/Domain/BoardTester.cpp']
 
 
 target = 'test'
