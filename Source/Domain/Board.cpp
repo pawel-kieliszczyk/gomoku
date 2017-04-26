@@ -11,9 +11,7 @@ namespace Domain
 
 Board::Board()
 {
-    for(int x = 0; x < SIZE; ++x)
-        for(int y = 0; y < SIZE; ++y)
-            values[x][y] = Value::Blank;
+    clear();
 }
 
 
@@ -25,23 +23,31 @@ int Board::getSize()
 
 void Board::putWhiteDot(int x, int y)
 {
-    putDot(x, y, Value::WhiteDot);
+    putDot(x, y, BoardValue::WhiteDot);
 }
 
 
 void Board::putBlackDot(int x, int y)
 {
-    putDot(x, y, Value::BlackDot);
+    putDot(x, y, BoardValue::BlackDot);
 }
 
 
-Board::Value Board::getValue(int x, int y)
+BoardValue Board::getValue(int x, int y)
 {
     return values[x][y];
 }
 
 
-void Board::putDot(int x, int y, Value value)
+void Board::clear()
+{
+    for(int x = 0; x < SIZE; ++x)
+        for(int y = 0; y < SIZE; ++y)
+            values[x][y] = BoardValue::Blank;
+}
+
+
+void Board::putDot(int x, int y, BoardValue value)
 {
     if((x < 0) || (y < 0) || (x >= SIZE) || (y >= SIZE))
         throw std::out_of_range("Putting dots out of the board is forbidden");

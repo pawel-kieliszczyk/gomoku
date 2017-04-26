@@ -34,7 +34,7 @@ TEST_F(BoardTester, testsValuesOfEmptyBoard)
     // when & then
     for(int i = 0; i < board.getSize(); ++i)
         for(int j = 0; j < board.getSize(); ++j)
-            EXPECT_EQ(Board::Value::Blank, board.getValue(i, j));
+            EXPECT_EQ(BoardValue::Blank, board.getValue(i, j));
 }
 
 
@@ -44,7 +44,7 @@ TEST_F(BoardTester, testsPuttingWhiteDot)
     board.putWhiteDot(2, 3);
 
     // then
-    EXPECT_EQ(Board::Value::WhiteDot, board.getValue(2, 3));
+    EXPECT_EQ(BoardValue::WhiteDot, board.getValue(2, 3));
 }
 
 
@@ -54,7 +54,7 @@ TEST_F(BoardTester, testsPuttingBlackDot)
     board.putBlackDot(2, 3);
 
     // then
-    EXPECT_EQ(Board::Value::BlackDot, board.getValue(2, 3));
+    EXPECT_EQ(BoardValue::BlackDot, board.getValue(2, 3));
 }
 
 
@@ -75,6 +75,21 @@ TEST_F(BoardTester, testsExceptionWhenPuttingBlackDotOutOfRange)
     EXPECT_THROW(board.putBlackDot(0, -1), std::out_of_range);
     EXPECT_THROW(board.putBlackDot(board.getSize(), 0), std::out_of_range);
     EXPECT_THROW(board.putBlackDot(0, board.getSize()), std::out_of_range);
+}
+
+
+TEST_F(BoardTester, testsClearingBoard)
+{
+    // given
+    board.putWhiteDot(7, 8);
+
+    // when
+    board.clear();
+
+    // then
+    for(int i = 0; i < board.getSize(); ++i)
+        for(int j = 0; j < board.getSize(); ++j)
+            EXPECT_EQ(BoardValue::Blank, board.getValue(i, j));
 }
 
 

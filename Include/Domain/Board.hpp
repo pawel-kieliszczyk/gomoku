@@ -1,36 +1,41 @@
+#ifndef GOMOKU_DOMAIN_BOARD_HPP
+#define GOMOKU_DOMAIN_BOARD_HPP
+
+
+#include "IBoard.hpp"
+
+
 namespace Gomoku
 {
 namespace Domain
 {
 
 
-class Board
+class Board : public IBoard
 {
 public:
-    enum class Value
-    {
-        Blank,
-        WhiteDot,
-        BlackDot
-    };
-
     Board();
 
-    int getSize();
+    int getSize() override;
 
-    void putWhiteDot(int x, int y);
-    void putBlackDot(int x, int y);
+    void putWhiteDot(int x, int y) override;
+    void putBlackDot(int x, int y) override;
 
-    Value getValue(int x, int y);
+    BoardValue getValue(int x, int y) override;
+
+    void clear() override;
 
 private:
     static const int SIZE = 15;
 
-    void putDot(int x, int y, Value value);
+    void putDot(int x, int y, BoardValue value);
 
-    Value values[SIZE][SIZE];
+    BoardValue values[SIZE][SIZE];
 };
 
 
 } // namespace Domain
 } // namespace Gomoku
+
+
+#endif // GOMOKU_DOMAIN_BOARD_HPP
