@@ -22,7 +22,7 @@ namespace Testing
 struct GameControllerTester : public gt::Test
 {
     // mocks:
-    std::shared_ptr<Domain::Testing::BoardMock> boardMock = std::make_shared<Domain::Testing::BoardMock>();
+    std::shared_ptr<Domain::Testing::BoardMock> boardMock = std::make_shared<gt::StrictMock<Domain::Testing::BoardMock>>();
 
     // tested class:
     GameController controller{boardMock};
