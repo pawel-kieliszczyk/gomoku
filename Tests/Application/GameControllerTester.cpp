@@ -56,6 +56,31 @@ TEST_F(GameControllerTester, testsMakingFirstMoveAsWhite)
 }
 
 
+TEST_F(GameControllerTester, testsMakingSecondMoveAsBlack)
+{
+    // given
+    EXPECT_CALL(*boardMock, putBlackDot(2, 3));
+    controller.moveBlack(2, 3);
+
+    // when & then
+    EXPECT_THROW(controller.moveBlack(4, 5), std::runtime_error);
+}
+
+
+TEST_F(GameControllerTester, testsMakingSecondMoveAsWhite)
+{
+    // given
+    EXPECT_CALL(*boardMock, putBlackDot(2, 3));
+    controller.moveBlack(2, 3);
+
+    // expect
+    EXPECT_CALL(*boardMock, putWhiteDot(4, 5));
+
+    // when & then
+    controller.moveWhite(4, 5);
+}
+
+
 } // namespace Testing
 } // namespace Application
 } // namespace Gomoku

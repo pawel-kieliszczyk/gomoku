@@ -25,6 +25,9 @@ public:
 
 private:
     std::shared_ptr<Domain::IBoard> board;
+
+    enum class NextTurn {Black, White};
+    NextTurn nextTurn;
 };
 
 
