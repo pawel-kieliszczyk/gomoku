@@ -36,6 +36,7 @@ void GameController::moveWhite(int x, int y)
         throw std::runtime_error("Trying to move when opponent's turn");
 
     board->putWhiteDot(x, y);
+    nextTurn = NextTurn::Black;
 }
 
 
