@@ -15,27 +15,33 @@ Board::Board()
 }
 
 
-int Board::getSize()
+int Board::getSize() const
 {
     return SIZE;
 }
 
 
-void Board::putWhiteDot(int x, int y)
+void Board::putStone(int x, int y, const Stone& stone)
 {
-    putDot(x, y, BoardValue::WhiteDot);
+    if((x < 0) || (y < 0) || (x >= SIZE) || (y >= SIZE))
+        throw std::out_of_range("Putting stones out of the board is forbidden");
+
+    if(board[x][y])
+        throw std::runtime_error("Putting two stones on the same place is forbidden");
+
+    board[x][y] = stone;
 }
 
 
-void Board::putBlackDot(int x, int y)
+Stone Board::getStone(int x, int y) const
 {
-    putDot(x, y, BoardValue::BlackDot);
+    return *board[x][y];
 }
 
 
-BoardValue Board::getValue(int x, int y)
+bool Board::hasStone(int x, int y) const
 {
-    return values[x][y];
+    return static_cast<bool>(board[x][y]);
 }
 
 
@@ -43,19 +49,7 @@ void Board::clear()
 {
     for(int x = 0; x < SIZE; ++x)
         for(int y = 0; y < SIZE; ++y)
-            values[x][y] = BoardValue::Blank;
-}
-
-
-void Board::putDot(int x, int y, BoardValue value)
-{
-    if((x < 0) || (y < 0) || (x >= SIZE) || (y >= SIZE))
-        throw std::out_of_range("Putting dots out of the board is forbidden");
-
-    if(values[x][y] != BoardValue::Blank)
-        throw std::runtime_error("Putting two dots on the same place is forbidden");
-
-    values[x][y] = value;
+            board[x][y] = std::experimental::optional<Stone>();//.reset();
 }
 
 

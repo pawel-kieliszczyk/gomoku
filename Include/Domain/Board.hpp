@@ -4,6 +4,8 @@
 
 #include "IBoard.hpp"
 
+#include <experimental/optional>
+
 
 namespace Gomoku
 {
@@ -16,21 +18,18 @@ class Board : public IBoard
 public:
     Board();
 
-    int getSize() override;
+    int getSize() const override;
 
-    void putWhiteDot(int x, int y) override;
-    void putBlackDot(int x, int y) override;
-
-    BoardValue getValue(int x, int y) override;
+    void putStone(int x, int y, const Stone& stone) override;
+    Stone getStone(int x, int y) const override;
+    bool hasStone(int x, int y) const override;
 
     void clear() override;
 
 private:
     static const int SIZE = 15;
 
-    void putDot(int x, int y, BoardValue value);
-
-    BoardValue values[SIZE][SIZE];
+    std::experimental::optional<Stone> board[SIZE][SIZE];
 };
 
 

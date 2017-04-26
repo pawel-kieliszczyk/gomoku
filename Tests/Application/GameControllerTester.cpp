@@ -42,7 +42,7 @@ TEST_F(GameControllerTester, testsStartingNewGame)
 TEST_F(GameControllerTester, testsMakingFirstMoveAsBlack)
 {
     // expect
-    EXPECT_CALL(*boardMock, putBlackDot(2, 3));
+    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
 
     // when & then
     controller.moveBlack(2, 3);
@@ -59,7 +59,7 @@ TEST_F(GameControllerTester, testsMakingFirstMoveAsWhite)
 TEST_F(GameControllerTester, testsMakingSecondMoveAsBlack)
 {
     // given
-    EXPECT_CALL(*boardMock, putBlackDot(2, 3));
+    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
     controller.moveBlack(2, 3);
 
     // when & then
@@ -70,11 +70,11 @@ TEST_F(GameControllerTester, testsMakingSecondMoveAsBlack)
 TEST_F(GameControllerTester, testsMakingSecondMoveAsWhite)
 {
     // given
-    EXPECT_CALL(*boardMock, putBlackDot(2, 3));
+    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
     controller.moveBlack(2, 3);
 
     // expect
-    EXPECT_CALL(*boardMock, putWhiteDot(4, 5));
+    EXPECT_CALL(*boardMock, putStone(4, 5, Domain::Stone::White));
 
     // when & then
     controller.moveWhite(4, 5);
@@ -84,14 +84,14 @@ TEST_F(GameControllerTester, testsMakingSecondMoveAsWhite)
 TEST_F(GameControllerTester, testsMakingThirdMoveAsBlack)
 {
     // given
-    EXPECT_CALL(*boardMock, putBlackDot(2, 3));
+    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
     controller.moveBlack(2, 3);
 
-    EXPECT_CALL(*boardMock, putWhiteDot(4, 5));
+    EXPECT_CALL(*boardMock, putStone(4, 5, Domain::Stone::White));
     controller.moveWhite(4, 5);
 
     // expect
-    EXPECT_CALL(*boardMock, putBlackDot(6, 7));
+    EXPECT_CALL(*boardMock, putStone(6, 7, Domain::Stone::Black));
 
     // when & then
     controller.moveBlack(6, 7);
@@ -101,10 +101,10 @@ TEST_F(GameControllerTester, testsMakingThirdMoveAsBlack)
 TEST_F(GameControllerTester, testsMakingThirdMoveAsWhite)
 {
     // given
-    EXPECT_CALL(*boardMock, putBlackDot(2, 3));
+    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
     controller.moveBlack(2, 3);
 
-    EXPECT_CALL(*boardMock, putWhiteDot(4, 5));
+    EXPECT_CALL(*boardMock, putStone(4, 5, Domain::Stone::White));
     controller.moveWhite(4, 5);
 
     // when & then
@@ -115,13 +115,13 @@ TEST_F(GameControllerTester, testsMakingThirdMoveAsWhite)
 TEST_F(GameControllerTester, testsMakingFourthMoveAsBlack)
 {
     // given
-    EXPECT_CALL(*boardMock, putBlackDot(2, 3));
+    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
     controller.moveBlack(2, 3);
 
-    EXPECT_CALL(*boardMock, putWhiteDot(4, 5));
+    EXPECT_CALL(*boardMock, putStone(4, 5, Domain::Stone::White));
     controller.moveWhite(4, 5);
 
-    EXPECT_CALL(*boardMock, putBlackDot(6, 7));
+    EXPECT_CALL(*boardMock, putStone(6, 7, Domain::Stone::Black));
     controller.moveBlack(6, 7);
 
     // when & then
@@ -132,17 +132,17 @@ TEST_F(GameControllerTester, testsMakingFourthMoveAsBlack)
 TEST_F(GameControllerTester, testsMakingFourthMoveAsWhite)
 {
     // given
-    EXPECT_CALL(*boardMock, putBlackDot(2, 3));
+    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
     controller.moveBlack(2, 3);
 
-    EXPECT_CALL(*boardMock, putWhiteDot(4, 5));
+    EXPECT_CALL(*boardMock, putStone(4, 5, Domain::Stone::White));
     controller.moveWhite(4, 5);
 
-    EXPECT_CALL(*boardMock, putBlackDot(6, 7));
+    EXPECT_CALL(*boardMock, putStone(6, 7, Domain::Stone::Black));
     controller.moveBlack(6, 7);
 
     // expect
-    EXPECT_CALL(*boardMock, putWhiteDot(8, 9));
+    EXPECT_CALL(*boardMock, putStone(8, 9, Domain::Stone::White));
 
     // when & then
     controller.moveWhite(8, 9);

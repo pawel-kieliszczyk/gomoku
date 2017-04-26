@@ -2,7 +2,7 @@
 #define GOMOKU_DOMAIN_IBOARD_HPP
 
 
-#include "BoardValue.hpp"
+#include "Stone.hpp"
 
 
 namespace Gomoku
@@ -16,12 +16,11 @@ class IBoard
 public:
     virtual ~IBoard() = default;
 
-    virtual int getSize() = 0;
+    virtual int getSize() const = 0;
 
-    virtual void putWhiteDot(int x, int y) = 0;
-    virtual void putBlackDot(int x, int y) = 0;
-
-    virtual BoardValue getValue(int x, int y) = 0;
+    virtual void putStone(int x, int y, const Stone& stone) = 0;
+    virtual Stone getStone(int x, int y) const = 0;
+    virtual bool hasStone(int x, int y) const = 0;
 
     virtual void clear() = 0;
 };
