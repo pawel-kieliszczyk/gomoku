@@ -20,6 +20,9 @@ public:
 
     void startNewGame();
 
+    void moveBlack(int x, int y);
+    void moveWhite(int x, int y);
+
 private:
     std::shared_ptr<Domain::IBoard> board;
 };

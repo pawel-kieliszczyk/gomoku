@@ -1,5 +1,7 @@
 #include "Application/GameController.hpp"
 
+#include <stdexcept>
+
 
 namespace Gomoku
 {
@@ -15,6 +17,18 @@ GameController::GameController(std::shared_ptr<Domain::IBoard> board_) : board(b
 void GameController::startNewGame()
 {
     board->clear();
+}
+
+
+void GameController::moveBlack(int x, int y)
+{
+    board->putBlackDot(x, y);
+}
+
+
+void GameController::moveWhite(int x, int y)
+{
+    throw std::runtime_error("Trying to move when opponent's turn");
 }
 
 

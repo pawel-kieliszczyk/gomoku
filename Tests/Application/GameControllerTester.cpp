@@ -1,4 +1,5 @@
 #include <memory>
+#include <stdexcept>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -33,8 +34,25 @@ TEST_F(GameControllerTester, testsStartingNewGame)
     // expect
     EXPECT_CALL(*boardMock, clear());
 
-    // when
+    // when & then
     controller.startNewGame();
+}
+
+
+TEST_F(GameControllerTester, testsMakingFirstMoveAsBlack)
+{
+    // expect
+    EXPECT_CALL(*boardMock, putBlackDot(2, 3));
+
+    // when & then
+    controller.moveBlack(2, 3);
+}
+
+
+TEST_F(GameControllerTester, testsMakingFirstMoveAsWhite)
+{
+    // when & then
+    EXPECT_THROW(controller.moveWhite(4, 5), std::runtime_error);
 }
 
 
