@@ -17,7 +17,7 @@ GameController::GameController(
     : board(board_),
       playerFactory1(playerFactory1_),
       playerFactory2(playerFactory2_),
-      gameFinishedPolicyFactory(gameFinishedPolicyFactory_)/*, nextTurn(NextTurn::Black)*/
+      gameFinishedPolicyFactory(gameFinishedPolicyFactory_)
 {
 }
 
