@@ -1,5 +1,6 @@
 #include "Domain/Board.hpp"
 
+#include <functional>
 #include <stdexcept>
 
 
@@ -30,6 +31,8 @@ void Board::putStone(int x, int y, const Stone& stone)
         throw std::runtime_error("Putting two stones on the same place is forbidden");
 
     board[x][y] = stone;
+
+    notifyObservers(x, y);
 }
 
 
@@ -50,6 +53,19 @@ void Board::clear()
     for(int x = 0; x < SIZE; ++x)
         for(int y = 0; y < SIZE; ++y)
             board[x][y] = std::experimental::optional<Stone>();//.reset();
+}
+
+
+void Board::addObserver(IBoardObserver& observer)
+{
+    observers.push_back(std::ref(observer));
+}
+
+
+void Board::notifyObservers(int x, int y)
+{
+    for(auto& observer : observers)
+        observer.get().onStonePutAt(x, y);
 }
 
 
