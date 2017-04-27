@@ -9,34 +9,42 @@ namespace Application
 {
 
 
-GameController::GameController(std::shared_ptr<Domain::IBoard> board_) : board(board_), nextTurn(NextTurn::Black)
+GameController::GameController(
+        std::shared_ptr<Domain::IBoard> board_,
+        std::shared_ptr<IPlayerFactory> playerFactory1_,
+        std::shared_ptr<IPlayerFactory> playerFactory2_,
+        std::shared_ptr<IGameFinishedPolicyFactory> gameFinishedPolicyFactory_)
+    : board(board_),
+      playerFactory1(playerFactory1_),
+      playerFactory2(playerFactory2_),
+      gameFinishedPolicyFactory(gameFinishedPolicyFactory_)/*, nextTurn(NextTurn::Black)*/
 {
 }
 
 
-void GameController::startNewGame()
+void GameController::initializeNewGame()
 {
     board->clear();
+
+    playerBlack = playerFactory1->create(board, Domain::Stone::Black);
+    playerWhite = playerFactory2->create(board, Domain::Stone::White);
+
+    gameFinishedPolicy = gameFinishedPolicyFactory->create(board);
 }
 
 
-void GameController::moveBlack(int x, int y)
+void GameController::play()
 {
-    if(nextTurn != NextTurn::Black)
-        throw std::runtime_error("Trying to move when opponent's turn");
+    while(true)
+    {
+        playerBlack->performMove();
+        if(gameFinishedPolicy->isFinished())
+            break;
 
-    board->putStone(x, y, Domain::Stone::Black);
-    nextTurn = NextTurn::White;
-}
-
-
-void GameController::moveWhite(int x, int y)
-{
-    if(nextTurn != NextTurn::White)
-        throw std::runtime_error("Trying to move when opponent's turn");
-
-    board->putStone(x, y, Domain::Stone::White);
-    nextTurn = NextTurn::Black;
+        playerWhite->performMove();
+        if(gameFinishedPolicy->isFinished())
+            break;
+    }
 }
 
 

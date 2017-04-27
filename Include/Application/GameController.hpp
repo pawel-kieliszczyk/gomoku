@@ -6,6 +6,11 @@
 
 #include "Domain/IBoard.hpp"
 
+#include "IPlayer.hpp"
+#include "IPlayerFactory.hpp"
+#include "IGameFinishedPolicy.hpp"
+#include "IGameFinishedPolicyFactory.hpp"
+
 
 namespace Gomoku
 {
@@ -16,18 +21,25 @@ namespace Application
 class GameController
 {
 public:
-    GameController(std::shared_ptr<Domain::IBoard> board_);
+    GameController(
+            std::shared_ptr<Domain::IBoard> board_,
+            std::shared_ptr<IPlayerFactory> playerFactory1_,
+            std::shared_ptr<IPlayerFactory> playerFactory2_,
+            std::shared_ptr<IGameFinishedPolicyFactory> gameFinishedPolicyFactory_);
 
-    void startNewGame();
+    void initializeNewGame();
 
-    void moveBlack(int x, int y);
-    void moveWhite(int x, int y);
+    void play();
 
 private:
     std::shared_ptr<Domain::IBoard> board;
+    std::shared_ptr<IPlayerFactory> playerFactory1;
+    std::shared_ptr<IPlayerFactory> playerFactory2;
+    std::shared_ptr<IGameFinishedPolicyFactory> gameFinishedPolicyFactory;
 
-    enum class NextTurn {Black, White};
-    NextTurn nextTurn;
+    std::shared_ptr<IPlayer> playerBlack;
+    std::shared_ptr<IPlayer> playerWhite;
+    std::shared_ptr<IGameFinishedPolicy> gameFinishedPolicy;
 };
 
 

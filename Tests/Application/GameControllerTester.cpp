@@ -6,6 +6,10 @@
 
 #include "Application/GameController.hpp"
 
+#include "Mocks/Application/GameFinishedPolicyFactoryMock.hpp"
+#include "Mocks/Application/GameFinishedPolicyMock.hpp"
+#include "Mocks/Application/PlayerFactoryMock.hpp"
+#include "Mocks/Application/PlayerMock.hpp"
 #include "Mocks/Domain/BoardMock.hpp"
 
 
@@ -19,133 +23,142 @@ namespace Application
 namespace Testing
 {
 
+
+MATCHER_P(MatchSharedPtr, expectedSharedPtr, "") { return (arg.get() == expectedSharedPtr.get()); }
+
+
 struct GameControllerTester : public gt::Test
 {
     // mocks:
-    std::shared_ptr<Domain::Testing::BoardMock> boardMock = std::make_shared<gt::StrictMock<Domain::Testing::BoardMock>>();
+    std::shared_ptr<Domain::Testing::BoardMock> boardMock =
+            std::make_shared<gt::StrictMock<Domain::Testing::BoardMock>>();
+
+    std::shared_ptr<PlayerFactoryMock> playerFactoryMock1 =
+            std::make_shared<gt::StrictMock<PlayerFactoryMock>>();
+
+    std::shared_ptr<PlayerFactoryMock> playerFactoryMock2 =
+            std::make_shared<gt::StrictMock<PlayerFactoryMock>>();
+
+    std::shared_ptr<GameFinishedPolicyFactoryMock> gameFinishedPolicyFactoryMock =
+            std::make_shared<gt::StrictMock<GameFinishedPolicyFactoryMock>>();
+
+    std::shared_ptr<PlayerMock> playerMock1 = std::make_shared<gt::StrictMock<PlayerMock>>();
+    std::shared_ptr<PlayerMock> playerMock2 = std::make_shared<gt::StrictMock<PlayerMock>>();
+    std::shared_ptr<GameFinishedPolicyMock> gameFinishedPolicyMock = std::make_shared<gt::StrictMock<GameFinishedPolicyMock>>();
 
     // tested class:
-    GameController controller{boardMock};
+    GameController controller{boardMock, playerFactoryMock1, playerFactoryMock2, gameFinishedPolicyFactoryMock};
+
+    void initializeNewGame()
+    {
+        // expect
+        EXPECT_CALL(*boardMock, clear());
+        EXPECT_CALL(*playerFactoryMock1, create(MatchSharedPtr(boardMock), Domain::Stone::Black)).WillOnce(gt::Return(playerMock1));
+        EXPECT_CALL(*playerFactoryMock2, create(MatchSharedPtr(boardMock), Domain::Stone::White)).WillOnce(gt::Return(playerMock2));
+        EXPECT_CALL(*gameFinishedPolicyFactoryMock, create(MatchSharedPtr(boardMock))).WillOnce(gt::Return(gameFinishedPolicyMock));
+
+        // when & then
+        controller.initializeNewGame();
+    }
 };
 
 
-TEST_F(GameControllerTester, testsStartingNewGame)
+TEST_F(GameControllerTester, testsInitializingNewGame)
 {
-    // expect
-    EXPECT_CALL(*boardMock, clear());
-
     // when & then
-    controller.startNewGame();
+    initializeNewGame();
 }
 
 
-TEST_F(GameControllerTester, testsMakingFirstMoveAsBlack)
-{
-    // expect
-    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
-
-    // when & then
-    controller.moveBlack(2, 3);
-}
-
-
-TEST_F(GameControllerTester, testsMakingFirstMoveAsWhite)
-{
-    // when & then
-    EXPECT_THROW(controller.moveWhite(4, 5), std::runtime_error);
-}
-
-
-TEST_F(GameControllerTester, testsMakingSecondMoveAsBlack)
+TEST_F(GameControllerTester, testsMakingOneMove)
 {
     // given
-    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
-    controller.moveBlack(2, 3);
-
-    // when & then
-    EXPECT_THROW(controller.moveBlack(4, 5), std::runtime_error);
-}
-
-
-TEST_F(GameControllerTester, testsMakingSecondMoveAsWhite)
-{
-    // given
-    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
-    controller.moveBlack(2, 3);
+    initializeNewGame();
 
     // expect
-    EXPECT_CALL(*boardMock, putStone(4, 5, Domain::Stone::White));
+    EXPECT_CALL(*playerMock1, performMove());
+    EXPECT_CALL(*gameFinishedPolicyMock, isFinished()).WillOnce(gt::Return(true));
 
     // when & then
-    controller.moveWhite(4, 5);
+    controller.play();
 }
 
 
-TEST_F(GameControllerTester, testsMakingThirdMoveAsBlack)
+TEST_F(GameControllerTester, testsMakingTwoMoves)
 {
     // given
-    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
-    controller.moveBlack(2, 3);
-
-    EXPECT_CALL(*boardMock, putStone(4, 5, Domain::Stone::White));
-    controller.moveWhite(4, 5);
+    initializeNewGame();
 
     // expect
-    EXPECT_CALL(*boardMock, putStone(6, 7, Domain::Stone::Black));
+    EXPECT_CALL(*playerMock1, performMove());
+    EXPECT_CALL(*playerMock2, performMove());
+    EXPECT_CALL(*gameFinishedPolicyMock, isFinished())
+        .Times(2)
+        .WillOnce(gt::Return(false))
+        .WillOnce(gt::Return(true));
 
     // when & then
-    controller.moveBlack(6, 7);
+    controller.play();
 }
 
 
-TEST_F(GameControllerTester, testsMakingThirdMoveAsWhite)
+TEST_F(GameControllerTester, testsMakingThreeMoves)
 {
     // given
-    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
-    controller.moveBlack(2, 3);
-
-    EXPECT_CALL(*boardMock, putStone(4, 5, Domain::Stone::White));
-    controller.moveWhite(4, 5);
-
-    // when & then
-    EXPECT_THROW(controller.moveWhite(6, 7), std::runtime_error);
-}
-
-
-TEST_F(GameControllerTester, testsMakingFourthMoveAsBlack)
-{
-    // given
-    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
-    controller.moveBlack(2, 3);
-
-    EXPECT_CALL(*boardMock, putStone(4, 5, Domain::Stone::White));
-    controller.moveWhite(4, 5);
-
-    EXPECT_CALL(*boardMock, putStone(6, 7, Domain::Stone::Black));
-    controller.moveBlack(6, 7);
-
-    // when & then
-    EXPECT_THROW(controller.moveBlack(8, 9), std::runtime_error);
-}
-
-
-TEST_F(GameControllerTester, testsMakingFourthMoveAsWhite)
-{
-    // given
-    EXPECT_CALL(*boardMock, putStone(2, 3, Domain::Stone::Black));
-    controller.moveBlack(2, 3);
-
-    EXPECT_CALL(*boardMock, putStone(4, 5, Domain::Stone::White));
-    controller.moveWhite(4, 5);
-
-    EXPECT_CALL(*boardMock, putStone(6, 7, Domain::Stone::Black));
-    controller.moveBlack(6, 7);
+    initializeNewGame();
 
     // expect
-    EXPECT_CALL(*boardMock, putStone(8, 9, Domain::Stone::White));
+    EXPECT_CALL(*playerMock1, performMove()).Times(2);
+    EXPECT_CALL(*playerMock2, performMove());
+    EXPECT_CALL(*gameFinishedPolicyMock, isFinished())
+        .Times(3)
+        .WillOnce(gt::Return(false))
+        .WillOnce(gt::Return(false))
+        .WillOnce(gt::Return(true));
 
     // when & then
-    controller.moveWhite(8, 9);
+    controller.play();
+}
+
+
+TEST_F(GameControllerTester, testsMakingFourMoves)
+{
+    // given
+    initializeNewGame();
+
+    // expect
+    EXPECT_CALL(*playerMock1, performMove()).Times(2);
+    EXPECT_CALL(*playerMock2, performMove()).Times(2);
+    EXPECT_CALL(*gameFinishedPolicyMock, isFinished())
+        .Times(4)
+        .WillOnce(gt::Return(false))
+        .WillOnce(gt::Return(false))
+        .WillOnce(gt::Return(false))
+        .WillOnce(gt::Return(true));
+
+    // when & then
+    controller.play();
+}
+
+
+TEST_F(GameControllerTester, testsMakingFiveMoves)
+{
+    // given
+    initializeNewGame();
+
+    // expect
+    EXPECT_CALL(*playerMock1, performMove()).Times(3);
+    EXPECT_CALL(*playerMock2, performMove()).Times(2);
+    EXPECT_CALL(*gameFinishedPolicyMock, isFinished())
+        .Times(5)
+        .WillOnce(gt::Return(false))
+        .WillOnce(gt::Return(false))
+        .WillOnce(gt::Return(false))
+        .WillOnce(gt::Return(false))
+        .WillOnce(gt::Return(true));
+
+    // when & then
+    controller.play();
 }
 
 
