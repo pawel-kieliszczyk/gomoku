@@ -1,0 +1,26 @@
+Import('env')
+local_env = env.Clone()
+
+
+local_env.AppendUnique(CPPPATH = ['../Include'])
+
+
+source_files = ['Source/main.cpp']
+
+source_files += ['Source/Application/GameController.cpp']
+source_files += ['Source/Application/GameControllerFactory.cpp']
+source_files += ['Source/Application/GameFinishedWhenFiveInRowPolicy.cpp']
+source_files += ['Source/Application/GameFinishedWhenFiveInRowPolicyFactory.cpp']
+
+source_files += ['Source/Domain/Board.cpp']
+
+source_files += ['Source/Interface/BoardDrawer.cpp']
+source_files += ['Source/Interface/HumanPlayer.cpp']
+source_files += ['Source/Interface/HumanPlayerFactory.cpp']
+
+
+target = 'application'
+
+program = local_env.Program(target, source_files)
+Default(program)
+env.Alias(target, '.')
