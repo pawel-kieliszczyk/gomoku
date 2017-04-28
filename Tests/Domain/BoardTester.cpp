@@ -1,9 +1,13 @@
+#include <memory>
 #include <stdexcept>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "Domain/Board.hpp"
 #include "Domain/Stone.hpp"
+
+#include "Mocks/Domain/BoardObserverMock.hpp"
 
 
 namespace gt = testing;
@@ -19,6 +23,10 @@ namespace Testing
 
 struct BoardTester : public gt::Test
 {
+    // mocks:
+    std::shared_ptr<BoardObserverMock> boardObserverMock1 = std::make_shared<gt::StrictMock<BoardObserverMock>>();
+    std::shared_ptr<BoardObserverMock> boardObserverMock2 = std::make_shared<gt::StrictMock<BoardObserverMock>>();
+
     // tested class:
     Board board;
 };
@@ -94,6 +102,28 @@ TEST_F(BoardTester, testsExceptionWhenPuttingTwoStonesOnTheSamePlace)
     // when and then
     EXPECT_THROW(board.putStone(4, 5, Stone::Black), std::runtime_error);
     EXPECT_THROW(board.putStone(4, 5, Stone::White), std::runtime_error);
+}
+
+
+TEST_F(BoardTester, testsNotifyingObservers)
+{
+    // given
+    board.addObserver(*boardObserverMock1);
+    board.addObserver(*boardObserverMock2);
+
+    // expect
+    EXPECT_CALL(*boardObserverMock1, onStonePutAt(2, 3));
+    EXPECT_CALL(*boardObserverMock2, onStonePutAt(2, 3));
+
+    // when & then
+    board.putStone(2, 3, Stone::Black);
+
+    // expect
+    EXPECT_CALL(*boardObserverMock1, onStonePutAt(8, 1));
+    EXPECT_CALL(*boardObserverMock2, onStonePutAt(8, 1));
+
+    // when & then
+    board.putStone(8, 1, Stone::White);
 }
 
 

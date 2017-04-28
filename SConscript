@@ -21,9 +21,11 @@ if enable_gcov:
 source_files = ['Tests/main.cpp']
 
 source_files += ['Source/Application/GameController.cpp']
+source_files += ['Source/Application/GameFinishedWhenFiveInRowPolicy.cpp']
 source_files += ['Source/Domain/Board.cpp']
 
 source_files += ['Tests/Application/GameControllerTester.cpp']
+source_files += ['Tests/Application/GameFinishedWhenFiveInRowPolicyTester.cpp']
 source_files += ['Tests/Domain/BoardTester.cpp']
 
 

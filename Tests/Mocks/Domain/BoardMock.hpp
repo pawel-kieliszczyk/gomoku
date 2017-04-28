@@ -23,6 +23,7 @@ public:
     MOCK_CONST_METHOD2(getStone, Stone(int /*x*/, int /*y*/));
     MOCK_CONST_METHOD2(hasStone, bool(int /*x*/, int /*y*/));
     MOCK_METHOD0(clear, void());
+    MOCK_METHOD1(addObserver, void(IBoardObserver& /*observer*/));
 };
 
 

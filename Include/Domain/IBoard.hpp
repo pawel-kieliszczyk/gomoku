@@ -2,6 +2,7 @@
 #define GOMOKU_DOMAIN_IBOARD_HPP
 
 
+#include "IBoardObserver.hpp"
 #include "Stone.hpp"
 
 
@@ -23,6 +24,8 @@ public:
     virtual bool hasStone(int x, int y) const = 0;
 
     virtual void clear() = 0;
+
+    virtual void addObserver(IBoardObserver& observer) = 0;
 };
 
 

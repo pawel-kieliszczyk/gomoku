@@ -5,6 +5,8 @@
 #include "IBoard.hpp"
 
 #include <experimental/optional>
+#include <functional>
+#include <vector>
 
 
 namespace Gomoku
@@ -26,10 +28,16 @@ public:
 
     void clear() override;
 
+    void addObserver(IBoardObserver& observer) override;
+
 private:
+    void notifyObservers(int x, int y);
+
     static const int SIZE = 15;
 
     std::experimental::optional<Stone> board[SIZE][SIZE];
+
+    std::vector<std::reference_wrapper<IBoardObserver>> observers;
 };
 
 
