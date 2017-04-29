@@ -3,6 +3,7 @@
 libgmock.a
 libgtest.a
 
+application
 test
 
 .DS_Store
