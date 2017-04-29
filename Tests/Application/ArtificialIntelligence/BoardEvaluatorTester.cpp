@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "Application/BoardEvaluator.hpp"
+#include "Application/ArtificialIntelligence/BoardEvaluator.hpp"
 #include "Domain/Board.hpp"
 
 
@@ -12,6 +12,8 @@ namespace gt = testing;
 namespace Gomoku
 {
 namespace Application
+{
+namespace ArtificialIntelligence
 {
 namespace Testing
 {
@@ -138,5 +140,6 @@ TEST_F(BoardEvaluatorTester, testsFiveWhiteStonesDiagonally)
 
 
 } // namespace Testing
+} // namespace ArtificialIntelligence
 } // namespace Application
 } // namespace Gomoku

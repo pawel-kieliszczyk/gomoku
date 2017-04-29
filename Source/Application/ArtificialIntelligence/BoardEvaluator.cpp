@@ -1,4 +1,4 @@
-#include "Application/BoardEvaluator.hpp"
+#include "Application/ArtificialIntelligence/BoardEvaluator.hpp"
 
 #include <limits>
 #include <utility>
@@ -8,6 +8,8 @@
 namespace Gomoku
 {
 namespace Application
+{
+namespace ArtificialIntelligence
 {
 
 
@@ -216,5 +218,6 @@ bool BoardEvaluator::hasFiveStonesDiagonally2(
 }
 
 
+} // namespace ArtificialIntelligence
 } // namespace Application
 } // namespace Gomoku

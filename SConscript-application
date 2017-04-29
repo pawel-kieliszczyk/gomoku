@@ -9,7 +9,7 @@ source_files = ['Source/main.cpp']
 
 source_files += ['Source/Application/GameController.cpp']
 source_files += ['Source/Application/GameControllerFactory.cpp']
-source_files += ['Source/Application/BoardEvaluator.cpp']
+source_files += ['Source/Application/ArtificialIntelligence/BoardEvaluator.cpp']
 source_files += ['Source/Application/GameFinishedWhenFiveInRowPolicy.cpp']
 source_files += ['Source/Application/GameFinishedWhenFiveInRowPolicyFactory.cpp']
 

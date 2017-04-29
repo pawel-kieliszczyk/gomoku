@@ -1,5 +1,5 @@
-#ifndef GOMOKU_APPLICATION_BOARDEVALUATOR_HPP
-#define GOMOKU_APPLICATION_BOARDEVALUATOR_HPP
+#ifndef GOMOKU_APPLICATION_ARTIFICIALINTELLIGENCE_BOARDEVALUATOR_HPP
+#define GOMOKU_APPLICATION_ARTIFICIALINTELLIGENCE_BOARDEVALUATOR_HPP
 
 
 #include <memory>
@@ -10,6 +10,8 @@
 namespace Gomoku
 {
 namespace Application
+{
+namespace ArtificialIntelligence
 {
 
 
@@ -36,8 +38,9 @@ private:
 };
 
 
+} // namespace ArtificialIntelligence
 } // namespace Application
 } // namespace Gomoku
 
 
-#endif // GOMOKU_APPLICATION_BOARDEVALUATOR_HPP
+#endif // GOMOKU_APPLICATION_ARTIFICIALINTELLIGENCE_BOARDEVALUATOR_HPP
