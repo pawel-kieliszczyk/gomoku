@@ -53,6 +53,22 @@ private:
     bool hasFourOpenStonesDiagonally1(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
     bool hasFourOpenStonesDiagonally2(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
 
+    // three open stones
+    bool hasThreeOpenBlackStonesInRow(std::shared_ptr<Domain::IBoard> board);
+    bool hasThreeOpenBlackStonesHorizontally(std::shared_ptr<Domain::IBoard> board);
+    bool hasThreeOpenBlackStonesVertically(std::shared_ptr<Domain::IBoard> board);
+    bool hasThreeOpenBlackStonesDiagonally(std::shared_ptr<Domain::IBoard> board);
+
+    bool hasThreeOpenWhiteStonesInRow(std::shared_ptr<Domain::IBoard> board);
+    bool hasThreeOpenWhiteStonesHorizontally(std::shared_ptr<Domain::IBoard> board);
+    bool hasThreeOpenWhiteStonesVertically(std::shared_ptr<Domain::IBoard> board);
+    bool hasThreeOpenWhiteStonesDiagonally(std::shared_ptr<Domain::IBoard> board);
+
+    bool hasThreeOpenStonesHorizontally(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
+    bool hasThreeOpenStonesVertically(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
+    bool hasThreeOpenStonesDiagonally1(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
+    bool hasThreeOpenStonesDiagonally2(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
+
     bool isValidEmptyField(std::shared_ptr<Domain::IBoard> board, const int x, const int y) const;
     bool isValidField(std::shared_ptr<Domain::IBoard> board, const int x, const int y) const;
 };

@@ -241,6 +241,100 @@ TEST_F(BoardEvaluatorTester, testsFourOpenWhiteStonesDiagonally)
 }
 
 
+TEST_F(BoardEvaluatorTester, testsThreeOpenBlackStonesHorizontally)
+{
+    // when
+    board->putStone(2, 1, Domain::Stone::Black);
+    board->putStone(2, 2, Domain::Stone::Black);
+    board->putStone(2, 3, Domain::Stone::Black);
+
+    // then
+    EXPECT_EQ(1, evaluator.evaluate(board));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsThreeOpenWhiteStonesHorizontally)
+{
+    // when
+    board->putStone(2, 1, Domain::Stone::White);
+    board->putStone(2, 2, Domain::Stone::White);
+    board->putStone(2, 3, Domain::Stone::White);
+
+    // then
+    EXPECT_EQ(-1, evaluator.evaluate(board));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsThreeOpenBlackStonesVertically)
+{
+    // when
+    board->putStone(1, 2, Domain::Stone::Black);
+    board->putStone(2, 2, Domain::Stone::Black);
+    board->putStone(3, 2, Domain::Stone::Black);
+
+    // then
+    EXPECT_EQ(1, evaluator.evaluate(board));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsThreeOpenWhiteStonesVertically)
+{
+    // when
+    board->putStone(1, 2, Domain::Stone::White);
+    board->putStone(2, 2, Domain::Stone::White);
+    board->putStone(3, 2, Domain::Stone::White);
+
+    // then
+    EXPECT_EQ(-1, evaluator.evaluate(board));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsThreeOpenBlackStonesDiagonally)
+{
+    // when
+    board->putStone(1, 1, Domain::Stone::Black);
+    board->putStone(2, 2, Domain::Stone::Black);
+    board->putStone(3, 3, Domain::Stone::Black);
+
+    // then
+    EXPECT_EQ(1, evaluator.evaluate(board));
+
+    // given
+    board->clear();
+
+    // when
+    board->putStone(1, 5, Domain::Stone::Black);
+    board->putStone(2, 4, Domain::Stone::Black);
+    board->putStone(3, 3, Domain::Stone::Black);
+
+    // then
+    EXPECT_EQ(1, evaluator.evaluate(board));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsThreeOpenWhiteStonesDiagonally)
+{
+    // when
+    board->putStone(1, 1, Domain::Stone::White);
+    board->putStone(2, 2, Domain::Stone::White);
+    board->putStone(3, 3, Domain::Stone::White);
+
+    // then
+    EXPECT_EQ(-1, evaluator.evaluate(board));
+
+    // given
+    board->clear();
+
+    // when
+    board->putStone(1, 5, Domain::Stone::White);
+    board->putStone(2, 4, Domain::Stone::White);
+    board->putStone(3, 3, Domain::Stone::White);
+
+    // then
+    EXPECT_EQ(-1, evaluator.evaluate(board));
+}
+
+
 } // namespace Testing
 } // namespace ArtificialIntelligence
 } // namespace Application
