@@ -18,56 +18,144 @@ namespace ArtificialIntelligence
 class BoardEvaluator
 {
 public:
-    int evaluate(std::shared_ptr<Domain::IBoard> board);
+    static constexpr int FIVE_STONES_WEIGHT = 1000000;
+    static constexpr int OPEN_FOUR_STONES_WEIGHT = 1000;
+    static constexpr int OPEN_THREE_STONES_WEIGHT = 100;
+    static constexpr int OPEN_TWO_STONES_WEIGHT = 10;
+
+    int evaluate(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY);
 
 private:
-    // five stones
-    bool hasFiveBlackStonesInRow(std::shared_ptr<Domain::IBoard> board);
-    bool hasFiveBlackStonesHorizontally(std::shared_ptr<Domain::IBoard> board);
-    bool hasFiveBlackStonesVertically(std::shared_ptr<Domain::IBoard> board);
-    bool hasFiveBlackStonesDiagonally(std::shared_ptr<Domain::IBoard> board);
+    // five
+    bool lastMoveMakesFiveStones(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY);
 
-    bool hasFiveWhiteStonesInRow(std::shared_ptr<Domain::IBoard> board);
-    bool hasFiveWhiteStonesHorizontally(std::shared_ptr<Domain::IBoard> board);
-    bool hasFiveWhiteStonesVertically(std::shared_ptr<Domain::IBoard> board);
-    bool hasFiveWhiteStonesDiagonally(std::shared_ptr<Domain::IBoard> board);
+    bool lastMoveMakesFiveStonesHorizontally(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
 
-    bool hasFiveStonesHorizontally(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
-    bool hasFiveStonesVertically(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
-    bool hasFiveStonesDiagonally1(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
-    bool hasFiveStonesDiagonally2(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
+    bool lastMoveMakesFiveStonesVertically(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
 
-    // four open stones
-    bool hasFourOpenBlackStonesInRow(std::shared_ptr<Domain::IBoard> board);
-    bool hasFourOpenBlackStonesHorizontally(std::shared_ptr<Domain::IBoard> board);
-    bool hasFourOpenBlackStonesVertically(std::shared_ptr<Domain::IBoard> board);
-    bool hasFourOpenBlackStonesDiagonally(std::shared_ptr<Domain::IBoard> board);
+    bool lastMoveMakesFiveStonesDiagonally(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
 
-    bool hasFourOpenWhiteStonesInRow(std::shared_ptr<Domain::IBoard> board);
-    bool hasFourOpenWhiteStonesHorizontally(std::shared_ptr<Domain::IBoard> board);
-    bool hasFourOpenWhiteStonesVertically(std::shared_ptr<Domain::IBoard> board);
-    bool hasFourOpenWhiteStonesDiagonally(std::shared_ptr<Domain::IBoard> board);
+    bool lastMoveMakesFiveStones(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone,
+            const int xOffset,
+            const int yOffset);
 
-    bool hasFourOpenStonesHorizontally(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
-    bool hasFourOpenStonesVertically(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
-    bool hasFourOpenStonesDiagonally1(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
-    bool hasFourOpenStonesDiagonally2(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
+    // open four
+    bool lastMoveMakesOpenFourStones(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY);
 
-    // three open stones
-    bool hasThreeOpenBlackStonesInRow(std::shared_ptr<Domain::IBoard> board);
-    bool hasThreeOpenBlackStonesHorizontally(std::shared_ptr<Domain::IBoard> board);
-    bool hasThreeOpenBlackStonesVertically(std::shared_ptr<Domain::IBoard> board);
-    bool hasThreeOpenBlackStonesDiagonally(std::shared_ptr<Domain::IBoard> board);
+    bool lastMoveMakesOpenFourStonesHorizontally(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
 
-    bool hasThreeOpenWhiteStonesInRow(std::shared_ptr<Domain::IBoard> board);
-    bool hasThreeOpenWhiteStonesHorizontally(std::shared_ptr<Domain::IBoard> board);
-    bool hasThreeOpenWhiteStonesVertically(std::shared_ptr<Domain::IBoard> board);
-    bool hasThreeOpenWhiteStonesDiagonally(std::shared_ptr<Domain::IBoard> board);
+    bool lastMoveMakesOpenFourStonesVertically(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
 
-    bool hasThreeOpenStonesHorizontally(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
-    bool hasThreeOpenStonesVertically(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
-    bool hasThreeOpenStonesDiagonally1(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
-    bool hasThreeOpenStonesDiagonally2(std::shared_ptr<Domain::IBoard> board, const Domain::Stone& stone);
+    bool lastMoveMakesOpenFourStonesDiagonally(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
+
+    bool lastMoveMakesOpenFourStones(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone,
+            const int xOffset,
+            const int yOffset);
+
+    // open three
+    bool lastMoveMakesOpenThreeStones(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY);
+
+    bool lastMoveMakesOpenThreeStonesHorizontally(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
+
+    bool lastMoveMakesOpenThreeStonesVertically(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
+
+    bool lastMoveMakesOpenThreeStonesDiagonally(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
+
+    bool lastMoveMakesOpenThreeStones(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone,
+            const int xOffset,
+            const int yOffset);
+
+    // open two
+    bool lastMoveMakesOpenTwoStones(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY);
+
+    bool lastMoveMakesOpenTwoStonesHorizontally(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
+
+    bool lastMoveMakesOpenTwoStonesVertically(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
+
+    bool lastMoveMakesOpenTwoStonesDiagonally(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone);
+
+    bool lastMoveMakesOpenTwoStones(
+            std::shared_ptr<Domain::IBoard> board,
+            const int lastMoveX,
+            const int lastMoveY,
+            const Domain::Stone& lastMoveStone,
+            const int xOffset,
+            const int yOffset);
 
     bool isValidEmptyField(std::shared_ptr<Domain::IBoard> board, const int x, const int y) const;
     bool isValidField(std::shared_ptr<Domain::IBoard> board, const int x, const int y) const;

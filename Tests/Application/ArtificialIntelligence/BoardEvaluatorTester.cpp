@@ -39,11 +39,15 @@ TEST_F(BoardEvaluatorTester, testsFiveBlackStonesHorizontally)
     board->putStone(2, 5, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::max(), evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 1));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 3));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 5));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFiveWhiteStonesHorizontally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesFiveWhiteStonesHorizontally)
 {
     // when
     board->putStone(2, 1, Domain::Stone::White);
@@ -53,11 +57,15 @@ TEST_F(BoardEvaluatorTester, testsFiveWhiteStonesHorizontally)
     board->putStone(2, 5, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::min(), evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 1));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 3));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 5));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFiveBlackStonesVertically)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesFiveBlackStonesVertically)
 {
     // when
     board->putStone(1, 2, Domain::Stone::Black);
@@ -67,11 +75,15 @@ TEST_F(BoardEvaluatorTester, testsFiveBlackStonesVertically)
     board->putStone(5, 2, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::max(), evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 1, 2));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 3, 2));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 4, 2));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 5, 2));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFiveWhiteStonesVertically)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesFiveWhiteStonesVertically)
 {
     // when
     board->putStone(1, 2, Domain::Stone::White);
@@ -81,11 +93,15 @@ TEST_F(BoardEvaluatorTester, testsFiveWhiteStonesVertically)
     board->putStone(5, 2, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::min(), evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 1, 2));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 3, 2));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 4, 2));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 5, 2));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFiveBlackStonesDiagonally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesFiveBlackStonesDiagonally)
 {
     // when
     board->putStone(1, 1, Domain::Stone::Black);
@@ -95,7 +111,11 @@ TEST_F(BoardEvaluatorTester, testsFiveBlackStonesDiagonally)
     board->putStone(5, 5, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::max(), evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 1, 1));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 4, 4));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 5, 5));
 
     // given
     board->clear();
@@ -108,11 +128,15 @@ TEST_F(BoardEvaluatorTester, testsFiveBlackStonesDiagonally)
     board->putStone(5, 1, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::max(), evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 1, 5));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 4, 2));
+    EXPECT_EQ(BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 5, 1));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFiveWhiteStonesDiagonally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesFiveWhiteStonesDiagonally)
 {
     // when
     board->putStone(1, 1, Domain::Stone::White);
@@ -122,7 +146,11 @@ TEST_F(BoardEvaluatorTester, testsFiveWhiteStonesDiagonally)
     board->putStone(5, 5, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::min(), evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 1, 1));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 4, 4));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 5, 5));
 
     // given
     board->clear();
@@ -135,11 +163,15 @@ TEST_F(BoardEvaluatorTester, testsFiveWhiteStonesDiagonally)
     board->putStone(5, 1, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::min(), evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 1, 5));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 4, 2));
+    EXPECT_EQ(-BoardEvaluator::FIVE_STONES_WEIGHT, evaluator.evaluate(board, 5, 1));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFourOpenBlackStonesHorizontally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenFourBlackStonesHorizontally)
 {
     // when
     board->putStone(2, 1, Domain::Stone::Black);
@@ -148,11 +180,14 @@ TEST_F(BoardEvaluatorTester, testsFourOpenBlackStonesHorizontally)
     board->putStone(2, 4, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::max(), evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 1));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 3));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFourOpenWhiteStonesHorizontally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenFourWhiteStonesHorizontally)
 {
     // when
     board->putStone(2, 1, Domain::Stone::White);
@@ -161,11 +196,14 @@ TEST_F(BoardEvaluatorTester, testsFourOpenWhiteStonesHorizontally)
     board->putStone(2, 4, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::min(), evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 1));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 3));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFourOpenBlackStonesVertically)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenFourBlackStonesVertically)
 {
     // when
     board->putStone(1, 2, Domain::Stone::Black);
@@ -174,11 +212,14 @@ TEST_F(BoardEvaluatorTester, testsFourOpenBlackStonesVertically)
     board->putStone(4, 2, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::max(), evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 1, 2));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 3, 2));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 4, 2));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFourOpenWhiteStonesVertically)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenFourWhiteStonesVertically)
 {
     // when
     board->putStone(1, 2, Domain::Stone::White);
@@ -187,11 +228,14 @@ TEST_F(BoardEvaluatorTester, testsFourOpenWhiteStonesVertically)
     board->putStone(4, 2, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::min(), evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 1, 2));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 3, 2));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 4, 2));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFourOpenBlackStonesDiagonally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenFourBlackStonesDiagonally)
 {
     // when
     board->putStone(1, 1, Domain::Stone::Black);
@@ -200,7 +244,10 @@ TEST_F(BoardEvaluatorTester, testsFourOpenBlackStonesDiagonally)
     board->putStone(4, 4, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::max(), evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 1, 1));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 4, 4));
 
     // given
     board->clear();
@@ -212,11 +259,14 @@ TEST_F(BoardEvaluatorTester, testsFourOpenBlackStonesDiagonally)
     board->putStone(4, 2, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::max(), evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 1, 5));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
+    EXPECT_EQ(BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 4, 2));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsFourOpenWhiteStonesDiagonally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenFourWhiteStonesDiagonally)
 {
     // when
     board->putStone(1, 1, Domain::Stone::White);
@@ -225,7 +275,10 @@ TEST_F(BoardEvaluatorTester, testsFourOpenWhiteStonesDiagonally)
     board->putStone(4, 4, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::min(), evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 1, 1));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 4, 4));
 
     // given
     board->clear();
@@ -237,11 +290,14 @@ TEST_F(BoardEvaluatorTester, testsFourOpenWhiteStonesDiagonally)
     board->putStone(4, 2, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(std::numeric_limits<int>::min(), evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 1, 5));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
+    EXPECT_EQ(-BoardEvaluator::OPEN_FOUR_STONES_WEIGHT, evaluator.evaluate(board, 4, 2));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsThreeOpenBlackStonesHorizontally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenThreeBlackStonesHorizontally)
 {
     // when
     board->putStone(2, 1, Domain::Stone::Black);
@@ -249,11 +305,13 @@ TEST_F(BoardEvaluatorTester, testsThreeOpenBlackStonesHorizontally)
     board->putStone(2, 3, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(1, evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 1));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 3));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsThreeOpenWhiteStonesHorizontally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenThreeWhiteStonesHorizontally)
 {
     // when
     board->putStone(2, 1, Domain::Stone::White);
@@ -261,11 +319,13 @@ TEST_F(BoardEvaluatorTester, testsThreeOpenWhiteStonesHorizontally)
     board->putStone(2, 3, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(-1, evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 1));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 3));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsThreeOpenBlackStonesVertically)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenThreeBlackStonesVertically)
 {
     // when
     board->putStone(1, 2, Domain::Stone::Black);
@@ -273,11 +333,13 @@ TEST_F(BoardEvaluatorTester, testsThreeOpenBlackStonesVertically)
     board->putStone(3, 2, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(1, evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 1, 2));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 3, 2));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsThreeOpenWhiteStonesVertically)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenThreeWhiteStonesVertically)
 {
     // when
     board->putStone(1, 2, Domain::Stone::White);
@@ -285,11 +347,13 @@ TEST_F(BoardEvaluatorTester, testsThreeOpenWhiteStonesVertically)
     board->putStone(3, 2, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(-1, evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 1, 2));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 3, 2));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsThreeOpenBlackStonesDiagonally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenThreeBlackStonesDiagonally)
 {
     // when
     board->putStone(1, 1, Domain::Stone::Black);
@@ -297,7 +361,9 @@ TEST_F(BoardEvaluatorTester, testsThreeOpenBlackStonesDiagonally)
     board->putStone(3, 3, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(1, evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 1, 1));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
 
     // given
     board->clear();
@@ -308,11 +374,13 @@ TEST_F(BoardEvaluatorTester, testsThreeOpenBlackStonesDiagonally)
     board->putStone(3, 3, Domain::Stone::Black);
 
     // then
-    EXPECT_EQ(1, evaluator.evaluate(board));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 1, 5));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
+    EXPECT_EQ(BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
 }
 
 
-TEST_F(BoardEvaluatorTester, testsThreeOpenWhiteStonesDiagonally)
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenThreeWhiteStonesDiagonally)
 {
     // when
     board->putStone(1, 1, Domain::Stone::White);
@@ -320,7 +388,9 @@ TEST_F(BoardEvaluatorTester, testsThreeOpenWhiteStonesDiagonally)
     board->putStone(3, 3, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(-1, evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 1, 1));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
 
     // given
     board->clear();
@@ -331,7 +401,103 @@ TEST_F(BoardEvaluatorTester, testsThreeOpenWhiteStonesDiagonally)
     board->putStone(3, 3, Domain::Stone::White);
 
     // then
-    EXPECT_EQ(-1, evaluator.evaluate(board));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 1, 5));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
+    EXPECT_EQ(-BoardEvaluator::OPEN_THREE_STONES_WEIGHT, evaluator.evaluate(board, 3, 3));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenTwoBlackStonesHorizontally)
+{
+    // when
+    board->putStone(2, 1, Domain::Stone::Black);
+    board->putStone(2, 2, Domain::Stone::Black);
+
+    // then
+    EXPECT_EQ(BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 2, 1));
+    EXPECT_EQ(BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenTwoWhiteStonesHorizontally)
+{
+    // when
+    board->putStone(2, 1, Domain::Stone::White);
+    board->putStone(2, 2, Domain::Stone::White);
+
+    // then
+    EXPECT_EQ(-BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 2, 1));
+    EXPECT_EQ(-BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenTwoBlackStonesVertically)
+{
+    // when
+    board->putStone(1, 2, Domain::Stone::Black);
+    board->putStone(2, 2, Domain::Stone::Black);
+
+    // then
+    EXPECT_EQ(BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 1, 2));
+    EXPECT_EQ(BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenTwoWhiteStonesVertically)
+{
+    // when
+    board->putStone(1, 2, Domain::Stone::White);
+    board->putStone(2, 2, Domain::Stone::White);
+
+    // then
+    EXPECT_EQ(-BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 1, 2));
+    EXPECT_EQ(-BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenTwoBlackStonesDiagonally)
+{
+    // when
+    board->putStone(1, 1, Domain::Stone::Black);
+    board->putStone(2, 2, Domain::Stone::Black);
+
+    // then
+    EXPECT_EQ(BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 1, 1));
+    EXPECT_EQ(BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+
+    // given
+    board->clear();
+
+    // when
+    board->putStone(1, 5, Domain::Stone::Black);
+    board->putStone(2, 4, Domain::Stone::Black);
+
+    // then
+    EXPECT_EQ(BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 1, 5));
+    EXPECT_EQ(BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
+}
+
+
+TEST_F(BoardEvaluatorTester, testsLastMoveMakesOpenTwoWhiteStonesDiagonally)
+{
+    // when
+    board->putStone(1, 1, Domain::Stone::White);
+    board->putStone(2, 2, Domain::Stone::White);
+
+    // then
+    EXPECT_EQ(-BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 1, 1));
+    EXPECT_EQ(-BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 2, 2));
+
+    // given
+    board->clear();
+
+    // when
+    board->putStone(1, 5, Domain::Stone::White);
+    board->putStone(2, 4, Domain::Stone::White);
+
+    // then
+    EXPECT_EQ(-BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 1, 5));
+    EXPECT_EQ(-BoardEvaluator::OPEN_TWO_STONES_WEIGHT, evaluator.evaluate(board, 2, 4));
 }
 
 

@@ -35,8 +35,10 @@ public:
 private:
     int minimax(
             std::shared_ptr<BoardWithUndo> board,
-            int depth,
-            bool maximizingPlayer);
+            const int depth,
+            const bool maximizingPlayer,
+            const int lastMoveX,
+            const int lastMoveY);
 
     static const int MINIMAX_DEPTH = 4;
 

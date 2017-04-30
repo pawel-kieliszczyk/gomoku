@@ -41,7 +41,7 @@ void MiniMaxPlayer::performMove()
         for(const auto& move : possibleMoves)
         {
             boardCopy->putStone(move.first, move.second, Domain::Stone::Black);
-            int v = minimax(boardCopy, MINIMAX_DEPTH - 1, false);
+            int v = minimax(boardCopy, MINIMAX_DEPTH - 1, false, move.first, move.second);
             boardCopy->undoMove();
 
             if(v > bestValue)
@@ -62,7 +62,7 @@ void MiniMaxPlayer::performMove()
         for(const auto& move : possibleMoves)
         {
             boardCopy->putStone(move.first, move.second, Domain::Stone::White);
-            int v = minimax(boardCopy, MINIMAX_DEPTH - 1, true);
+            int v = minimax(boardCopy, MINIMAX_DEPTH - 1, true, move.first, move.second);
             boardCopy->undoMove();
 
             if(v < bestValue)
@@ -77,10 +77,15 @@ void MiniMaxPlayer::performMove()
 }
 
 
-int MiniMaxPlayer::minimax(std::shared_ptr<BoardWithUndo> board, int depth, bool maximizingPlayer)
+int MiniMaxPlayer::minimax(
+        std::shared_ptr<BoardWithUndo> board,
+        const int depth,
+        const bool maximizingPlayer,
+        const int lastMoveX,
+        const int lastMoveY)
 {
-    int currentEvaluation = boardEvaluator.evaluate(board);
-    if((currentEvaluation == std::numeric_limits<int>::min()) || (currentEvaluation == std::numeric_limits<int>::max()))
+    int currentEvaluation = boardEvaluator.evaluate(board, lastMoveX, lastMoveY);
+    if((currentEvaluation == -BoardEvaluator::FIVE_STONES_WEIGHT) || (currentEvaluation == BoardEvaluator::FIVE_STONES_WEIGHT))
         return currentEvaluation;
 
     if(depth == 0)
@@ -93,7 +98,7 @@ int MiniMaxPlayer::minimax(std::shared_ptr<BoardWithUndo> board, int depth, bool
         for(const auto& move : possibleMoves)
         {
             board->putStone(move.first, move.second, Domain::Stone::Black);
-            int v = minimax(board, depth - 1, false);
+            int v = minimax(board, depth - 1, false, move.first, move.second);
             board->undoMove();
 
             bestValue = std::max(bestValue, v);
@@ -108,7 +113,7 @@ int MiniMaxPlayer::minimax(std::shared_ptr<BoardWithUndo> board, int depth, bool
         for(const auto& move : possibleMoves)
         {
             board->putStone(move.first, move.second, Domain::Stone::White);
-            int v = minimax(board, depth - 1, true);
+            int v = minimax(board, depth - 1, true, move.first, move.second);
             board->undoMove();
 
             bestValue = std::min(bestValue, v);
