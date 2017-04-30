@@ -24,6 +24,8 @@ public:
 
     void putStone(int x, int y, const Stone& stone) override;
     Stone getStone(int x, int y) const override;
+    void removeStone(int x, int y) override;
+
     bool hasStone(int x, int y) const override;
 
     void clear() override;
