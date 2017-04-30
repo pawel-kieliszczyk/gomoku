@@ -5,15 +5,13 @@
 #include "Application/IPlayer.hpp"
 
 #include <memory>
-#include <set>
-#include <utility>
-#include <vector>
 
 #include "Domain/IBoard.hpp"
 #include "Domain/Stone.hpp"
 
 #include "Application/ArtificialIntelligence/BoardEvaluator.hpp"
 #include "Application/ArtificialIntelligence/BoardWithUndo.hpp"
+#include "Application/ArtificialIntelligence/IMoveCandidatesSelector.hpp"
 
 
 namespace Gomoku
@@ -29,7 +27,8 @@ class MiniMaxPlayer : public IPlayer
 public:
     MiniMaxPlayer(
             std::shared_ptr<Domain::IBoard> board_,
-            const Domain::Stone& stone_);
+            const Domain::Stone& stone_,
+            std::shared_ptr<IMoveCandidatesSelector> moveCandidatesSelector_);
 
     void performMove() override;
 
@@ -39,19 +38,11 @@ private:
             int depth,
             bool maximizingPlayer);
 
-    std::vector<std::pair<int, int>> getValidMoves(
-            std::shared_ptr<BoardWithUndo> board);
-
-    void insertMoveIfValid(
-            std::set<std::pair<int, int>>& validMoves,
-            std::shared_ptr<BoardWithUndo> board,
-            const int x,
-            const int y);
-
     static const int MINIMAX_DEPTH = 4;
 
     std::shared_ptr<Domain::IBoard> board;
     const Domain::Stone stone;
+    std::shared_ptr<IMoveCandidatesSelector> moveCandidatesSelector;
 
     BoardEvaluator boardEvaluator;
 };

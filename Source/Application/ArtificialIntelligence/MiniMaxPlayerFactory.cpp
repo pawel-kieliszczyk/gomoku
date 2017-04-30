@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "Application/ArtificialIntelligence/AdjacentMoveCandidatesSelector.hpp"
 #include "Application/ArtificialIntelligence/MiniMaxPlayer.hpp"
 
 
@@ -17,7 +18,8 @@ std::shared_ptr<IPlayer> MiniMaxPlayerFactory::create(
             std::shared_ptr<Domain::IBoard> board,
             const Domain::Stone& stone)
 {
-    return std::make_shared<MiniMaxPlayer>(board, stone);
+    auto moveCandidatesSelector = std::make_shared<AdjacentMoveCandidatesSelector>();
+    return std::make_shared<MiniMaxPlayer>(board, stone, moveCandidatesSelector);
 }
 
 

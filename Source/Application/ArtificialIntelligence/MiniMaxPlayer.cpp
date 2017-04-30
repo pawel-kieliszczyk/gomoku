@@ -1,9 +1,7 @@
 #include "Application/ArtificialIntelligence/MiniMaxPlayer.hpp"
 
 #include <algorithm>
-#include <iterator>
 #include <limits>
-#include <set>
 #include <utility>
 #include <vector>
 
@@ -20,9 +18,11 @@ namespace ArtificialIntelligence
 
 MiniMaxPlayer::MiniMaxPlayer(
         std::shared_ptr<Domain::IBoard> board_,
-        const Domain::Stone& stone_)
+        const Domain::Stone& stone_,
+        std::shared_ptr<IMoveCandidatesSelector> moveCandidatesSelector_)
     : board(board_),
-      stone(stone_)
+      stone(stone_),
+      moveCandidatesSelector(moveCandidatesSelector_)
 {
 }
 
@@ -30,15 +30,15 @@ MiniMaxPlayer::MiniMaxPlayer(
 void MiniMaxPlayer::performMove()
 {
     auto boardCopy = std::make_shared<BoardWithUndo>(board);
-    std::vector<std::pair<int, int>> validMoves = getValidMoves(boardCopy);
+    std::vector<std::pair<int, int>> possibleMoves = moveCandidatesSelector->selectMoves(boardCopy);
 
     if(stone == Domain::Stone::Black)
     {
         // maximizing player
         int bestValue = std::numeric_limits<int>::min();
-        std::pair<int, int> bestMove = validMoves[0];
+        std::pair<int, int> bestMove = possibleMoves[0];
 
-        for(const auto& move : validMoves)
+        for(const auto& move : possibleMoves)
         {
             boardCopy->putStone(move.first, move.second, Domain::Stone::Black);
             int v = minimax(boardCopy, MINIMAX_DEPTH - 1, false);
@@ -57,9 +57,9 @@ void MiniMaxPlayer::performMove()
     {
         // minimizing player
         int bestValue = std::numeric_limits<int>::max();
-        std::pair<int, int> bestMove = validMoves[0];
+        std::pair<int, int> bestMove = possibleMoves[0];
 
-        for(const auto& move : validMoves)
+        for(const auto& move : possibleMoves)
         {
             boardCopy->putStone(move.first, move.second, Domain::Stone::White);
             int v = minimax(boardCopy, MINIMAX_DEPTH - 1, true);
@@ -89,8 +89,8 @@ int MiniMaxPlayer::minimax(std::shared_ptr<BoardWithUndo> board, int depth, bool
     if(maximizingPlayer)
     {
         int bestValue = std::numeric_limits<int>::min();
-        const std::vector<std::pair<int, int>> validMoves = getValidMoves(board);
-        for(const auto& move : validMoves)
+        const std::vector<std::pair<int, int>> possibleMoves = moveCandidatesSelector->selectMoves(board);
+        for(const auto& move : possibleMoves)
         {
             board->putStone(move.first, move.second, Domain::Stone::Black);
             int v = minimax(board, depth - 1, false);
@@ -104,8 +104,8 @@ int MiniMaxPlayer::minimax(std::shared_ptr<BoardWithUndo> board, int depth, bool
     else
     {
         int bestValue = std::numeric_limits<int>::max();
-        const std::vector<std::pair<int, int>> validMoves = getValidMoves(board);
-        for(const auto& move : validMoves)
+        const std::vector<std::pair<int, int>> possibleMoves = moveCandidatesSelector->selectMoves(board);
+        for(const auto& move : possibleMoves)
         {
             board->putStone(move.first, move.second, Domain::Stone::White);
             int v = minimax(board, depth - 1, true);
@@ -118,54 +118,6 @@ int MiniMaxPlayer::minimax(std::shared_ptr<BoardWithUndo> board, int depth, bool
     }
 
     return 0;
-}
-
-
-std::vector<std::pair<int, int>> MiniMaxPlayer::getValidMoves(std::shared_ptr<BoardWithUndo> board)
-{
-    std::set<std::pair<int, int>> validMoves;
-
-    for(int x = 0; x < board->getSize(); ++x)
-    {
-        for(int y = 0; y < board->getSize(); ++y)
-        {
-            if(board->hasStone(x, y))
-            {
-                insertMoveIfValid(validMoves, board, x-1, y-1);
-                insertMoveIfValid(validMoves, board, x-1, y);
-                insertMoveIfValid(validMoves, board, x-1, y+1);
-                insertMoveIfValid(validMoves, board, x, y-1);
-                insertMoveIfValid(validMoves, board, x, y+1);
-                insertMoveIfValid(validMoves, board, x+1, y-1);
-                insertMoveIfValid(validMoves, board, x+1, y);
-                insertMoveIfValid(validMoves, board, x+1, y+1);
-            }
-        }
-    }
-
-    if(validMoves.empty())
-        validMoves.insert(std::make_pair(7, 7));
-
-    return std::vector<std::pair<int, int>>(std::begin(validMoves), std::end(validMoves));
-}
-
-
-void MiniMaxPlayer::insertMoveIfValid(
-        std::set<std::pair<int, int>>& validMoves,
-        std::shared_ptr<BoardWithUndo> board,
-        const int x,
-        const int y)
-{
-    if((x < 0) || (x >= board->getSize()))
-        return;
-
-    if((y < 0) || (y >= board->getSize()))
-        return;
-
-    if(board->hasStone(x, y))
-        return;
-
-    validMoves.insert(std::make_pair(x, y));
 }
 
 
