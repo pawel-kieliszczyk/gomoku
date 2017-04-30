@@ -21,6 +21,12 @@ int BoardEvaluator::evaluate(std::shared_ptr<Domain::IBoard> board)
     if(hasFiveWhiteStonesInRow(board))
         return std::numeric_limits<int>::min();
 
+    if(hasFourOpenBlackStonesInRow(board))
+        return std::numeric_limits<int>::max();
+
+    if(hasFourOpenWhiteStonesInRow(board))
+        return std::numeric_limits<int>::min();
+
     return 0;
 }
 
@@ -215,6 +221,257 @@ bool BoardEvaluator::hasFiveStonesDiagonally2(
     }
 
     return false;
+}
+
+
+bool BoardEvaluator::hasFourOpenBlackStonesInRow(std::shared_ptr<Domain::IBoard> board)
+{
+    if(hasFourOpenBlackStonesHorizontally(board))
+        return true;
+
+    if(hasFourOpenBlackStonesVertically(board))
+        return true;
+
+    if(hasFourOpenBlackStonesDiagonally(board))
+        return true;
+
+    return false;
+}
+
+
+bool BoardEvaluator::hasFourOpenBlackStonesHorizontally(std::shared_ptr<Domain::IBoard> board)
+{
+    return hasFourOpenStonesHorizontally(board, Domain::Stone::Black);
+}
+
+
+bool BoardEvaluator::hasFourOpenBlackStonesVertically(std::shared_ptr<Domain::IBoard> board)
+{
+    return hasFourOpenStonesVertically(board, Domain::Stone::Black);
+}
+
+
+bool BoardEvaluator::hasFourOpenBlackStonesDiagonally(std::shared_ptr<Domain::IBoard> board)
+{
+    return (hasFourOpenStonesDiagonally1(board, Domain::Stone::Black) || hasFourOpenStonesDiagonally2(board, Domain::Stone::Black));
+}
+
+
+bool BoardEvaluator::hasFourOpenWhiteStonesInRow(std::shared_ptr<Domain::IBoard> board)
+{
+    if(hasFourOpenWhiteStonesHorizontally(board))
+        return true;
+
+    if(hasFourOpenWhiteStonesVertically(board))
+        return true;
+
+    if(hasFourOpenWhiteStonesDiagonally(board))
+        return true;
+
+    return false;
+}
+
+
+bool BoardEvaluator::hasFourOpenWhiteStonesHorizontally(std::shared_ptr<Domain::IBoard> board)
+{
+    return hasFourOpenStonesHorizontally(board, Domain::Stone::White);
+}
+
+
+bool BoardEvaluator::hasFourOpenWhiteStonesVertically(std::shared_ptr<Domain::IBoard> board)
+{
+    return hasFourOpenStonesVertically(board, Domain::Stone::White);
+}
+
+
+bool BoardEvaluator::hasFourOpenWhiteStonesDiagonally(std::shared_ptr<Domain::IBoard> board)
+{
+    return (hasFourOpenStonesDiagonally1(board, Domain::Stone::White) || hasFourOpenStonesDiagonally2(board, Domain::Stone::White));
+}
+
+
+bool BoardEvaluator::hasFourOpenStonesHorizontally(
+        std::shared_ptr<Domain::IBoard> board,
+        const Domain::Stone& stone)
+{
+    for(int x = 0; x < board->getSize(); ++x)
+    {
+        int counter = 0;
+        for(int y = 0; y < board->getSize(); ++y)
+        {
+            if(!board->hasStone(x, y))
+            {
+                counter = 0;
+                continue;
+            }
+
+            if(board->getStone(x, y) == stone)
+                ++counter;
+            else
+                counter = 0;
+
+            if(counter == 4)
+            {
+                const int leftX = x;
+                const int leftY = y - 4;
+
+                const int rightX = x;
+                const int rightY = y + 1;
+
+                if(isValidEmptyField(board, leftX, leftY) && isValidEmptyField(board, rightX, rightY))
+                    return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
+bool BoardEvaluator::hasFourOpenStonesVertically(
+        std::shared_ptr<Domain::IBoard> board,
+        const Domain::Stone& stone)
+{
+    for(int y = 0; y < board->getSize(); ++y)
+    {
+        int counter = 0;
+        for(int x = 0; x < board->getSize(); ++x)
+        {
+            if(!board->hasStone(x, y))
+            {
+                counter = 0;
+                continue;
+            }
+
+            if(board->getStone(x, y) == stone)
+                ++counter;
+            else
+                counter = 0;
+
+            if(counter == 4)
+            {
+                const int topX = x - 4;
+                const int topY = y;
+
+                const int bottomX = x + 1;
+                const int bottomY = y;
+
+                if(isValidEmptyField(board, topX, topY) && isValidEmptyField(board, bottomX, bottomY))
+                    return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
+bool BoardEvaluator::hasFourOpenStonesDiagonally1(
+        std::shared_ptr<Domain::IBoard> board,
+        const Domain::Stone& stone)
+{
+    std::vector<std::pair<int, int>> startingPoints;
+    for(int y = 0; y < (board->getSize() - 4); ++y)
+        startingPoints.push_back(std::make_pair(0, y));
+    for(int x = 1; x < (board->getSize() - 4); ++x)
+        startingPoints.push_back(std::make_pair(x, 0));
+
+    for(const auto& point : startingPoints)
+    {
+        int counter = 0;
+        for(int x = point.first, y = point.second; (x < board->getSize()) && (y < board->getSize()); ++x, ++y)
+        {
+            if(!board->hasStone(x, y))
+            {
+                counter = 0;
+                continue;
+            }
+
+            if(board->getStone(x, y) == stone)
+                ++counter;
+            else
+                counter = 0;
+
+            if(counter == 4)
+            {
+                const int topX = x - 4;
+                const int topY = y - 4;
+
+                const int bottomX = x + 1;
+                const int bottomY = y + 1;
+
+                if(isValidEmptyField(board, topX, topY) && isValidEmptyField(board, bottomX, bottomY))
+                    return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
+bool BoardEvaluator::hasFourOpenStonesDiagonally2(
+        std::shared_ptr<Domain::IBoard> board,
+        const Domain::Stone& stone)
+{
+    std::vector<std::pair<int, int>> startingPoints;
+    for(int y = 4; y < board->getSize(); ++y)
+        startingPoints.push_back(std::make_pair(0, y));
+    for(int x = 1; x < (board->getSize() - 4); ++x)
+        startingPoints.push_back(std::make_pair(x, 14));
+
+    for(const auto& point : startingPoints)
+    {
+        int counter = 0;
+        for(int x = point.first, y = point.second; (x < board->getSize()) && (y >= 0); ++x, --y)
+        {
+            if(!board->hasStone(x, y))
+            {
+                counter = 0;
+                continue;
+            }
+
+            if(board->getStone(x, y) == stone)
+                ++counter;
+            else
+                counter = 0;
+
+            if(counter == 4)
+            {
+                const int topX = x - 4;
+                const int topY = y + 4;
+
+                const int bottomX = x + 1;
+                const int bottomY = y - 1;
+
+                if(isValidEmptyField(board, topX, topY) && isValidEmptyField(board, bottomX, bottomY))
+                    return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
+bool BoardEvaluator::isValidEmptyField(std::shared_ptr<Domain::IBoard> board, const int x, const int y) const
+{
+    if(!isValidField(board, x, y))
+        return false;
+
+    return (!board->hasStone(x, y));
+}
+
+
+bool BoardEvaluator::isValidField(std::shared_ptr<Domain::IBoard> board, const int x, const int y) const
+{
+    if((x < 0) || (x >= board->getSize()))
+        return false;
+
+    if((y < 0) || (y >= board->getSize()))
+        return false;
+
+    return true;
 }
 
 
