@@ -42,6 +42,12 @@ Stone Board::getStone(int x, int y) const
 }
 
 
+void Board::removeStone(int x, int y)
+{
+    board[x][y] = std::experimental::optional<Stone>();//.reset();
+}
+
+
 bool Board::hasStone(int x, int y) const
 {
     return static_cast<bool>(board[x][y]);

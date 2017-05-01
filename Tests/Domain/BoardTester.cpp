@@ -69,6 +69,23 @@ TEST_F(BoardTester, testsPuttingWhiteStone)
 }
 
 
+TEST_F(BoardTester, testsRemovingStone)
+{
+    // given
+    board.putStone(2, 3, Stone::Black);
+    board.putStone(7, 8, Stone::White);
+
+    // when
+    board.removeStone(2, 3);
+
+    // then
+    EXPECT_EQ(false, board.hasStone(2, 3));
+
+    ASSERT_EQ(true, board.hasStone(7, 8));
+    EXPECT_EQ(Stone::White, board.getStone(7, 8));
+}
+
+
 TEST_F(BoardTester, testsClearingBoard)
 {
     // given

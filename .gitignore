@@ -3,9 +3,12 @@
 libgmock.a
 libgtest.a
 
-application
-test
+/Bin
 
 .DS_Store
 .sconsign.dblite
+
+/.cproject
+/.project
+/.settings
 
