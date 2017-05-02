@@ -13,6 +13,8 @@ source_files += ['Source/Application/GameFinishedWhenFiveInRowPolicy.cpp']
 source_files += ['Source/Application/GameFinishedWhenFiveInRowPolicyFactory.cpp']
 
 source_files += ['Source/Application/ArtificialIntelligence/AdjacentMoveCandidatesSelector.cpp']
+source_files += ['Source/Application/ArtificialIntelligence/AlphaBetaPlayer.cpp']
+source_files += ['Source/Application/ArtificialIntelligence/AlphaBetaPlayerFactory.cpp']
 source_files += ['Source/Application/ArtificialIntelligence/BoardEvaluator.cpp']
 source_files += ['Source/Application/ArtificialIntelligence/BoardWithUndo.cpp']
 source_files += ['Source/Application/ArtificialIntelligence/MiniMaxPlayer.cpp']
