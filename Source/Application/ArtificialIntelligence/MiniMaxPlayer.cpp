@@ -84,7 +84,7 @@ int MiniMaxPlayer::minimax(
         const int lastMoveX,
         const int lastMoveY)
 {
-    int currentEvaluation = boardEvaluator.evaluate(board, lastMoveX, lastMoveY);
+    int currentEvaluation = boardEvaluator.getCurrentEvaluation(board, lastMoveX, lastMoveY);
     if((currentEvaluation == -BoardEvaluator::FIVE_STONES_WEIGHT) || (currentEvaluation == BoardEvaluator::FIVE_STONES_WEIGHT))
         return currentEvaluation;
 
