@@ -1,5 +1,6 @@
 #include "Application/ArtificialIntelligence/BoardEvaluator.hpp"
 
+#include <cstring>
 #include <limits>
 #include <utility>
 #include <vector>
@@ -13,524 +14,329 @@ namespace ArtificialIntelligence
 {
 
 
-int BoardEvaluator::evaluate(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY)
+void BoardEvaluator::initializeBoardCopy(std::shared_ptr<Domain::IBoard> board)
 {
-    if(lastMoveMakesFiveStones(board, lastMoveX, lastMoveY))
+    for(int i = 0; i < ROWS_COLS_NUM; ++i)
     {
-        const auto lastMoveStone = board->getStone(lastMoveX, lastMoveY);
-        if(lastMoveStone == Domain::Stone::Black)
-            return FIVE_STONES_WEIGHT;
-        else
-            return -FIVE_STONES_WEIGHT;
+        horizontalBoard[i][0] = '|';
+
+        for(int j = 1; j < BOARD_ENTRY_LENGTH - 2; ++j)
+            horizontalBoard[i][j] = '.';
+
+        horizontalBoard[i][BOARD_ENTRY_LENGTH-2] = '|';
+        horizontalBoard[i][BOARD_ENTRY_LENGTH-1] = '\0';
     }
 
-    if(lastMoveMakesOpenFourStones(board, lastMoveX, lastMoveY))
+    for(int i = 0; i < ROWS_COLS_NUM; ++i)
     {
-        const auto lastMoveStone = board->getStone(lastMoveX, lastMoveY);
-        if(lastMoveStone == Domain::Stone::Black)
-            return OPEN_FOUR_STONES_WEIGHT;
-        else
-            return -OPEN_FOUR_STONES_WEIGHT;
+        verticalBoard[i][0] = '|';
+
+        for(int j = 1; j < BOARD_ENTRY_LENGTH - 2; ++j)
+            verticalBoard[i][j] = '.';
+
+        verticalBoard[i][BOARD_ENTRY_LENGTH-2] = '|';
+        verticalBoard[i][BOARD_ENTRY_LENGTH-1] = '\0';
     }
 
-    if(lastMoveMakesOpenThreeStones(board, lastMoveX, lastMoveY))
+    for(int i = 0; i < DIAGS_NUM; ++i)
     {
-        const auto lastMoveStone = board->getStone(lastMoveX, lastMoveY);
-        if(lastMoveStone == Domain::Stone::Black)
-            return OPEN_THREE_STONES_WEIGHT;
-        else
-            return -OPEN_THREE_STONES_WEIGHT;
+        const int diagLength = std::min(i + 1, DIAGS_NUM - i) + 3;
+        diagonalBoard1[i][0] = '|';
+
+        for(int j = 1; j < diagLength - 2; ++j)
+            diagonalBoard1[i][j] = '.';
+
+        diagonalBoard1[i][diagLength-2] = '|';
+        diagonalBoard1[i][diagLength-1] = '\0';
     }
 
-    if(lastMoveMakesOpenTwoStones(board, lastMoveX, lastMoveY))
+    for(int i = 0; i < DIAGS_NUM; ++i)
     {
-        const auto lastMoveStone = board->getStone(lastMoveX, lastMoveY);
-        if(lastMoveStone == Domain::Stone::Black)
-            return OPEN_TWO_STONES_WEIGHT;
-        else
-            return -OPEN_TWO_STONES_WEIGHT;
+        const int diagLength = std::min(i + 1, DIAGS_NUM - i) + 3;
+        diagonalBoard2[i][0] = '|';
+
+        for(int j = 1; j < diagLength - 2; ++j)
+            diagonalBoard2[i][j] = '.';
+
+        diagonalBoard2[i][diagLength-2] = '|';
+        diagonalBoard2[i][diagLength-1] = '\0';
+    }
+
+    for(int x = 0; x < board->getSize(); ++x)
+    {
+        for(int y = 0; y < board->getSize(); ++y)
+        {
+            if(board->hasStone(x, y))
+            {
+                const auto stone = board->getStone(x, y);
+                if(stone == Domain::Stone::Black)
+                    saveStoneOnBoardCopy(x, y, 'x');
+                else
+                    saveStoneOnBoardCopy(x, y, 'o');
+            }
+        }
+    }
+}
+
+
+void BoardEvaluator::saveStoneOnBoardCopy(const int x, const int y, const char stone)
+{
+    horizontalBoard[x][y+1] = stone;
+    verticalBoard[y][x+1] = stone;
+    diagonalBoard1[diagonalBoard1X(x, y)][diagonalBoard1Y(x, y)] = stone;
+    diagonalBoard2[diagonalBoard2X(x, y)][diagonalBoard2Y(x, y)] = stone;
+}
+
+
+int BoardEvaluator::countOnBoardCopy(const char* sequence)
+{
+    int counter = 0;
+    for(int i = 0; i < ROWS_COLS_NUM; ++i)
+    {
+        if(strstr(horizontalBoard[i], sequence) != nullptr)
+            ++counter;
+    }
+
+    for(int i = 0; i < ROWS_COLS_NUM; ++i)
+    {
+        if(strstr(verticalBoard[i], sequence) != nullptr)
+            ++counter;
+    }
+
+    for(int i = 0; i < DIAGS_NUM; ++i)
+    {
+        if(strstr(diagonalBoard1[i], sequence) != nullptr)
+            ++counter;
+    }
+
+    for(int i = 0; i < DIAGS_NUM; ++i)
+    {
+        if(strstr(diagonalBoard2[i], sequence) != nullptr)
+            ++counter;
+    }
+
+    return counter;
+}
+
+
+int BoardEvaluator::diagonalBoard1X(const int x, const int y)
+{
+    if(y >= x)
+        return ROWS_COLS_NUM - (y - x) - 1;
+
+    return ROWS_COLS_NUM + (x - y) - 1;
+}
+
+
+int BoardEvaluator::diagonalBoard2X(const int x, const int y)
+{
+    return (x + y);
+}
+
+
+int BoardEvaluator::diagonalBoard1Y(const int x, const int y)
+{
+    if(y >= x)
+        return (x + 1);
+
+    return (y + 1);
+}
+
+
+int BoardEvaluator::diagonalBoard2Y(const int x, const int y)
+{
+    if((x + y) < ROWS_COLS_NUM)
+        return (x + 1);
+
+    return (ROWS_COLS_NUM - y);
+}
+
+
+int BoardEvaluator::getCurrentEvaluation(std::shared_ptr<Domain::IBoard> board, int lastMoveX, int lastMoveY)
+{
+    initializeBoardCopy(board);
+    const auto lastMoveStone = board->getStone(lastMoveX, lastMoveY);
+
+    if(lastMoveStone == Domain::Stone::Black)
+    {
+        int result = 0;
+        {
+            const int c = countOnBoardCopy("xxxxx");
+            if(c > 0)
+                return FIVE_STONES_WEIGHT;
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy("oooo.") +
+                    countOnBoardCopy(".oooo") +
+                    countOnBoardCopy("ooo.o") +
+                    countOnBoardCopy("o.ooo") +
+                    countOnBoardCopy("oo.oo");
+
+            result += c * (-OPPONENT_OPEN_FOUR_STONES_WEIGHT);
+        }
+
+        {
+            const int c = countOnBoardCopy(".xxxx.");
+            result += c * OPEN_FOUR_STONES_WEIGHT;
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy("oxxxx.") +
+                    countOnBoardCopy(".xxxxo") +
+                    countOnBoardCopy("|xxxx.") +
+                    countOnBoardCopy(".xxxx|") +
+                    countOnBoardCopy("oxxx.x") +
+                    countOnBoardCopy("x.xxxo") +
+                    countOnBoardCopy("|xxx.x") +
+                    countOnBoardCopy("x.xxx|") +
+                    countOnBoardCopy("oxx.xx") +
+                    countOnBoardCopy("xx.xxo") +
+                    countOnBoardCopy("|xx.xx") +
+                    countOnBoardCopy("xx.xx|") +
+                    countOnBoardCopy("ox.xxx") +
+                    countOnBoardCopy("xxx.xo") +
+                    countOnBoardCopy("|x.xxx") +
+                    countOnBoardCopy("xxx.x|");
+
+            result += c * HALF_OPEN_FOUR_STONES_WEIGHT;
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy(".ooo.") +
+                    countOnBoardCopy(".o.oo.") +
+                    countOnBoardCopy(".oo.o.");
+
+            result += c * (-OPPONENT_OPEN_THREE_STONES_WEIGHT);
+        }
+
+        {
+            const int c = countOnBoardCopy(".xxx.");
+            result += c * OPEN_THREE_STONES_WEIGHT;
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy(".x.xx.") +
+                    countOnBoardCopy(".xx.x.");
+
+            result += c * OPEN_ONE_TWO_STONES_WEIGHT;
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy(".oo..") +
+                    countOnBoardCopy("..oo.") +
+                    countOnBoardCopy(".o.o.");
+
+            result += c * (-OPPONENT_OPEN_TWO_STONES_WEIGHT);
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy("..xx.") +
+                    countOnBoardCopy(".xx..") +
+                    countOnBoardCopy(".x.x.");
+
+            result += c * OPEN_TWO_STONES_WEIGHT;
+        }
+
+        return result;
+    }
+    else
+    {
+        int result = 0;
+        {
+            const int c = countOnBoardCopy("ooooo");
+            if(c > 0)
+                return -FIVE_STONES_WEIGHT;
+        }
+
+        {
+            const int c =
+                        countOnBoardCopy("xxxx.") +
+                        countOnBoardCopy(".xxxx") +
+                        countOnBoardCopy("xxx.x") +
+                        countOnBoardCopy("x.xxx") +
+                        countOnBoardCopy("xx.xx");
+
+            result += c * OPPONENT_OPEN_FOUR_STONES_WEIGHT;
+        }
+
+        {
+            const int c = countOnBoardCopy(".oooo.");
+            result += c * (-OPEN_FOUR_STONES_WEIGHT);
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy("xoooo.") +
+                    countOnBoardCopy(".oooox") +
+                    countOnBoardCopy("|oooo.") +
+                    countOnBoardCopy(".oooo|") +
+                    countOnBoardCopy("xooo.o") +
+                    countOnBoardCopy("o.ooox") +
+                    countOnBoardCopy("|ooo.o") +
+                    countOnBoardCopy("o.ooo|") +
+                    countOnBoardCopy("xoo.oo") +
+                    countOnBoardCopy("oo.oox") +
+                    countOnBoardCopy("|oo.oo") +
+                    countOnBoardCopy("oo.oo|") +
+                    countOnBoardCopy("xo.ooo") +
+                    countOnBoardCopy("ooo.ox") +
+                    countOnBoardCopy("|o.ooo") +
+                    countOnBoardCopy("ooo.o|");
+
+            result += c * (-HALF_OPEN_FOUR_STONES_WEIGHT);
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy(".xxx.") +
+                    countOnBoardCopy(".x.xx.") +
+                    countOnBoardCopy(".xx.x.");
+
+            result += c * OPPONENT_OPEN_THREE_STONES_WEIGHT;
+        }
+
+        {
+            const int c = countOnBoardCopy(".ooo.");
+            result += c * (-OPEN_THREE_STONES_WEIGHT);
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy(".o.oo.") +
+                    countOnBoardCopy(".oo.o.");
+
+            result += c * (-OPEN_ONE_TWO_STONES_WEIGHT);
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy(".xx..") +
+                    countOnBoardCopy("..xx.") +
+                    countOnBoardCopy(".x.x.");
+
+            result += c * OPPONENT_OPEN_TWO_STONES_WEIGHT;
+        }
+
+        {
+            const int c =
+                    countOnBoardCopy("..oo.") +
+                    countOnBoardCopy(".oo..") +
+                    countOnBoardCopy(".o.o.");
+
+            result += c * (-OPEN_TWO_STONES_WEIGHT);
+        }
+
+        return result;
     }
 
     return 0;
-}
-
-
-bool BoardEvaluator::lastMoveMakesFiveStones(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY)
-{
-    const auto& lastMoveStone = board->getStone(lastMoveX, lastMoveY);
-
-    if(lastMoveMakesFiveStonesHorizontally(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    if(lastMoveMakesFiveStonesVertically(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    if(lastMoveMakesFiveStonesDiagonally(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    return false;
-}
-
-
-bool BoardEvaluator::lastMoveMakesFiveStonesHorizontally(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return lastMoveMakesFiveStones(board, lastMoveX, lastMoveY, lastMoveStone, 0, 1);
-}
-
-
-bool BoardEvaluator::lastMoveMakesFiveStonesVertically(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return lastMoveMakesFiveStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, 0);
-}
-
-
-bool BoardEvaluator::lastMoveMakesFiveStonesDiagonally(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return (lastMoveMakesFiveStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, 1)
-            || lastMoveMakesFiveStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, -1));
-}
-
-
-bool BoardEvaluator::lastMoveMakesFiveStones(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone,
-        const int xOffset,
-        const int yOffset)
-{
-    int sameStonesLeft = 0;
-    for(int i = 1; i < 5; ++i) {
-        const int xx = lastMoveX - i * xOffset;
-        const int yy = lastMoveY - i * yOffset;
-
-        if(xx < 0)
-            break;
-
-        if(yy < 0)
-            break;
-
-        if(!board->hasStone(xx, yy))
-            break;
-
-        if(board->getStone(xx, yy) == lastMoveStone)
-            ++sameStonesLeft;
-        else
-            break;
-    }
-
-    int sameStonesRight = 0;
-    for(int i = 1; i < 5; ++i) {
-        const int xx = lastMoveX + i * xOffset;
-        const int yy = lastMoveY + i * yOffset;
-
-        if(xx == board->getSize())
-            break;
-
-        if(yy == board->getSize())
-            break;
-
-        if(!board->hasStone(xx, yy))
-            break;
-
-        if(board->getStone(xx, yy) == lastMoveStone)
-            ++sameStonesRight;
-        else
-            break;
-    }
-
-    const auto sameStones = sameStonesLeft + sameStonesRight + 1;
-    return (sameStones == 5);
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenFourStones(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY)
-{
-    const auto& lastMoveStone = board->getStone(lastMoveX, lastMoveY);
-
-    if(lastMoveMakesOpenFourStonesHorizontally(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    if(lastMoveMakesOpenFourStonesVertically(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    if(lastMoveMakesOpenFourStonesDiagonally(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    return false;
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenFourStonesHorizontally(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return lastMoveMakesOpenFourStones(board, lastMoveX, lastMoveY, lastMoveStone, 0, 1);
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenFourStonesVertically(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return lastMoveMakesOpenFourStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, 0);
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenFourStonesDiagonally(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return (lastMoveMakesOpenFourStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, 1)
-            || lastMoveMakesOpenFourStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, -1));
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenFourStones(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone,
-        const int xOffset,
-        const int yOffset)
-{
-    int sameStonesLeft = 0;
-    for(int i = 1; i < 4; ++i) {
-        const int xx = lastMoveX - i * xOffset;
-        const int yy = lastMoveY - i * yOffset;
-
-        if(xx < 0)
-            break;
-
-        if(yy < 0)
-            break;
-
-        if(!board->hasStone(xx, yy))
-            break;
-
-        if(board->getStone(xx, yy) == lastMoveStone)
-            ++sameStonesLeft;
-        else
-            break;
-    }
-
-    int sameStonesRight = 0;
-    for(int i = 1; i < 4; ++i) {
-        const int xx = lastMoveX + i * xOffset;
-        const int yy = lastMoveY + i * yOffset;
-
-        if(xx == board->getSize())
-            break;
-
-        if(yy == board->getSize())
-            break;
-
-        if(!board->hasStone(xx, yy))
-            break;
-
-        if(board->getStone(xx, yy) == lastMoveStone)
-            ++sameStonesRight;
-        else
-            break;
-    }
-
-    const auto sameStones = sameStonesLeft + sameStonesRight + 1;
-
-    if(sameStones != 4)
-        return false;
-
-    const int leftBoundX = lastMoveX - ((sameStonesLeft + 1) * xOffset);
-    const int leftBoundY = lastMoveY - ((sameStonesLeft + 1) * yOffset);
-
-    const int rightBoundX = lastMoveX + ((sameStonesRight + 1) * xOffset);
-    const int rightBoundY = lastMoveY + ((sameStonesRight + 1) * yOffset);
-
-    if(isValidEmptyField(board, leftBoundX, leftBoundY) && isValidEmptyField(board, rightBoundX, rightBoundY))
-        return true;
-
-    return false;
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenThreeStones(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY)
-{
-    const auto& lastMoveStone = board->getStone(lastMoveX, lastMoveY);
-
-    if(lastMoveMakesOpenThreeStonesHorizontally(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    if(lastMoveMakesOpenThreeStonesVertically(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    if(lastMoveMakesOpenThreeStonesDiagonally(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    return false;
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenThreeStonesHorizontally(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return lastMoveMakesOpenThreeStones(board, lastMoveX, lastMoveY, lastMoveStone, 0, 1);
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenThreeStonesVertically(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return lastMoveMakesOpenThreeStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, 0);
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenThreeStonesDiagonally(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return (lastMoveMakesOpenThreeStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, 1)
-            || lastMoveMakesOpenThreeStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, -1));
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenThreeStones(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone,
-        const int xOffset,
-        const int yOffset)
-{
-    int sameStonesLeft = 0;
-    for(int i = 1; i < 3; ++i) {
-        const int xx = lastMoveX - i * xOffset;
-        const int yy = lastMoveY - i * yOffset;
-
-        if(xx < 0)
-            break;
-
-        if(yy < 0)
-            break;
-
-        if(!board->hasStone(xx, yy))
-            break;
-
-        if(board->getStone(xx, yy) == lastMoveStone)
-            ++sameStonesLeft;
-        else
-            break;
-    }
-
-    int sameStonesRight = 0;
-    for(int i = 1; i < 3; ++i) {
-        const int xx = lastMoveX + i * xOffset;
-        const int yy = lastMoveY + i * yOffset;
-
-        if(xx == board->getSize())
-            break;
-
-        if(yy == board->getSize())
-            break;
-
-        if(!board->hasStone(xx, yy))
-            break;
-
-        if(board->getStone(xx, yy) == lastMoveStone)
-            ++sameStonesRight;
-        else
-            break;
-    }
-
-    const auto sameStones = sameStonesLeft + sameStonesRight + 1;
-
-    if(sameStones != 3)
-        return false;
-
-    const int leftBoundX = lastMoveX - ((sameStonesLeft + 1) * xOffset);
-    const int leftBoundY = lastMoveY - ((sameStonesLeft + 1) * yOffset);
-
-    const int rightBoundX = lastMoveX + ((sameStonesRight + 1) * xOffset);
-    const int rightBoundY = lastMoveY + ((sameStonesRight + 1) * yOffset);
-
-    if(isValidEmptyField(board, leftBoundX, leftBoundY) && isValidEmptyField(board, rightBoundX, rightBoundY))
-        return true;
-
-    return false;
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenTwoStones(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY)
-{
-    const auto& lastMoveStone = board->getStone(lastMoveX, lastMoveY);
-
-    if(lastMoveMakesOpenTwoStonesHorizontally(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    if(lastMoveMakesOpenTwoStonesVertically(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    if(lastMoveMakesOpenTwoStonesDiagonally(board, lastMoveX, lastMoveY, lastMoveStone))
-        return true;
-
-    return false;
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenTwoStonesHorizontally(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return lastMoveMakesOpenTwoStones(board, lastMoveX, lastMoveY, lastMoveStone, 0, 1);
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenTwoStonesVertically(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return lastMoveMakesOpenTwoStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, 0);
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenTwoStonesDiagonally(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone)
-{
-    return (lastMoveMakesOpenTwoStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, 1)
-            || lastMoveMakesOpenTwoStones(board, lastMoveX, lastMoveY, lastMoveStone, 1, -1));
-}
-
-
-bool BoardEvaluator::lastMoveMakesOpenTwoStones(
-        std::shared_ptr<Domain::IBoard> board,
-        const int lastMoveX,
-        const int lastMoveY,
-        const Domain::Stone& lastMoveStone,
-        const int xOffset,
-        const int yOffset)
-{
-    int sameStonesLeft = 0;
-    for(int i = 1; i < 2; ++i) {
-        const int xx = lastMoveX - i * xOffset;
-        const int yy = lastMoveY - i * yOffset;
-
-        if(xx < 0)
-            break;
-
-        if(yy < 0)
-            break;
-
-        if(!board->hasStone(xx, yy))
-            break;
-
-        if(board->getStone(xx, yy) == lastMoveStone)
-            ++sameStonesLeft;
-        else
-            break;
-    }
-
-    int sameStonesRight = 0;
-    for(int i = 1; i < 2; ++i) {
-        const int xx = lastMoveX + i * xOffset;
-        const int yy = lastMoveY + i * yOffset;
-
-        if(xx == board->getSize())
-            break;
-
-        if(yy == board->getSize())
-            break;
-
-        if(!board->hasStone(xx, yy))
-            break;
-
-        if(board->getStone(xx, yy) == lastMoveStone)
-            ++sameStonesRight;
-        else
-            break;
-    }
-
-    const auto sameStones = sameStonesLeft + sameStonesRight + 1;
-
-    if(sameStones != 2)
-        return false;
-
-    const int leftBoundX = lastMoveX - ((sameStonesLeft + 1) * xOffset);
-    const int leftBoundY = lastMoveY - ((sameStonesLeft + 1) * yOffset);
-
-    const int rightBoundX = lastMoveX + ((sameStonesRight + 1) * xOffset);
-    const int rightBoundY = lastMoveY + ((sameStonesRight + 1) * yOffset);
-
-    if(isValidEmptyField(board, leftBoundX, leftBoundY) && isValidEmptyField(board, rightBoundX, rightBoundY))
-        return true;
-
-    return false;
-}
-
-
-bool BoardEvaluator::isValidEmptyField(std::shared_ptr<Domain::IBoard> board, const int x, const int y) const
-{
-    if(!isValidField(board, x, y))
-        return false;
-
-    return (!board->hasStone(x, y));
-}
-
-
-bool BoardEvaluator::isValidField(std::shared_ptr<Domain::IBoard> board, const int x, const int y) const
-{
-    if((x < 0) || (x >= board->getSize()))
-        return false;
-
-    if((y < 0) || (y >= board->getSize()))
-        return false;
-
-    return true;
 }
 
 

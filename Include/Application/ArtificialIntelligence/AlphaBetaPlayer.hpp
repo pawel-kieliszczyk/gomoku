@@ -5,6 +5,8 @@
 #include "Application/IPlayer.hpp"
 
 #include <memory>
+#include <utility>
+#include <vector>
 
 #include "Domain/IBoard.hpp"
 #include "Domain/Stone.hpp"
@@ -33,7 +35,15 @@ public:
     void performMove() override;
 
 private:
-    int alphabeta(
+    struct AlphaBetaRank
+    {
+        int value;
+        int valueReachedAtDepth;
+
+        AlphaBetaRank(const int value_, const int valueReachedAtDepth_) : value(value_), valueReachedAtDepth(valueReachedAtDepth_) {}
+    };
+
+    AlphaBetaRank alphabeta(
             std::shared_ptr<BoardWithUndo> board,
             const int depth,
             int alpha,
@@ -42,7 +52,13 @@ private:
             const int lastMoveX,
             const int lastMoveY);
 
-    static const int ALPHA_BETA_DEPTH = 5;
+    void rankAndLimitMoves(
+            std::shared_ptr<BoardWithUndo> board,
+            std::vector<std::pair<int, int>>& moves,
+            const Domain::Stone& stone);
+
+    static const int ALPHA_BETA_DEPTH = 8;
+    static const int RANKED_MOVES_LIMIT = 5;
 
     std::shared_ptr<Domain::IBoard> board;
     const Domain::Stone stone;

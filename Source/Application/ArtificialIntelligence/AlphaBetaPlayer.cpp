@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <limits>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -35,25 +36,33 @@ void AlphaBetaPlayer::performMove()
     int alpha = std::numeric_limits<int>::min();
     int beta = std::numeric_limits<int>::max();
 
+    rankAndLimitMoves(boardCopy, possibleMoves, stone);
+
     if(stone == Domain::Stone::Black)
     {
         // maximizing player
-        int bestValue = std::numeric_limits<int>::min();
+        AlphaBetaRank bestValue(std::numeric_limits<int>::min(), 0);
         std::pair<int, int> bestMove = possibleMoves[0];
 
         for(const auto& move : possibleMoves)
         {
             boardCopy->putStone(move.first, move.second, Domain::Stone::Black);
-            int v = alphabeta(boardCopy, ALPHA_BETA_DEPTH - 1, alpha, beta, false, move.first, move.second);
+            const AlphaBetaRank v = alphabeta(boardCopy, ALPHA_BETA_DEPTH - 1, alpha, beta, false, move.first, move.second);
             boardCopy->undoMove();
 
-            if(v > bestValue)
+
+            if(bestValue.value < v.value)
+            {
+                bestValue = v;
+                bestMove = move;
+            }
+            else if((bestValue.value == v.value) && (bestValue.valueReachedAtDepth < v.valueReachedAtDepth))
             {
                 bestValue = v;
                 bestMove = move;
             }
 
-            alpha = std::max(alpha, bestValue);
+            alpha = std::max(alpha, bestValue.value);
             if(beta <= alpha)
                 break;
         }
@@ -63,22 +72,27 @@ void AlphaBetaPlayer::performMove()
     else
     {
         // minimizing player
-        int bestValue = std::numeric_limits<int>::max();
+        AlphaBetaRank bestValue(std::numeric_limits<int>::max(), 0);
         std::pair<int, int> bestMove = possibleMoves[0];
 
         for(const auto& move : possibleMoves)
         {
             boardCopy->putStone(move.first, move.second, Domain::Stone::White);
-            int v = alphabeta(boardCopy, ALPHA_BETA_DEPTH - 1, alpha, beta, true, move.first, move.second);
+            const AlphaBetaRank v = alphabeta(boardCopy, ALPHA_BETA_DEPTH - 1, alpha, beta, true, move.first, move.second);
             boardCopy->undoMove();
 
-            if(v < bestValue)
+            if(bestValue.value > v.value)
+            {
+                bestValue = v;
+                bestMove = move;
+            }
+            else if((bestValue.value == v.value) && (bestValue.valueReachedAtDepth < v.valueReachedAtDepth))
             {
                 bestValue = v;
                 bestMove = move;
             }
 
-            beta = std::min(beta, bestValue);
+            beta = std::min(beta, bestValue.value);
             if(beta <= alpha)
                 break;
         }
@@ -88,7 +102,7 @@ void AlphaBetaPlayer::performMove()
 }
 
 
-int AlphaBetaPlayer::alphabeta(
+AlphaBetaPlayer::AlphaBetaRank AlphaBetaPlayer::alphabeta(
         std::shared_ptr<BoardWithUndo> board,
         const int depth,
         int alpha,
@@ -97,25 +111,32 @@ int AlphaBetaPlayer::alphabeta(
         const int lastMoveX,
         const int lastMoveY)
 {
-    int currentEvaluation = boardEvaluator.evaluate(board, lastMoveX, lastMoveY);
+    int currentEvaluation = boardEvaluator.getCurrentEvaluation(board, lastMoveX, lastMoveY);
     if((currentEvaluation == -BoardEvaluator::FIVE_STONES_WEIGHT) || (currentEvaluation == BoardEvaluator::FIVE_STONES_WEIGHT))
-        return currentEvaluation;
+        return AlphaBetaRank(currentEvaluation, depth);
 
     if(depth == 0)
-        return currentEvaluation;
+        return AlphaBetaRank(currentEvaluation, depth);
 
     if(maximizingPlayer)
     {
-        int bestValue = std::numeric_limits<int>::min();
-        const std::vector<std::pair<int, int>> possibleMoves = moveCandidatesSelector->selectMoves(board);
+        AlphaBetaRank bestValue(std::numeric_limits<int>::min(), 0);
+        std::vector<std::pair<int, int>> possibleMoves = moveCandidatesSelector->selectMoves(board);
+
+        rankAndLimitMoves(board, possibleMoves, Domain::Stone::Black);
+
         for(const auto& move : possibleMoves)
         {
             board->putStone(move.first, move.second, Domain::Stone::Black);
-            int v = alphabeta(board, depth - 1, alpha, beta, false, move.first, move.second);
+            const auto v = alphabeta(board, depth - 1, alpha, beta, false, move.first, move.second);
             board->undoMove();
 
-            bestValue = std::max(bestValue, v);
-            alpha = std::max(alpha, bestValue);
+            if(bestValue.value < v.value)
+                bestValue = v;
+            else if((bestValue.value == v.value) && (bestValue.valueReachedAtDepth < v.valueReachedAtDepth))
+                bestValue = v;
+
+            alpha = std::max(alpha, bestValue.value);
             if(beta <= alpha)
                 break;
         }
@@ -124,16 +145,23 @@ int AlphaBetaPlayer::alphabeta(
     }
     else
     {
-        int bestValue = std::numeric_limits<int>::max();
-        const std::vector<std::pair<int, int>> possibleMoves = moveCandidatesSelector->selectMoves(board);
+        AlphaBetaRank bestValue(std::numeric_limits<int>::max(), 0);
+        std::vector<std::pair<int, int>> possibleMoves = moveCandidatesSelector->selectMoves(board);
+
+        rankAndLimitMoves(board, possibleMoves, Domain::Stone::White);
+
         for(const auto& move : possibleMoves)
         {
             board->putStone(move.first, move.second, Domain::Stone::White);
-            int v = alphabeta(board, depth - 1, alpha, beta, true, move.first, move.second);
+            const AlphaBetaRank v = alphabeta(board, depth - 1, alpha, beta, true, move.first, move.second);
             board->undoMove();
 
-            bestValue = std::min(bestValue, v);
-            beta = std::min(beta, bestValue);
+            if(bestValue.value > v.value)
+                bestValue = v;
+            else if((bestValue.value == v.value) && (bestValue.valueReachedAtDepth < v.valueReachedAtDepth))
+                bestValue = v;
+
+            beta = std::min(beta, bestValue.value);
             if(beta <= alpha)
                 break;
         }
@@ -141,7 +169,48 @@ int AlphaBetaPlayer::alphabeta(
         return bestValue;
     }
 
-    return 0;
+    return AlphaBetaRank(0, 0);
+}
+
+
+void AlphaBetaPlayer::rankAndLimitMoves(
+        std::shared_ptr<BoardWithUndo> board,
+        std::vector<std::pair<int, int>>& moves,
+        const Domain::Stone& stone)
+{
+    if(moves.size() <= RANKED_MOVES_LIMIT)
+        return;
+
+    std::vector<std::tuple<int, int, int>> rankedMoves;
+
+    for(const auto& move : moves)
+    {
+        board->putStone(move.first, move.second, stone);
+        const int v = boardEvaluator.getCurrentEvaluation(board, move.first, move.second);
+        board->undoMove();
+
+        rankedMoves.push_back(std::make_tuple(v, move.first, move.second));
+    }
+
+    std::sort(std::begin(rankedMoves), std::end(rankedMoves));
+
+    moves.clear();
+    if(stone == Domain::Stone::Black)
+    {
+        for(int i = 1; i <= RANKED_MOVES_LIMIT; ++i)
+        {
+            auto rm = rankedMoves[rankedMoves.size()-i];
+            moves.emplace_back(std::get<1>(rm), std::get<2>(rm));
+        }
+    }
+    else
+    {
+        for(int i = 0; i < RANKED_MOVES_LIMIT; ++i)
+        {
+            auto rm = rankedMoves[i];
+            moves.emplace_back(std::get<1>(rm), std::get<2>(rm));
+        }
+    }
 }
 
 
