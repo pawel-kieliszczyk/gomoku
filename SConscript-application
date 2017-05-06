@@ -6,6 +6,7 @@ local_env.AppendUnique(CPPPATH = ['../Include'])
 
 
 source_files = ['Source/main.cpp']
+source_files += ['Source/Game.cpp']
 
 source_files += ['Source/Application/GameController.cpp']
 source_files += ['Source/Application/GameControllerFactory.cpp']
