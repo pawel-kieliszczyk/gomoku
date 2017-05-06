@@ -6,5 +6,23 @@ Implemented various Artificial Intelligence strategies:
 * Minimax
 * Minimax + Alpha-beta pruning
 
-TODO:
+Coming soon:
 * Neural Networks
+
+**How to play**
+
+Downlaod source code:
+```
+git clone https://github.com/pawel-kieliszczyk/gomoku.git
+```
+
+Compile:
+```
+cd gomoku
+scons -f SConstruct-application
+```
+
+Play:
+```
+./Bin/application
+```
