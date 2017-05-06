@@ -26,6 +26,7 @@ source_files += ['Source/Domain/Board.cpp']
 source_files += ['Source/Interface/BoardDrawer.cpp']
 source_files += ['Source/Interface/HumanPlayer.cpp']
 source_files += ['Source/Interface/HumanPlayerFactory.cpp']
+source_files += ['Source/Interface/UIController.cpp']
 
 
 target = 'application'
