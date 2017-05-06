@@ -34,6 +34,7 @@ private:
     void check(int x, int y, const Domain::Stone& stone, int xOffset, int yOffset);
 
     std::shared_ptr<Domain::IBoard> board;
+    int movesLeft;
     bool finished;
 };
 

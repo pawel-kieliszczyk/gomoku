@@ -29,6 +29,61 @@ struct GameFinishedWhenFiveInRowPolicyTester : public gt::Test
 };
 
 
+/**
+ * Filling the board with the following pattern:
+ * x x x o o o x x x o o o x x x
+ * o o o x x x o o o x x x o o o
+ * x x x o o o x x x o o o x x x
+ * o o o x x x o o o x x x o o o
+ * x x x o o o x x x o o o x x x
+ * o o o x x x o o o x x x o o o
+ * x x x o o o x x x o o o x x x
+ * o o o x x x o o o x x x o o o
+ * x x x o o o x x x o o o x x x
+ * o o o x x x o o o x x x o o o
+ * x x x o o o x x x o o o x x x
+ * o o o x x x o o o x x x o o o
+ * x x x o o o x x x o o o x x x
+ * o o o x x x o o o x x x o o o
+ * x x x o o o x x x o o o x x x
+ *
+ */
+TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsMakingAllPossibleMoves)
+{
+    const int limit = 3;
+    int counter = 0;
+    Domain::Stone nextStone = Domain::Stone::Black;
+
+    // when (board fillout without last stone)
+    for(int x = 0; x < board->getSize(); ++x)
+    {
+        for(int y = 0; y < board->getSize(); ++y)
+        {
+            if((x == board->getSize() - 1) && (y == board->getSize() - 1))
+                break;
+
+            board->putStone(x, y, nextStone);
+
+            ++counter;
+            if(counter == limit)
+            {
+                nextStone = ((nextStone == Domain::Stone::Black) ? Domain::Stone::White : Domain::Stone::Black);
+                counter = 0;
+            }
+        }
+    }
+
+    // then
+    EXPECT_FALSE(policy.isFinished());
+
+    // when
+    board->putStone(board->getSize() - 1, board->getSize() - 1, nextStone);
+
+    // then
+    EXPECT_TRUE(policy.isFinished());
+}
+
+
 TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveVerticallyIfFifthStonePutAtTheEnd)
 {
     // given
