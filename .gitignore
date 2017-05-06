@@ -1,0 +1,14 @@
+*.o
+
+libgmock.a
+libgtest.a
+
+/Bin
+
+.DS_Store
+.sconsign.dblite
+
+/.cproject
+/.project
+/.settings
+
