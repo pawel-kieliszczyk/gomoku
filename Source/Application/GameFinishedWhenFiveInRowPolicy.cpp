@@ -9,6 +9,7 @@ namespace Application
 
 GameFinishedWhenFiveInRowPolicy::GameFinishedWhenFiveInRowPolicy(std::shared_ptr<Domain::IBoard> board_)
     : board(board_),
+      movesLeft(board->getSize() * board->getSize()),
       finished(false)
 {
     board->addObserver(*this);
@@ -23,11 +24,21 @@ bool GameFinishedWhenFiveInRowPolicy::isFinished() const
 
 void GameFinishedWhenFiveInRowPolicy::onStonePutAt(int x, int y)
 {
+    if(--movesLeft == 0)
+        finished = true;
+
     const auto& stone = board->getStone(x, y);
 
     checkVertically(x, y, stone);
     checkHorizontally(x, y, stone);
     checkDiagonals(x, y, stone);
+}
+
+
+void GameFinishedWhenFiveInRowPolicy::onBoardCleared()
+{
+    movesLeft = board->getSize() * board->getSize();
+    finished = false;
 }
 
 

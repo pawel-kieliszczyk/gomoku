@@ -32,7 +32,7 @@ void Board::putStone(int x, int y, const Stone& stone)
 
     board[x][y] = stone;
 
-    notifyObservers(x, y);
+    notifyObserversAfterStonePut(x, y);
 }
 
 
@@ -59,6 +59,8 @@ void Board::clear()
     for(int x = 0; x < SIZE; ++x)
         for(int y = 0; y < SIZE; ++y)
             board[x][y] = std::experimental::optional<Stone>();//.reset();
+
+    notifyObserversAfterBoardCleared();
 }
 
 
@@ -68,10 +70,17 @@ void Board::addObserver(IBoardObserver& observer)
 }
 
 
-void Board::notifyObservers(int x, int y)
+void Board::notifyObserversAfterStonePut(int x, int y)
 {
     for(auto& observer : observers)
         observer.get().onStonePutAt(x, y);
+}
+
+
+void Board::notifyObserversAfterBoardCleared()
+{
+    for(auto& observer : observers)
+        observer.get().onBoardCleared();
 }
 
 

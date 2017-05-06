@@ -33,7 +33,8 @@ public:
     void addObserver(IBoardObserver& observer) override;
 
 private:
-    void notifyObservers(int x, int y);
+    void notifyObserversAfterStonePut(int x, int y);
+    void notifyObserversAfterBoardCleared();
 
     static const int SIZE = 15;
 

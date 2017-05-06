@@ -122,7 +122,7 @@ TEST_F(BoardTester, testsExceptionWhenPuttingTwoStonesOnTheSamePlace)
 }
 
 
-TEST_F(BoardTester, testsNotifyingObservers)
+TEST_F(BoardTester, testsNotifyingObserversAfterStonePut)
 {
     // given
     board.addObserver(*boardObserverMock1);
@@ -141,6 +141,21 @@ TEST_F(BoardTester, testsNotifyingObservers)
 
     // when & then
     board.putStone(8, 1, Stone::White);
+}
+
+
+TEST_F(BoardTester, testsNotifyingObserversAfterBoardCleared)
+{
+    // given
+    board.addObserver(*boardObserverMock1);
+    board.addObserver(*boardObserverMock2);
+
+    // expect
+    EXPECT_CALL(*boardObserverMock1, onBoardCleared());
+    EXPECT_CALL(*boardObserverMock2, onBoardCleared());
+
+    // when & then
+    board.clear();
 }
 
 

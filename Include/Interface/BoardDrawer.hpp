@@ -21,8 +21,11 @@ public:
     BoardDrawer(std::shared_ptr<Domain::IBoard> board_);
 
     void onStonePutAt(int x, int y) override;
+    void onBoardCleared() override;
 
 private:
+    void drawCurrentBoard();
+
     std::shared_ptr<Domain::IBoard> board;
 };
 
