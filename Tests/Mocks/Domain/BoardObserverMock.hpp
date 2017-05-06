@@ -19,6 +19,7 @@ class BoardObserverMock : public IBoardObserver
 {
 public:
     MOCK_METHOD2(onStonePutAt, void(int /*x*/, int /*y*/));
+    MOCK_METHOD0(onBoardCleared, void());
 };
 
 

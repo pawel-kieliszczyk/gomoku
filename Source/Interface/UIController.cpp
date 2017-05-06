@@ -25,13 +25,13 @@ void UIController::run()
 
     auto board = std::make_shared<Gomoku::Domain::Board>();
 
+    Gomoku::Interface::BoardDrawer boardDrawer(board);
+
     auto playerFactory1 = getFirstPlayerFactoryFor(gameMode);
     auto playerFactory2 = getSecondPlayerFactoryFor(gameMode);
 
     Gomoku::Application::GameControllerFactory gameControllerFactory;
     auto gameController = gameControllerFactory.create(board, playerFactory1, playerFactory2);
-
-    Gomoku::Interface::BoardDrawer boardDrawer(board);
 
     gameController->initializeNewGame();
     gameController->play();

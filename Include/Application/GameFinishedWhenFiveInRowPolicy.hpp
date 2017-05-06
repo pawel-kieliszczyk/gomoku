@@ -25,6 +25,7 @@ public:
     bool isFinished() const override;
 
     void onStonePutAt(int x, int y) override;
+    void onBoardCleared() override;
 
 private:
     void checkVertically(int x, int y, const Domain::Stone& stone);

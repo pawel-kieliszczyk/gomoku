@@ -35,6 +35,13 @@ void GameFinishedWhenFiveInRowPolicy::onStonePutAt(int x, int y)
 }
 
 
+void GameFinishedWhenFiveInRowPolicy::onBoardCleared()
+{
+    movesLeft = board->getSize() * board->getSize();
+    finished = false;
+}
+
+
 void GameFinishedWhenFiveInRowPolicy::checkVertically(int x, int y, const Domain::Stone& stone)
 {
     check(x, y, stone, 0, 1);

@@ -14,6 +14,7 @@ public:
     virtual ~IBoardObserver() = default;
 
     virtual void onStonePutAt(int x, int y) = 0;
+    virtual void onBoardCleared() = 0;
 };
 
 
