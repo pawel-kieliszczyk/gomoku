@@ -43,7 +43,7 @@ int HumanPlayer::readX()
 {
     int x;
 
-    std::cout << "Enter x: ";
+    std::cout << "Select row: ";
     std::cin >> x;
 
     return x;
@@ -54,7 +54,7 @@ int HumanPlayer::readY()
 {
     int y;
 
-    std::cout << "Enter y: ";
+    std::cout << "Select column: ";
     std::cin >> y;
 
     return y;

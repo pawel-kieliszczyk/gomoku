@@ -24,7 +24,15 @@ public:
     void onBoardCleared() override;
 
 private:
-    void drawCurrentBoard();
+    void drawCurrentBoard(const int lastMoveX, const int lastMoveY);
+
+    std::string colorNumbers() const;
+    std::string colorBoard() const;
+    std::string colorBlackStone() const;
+    std::string colorWhiteStone() const;
+    std::string colorLastMoveBlackStone() const;
+    std::string colorLastMoveWhiteStone() const;
+    std::string colorDefault() const;
 
     std::shared_ptr<Domain::IBoard> board;
 };
