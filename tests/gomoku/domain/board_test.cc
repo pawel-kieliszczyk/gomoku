@@ -7,7 +7,7 @@
 #include "gomoku/domain/board.h"
 #include "gomoku/domain/stone.h"
 
-#include "mocks/domain/board_observer_mock.h"
+#include "gomoku/mocks/domain/board_observer_mock.h"
 
 
 namespace gt = testing;

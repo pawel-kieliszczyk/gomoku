@@ -5,11 +5,11 @@
 
 #include "gomoku/application/game_controller.h"
 
-#include "mocks/application/game_finished_policy_factory_mock.h"
-#include "mocks/application/game_finished_policy_mock.h"
-#include "mocks/application/player_factory_mock.h"
-#include "mocks/application/player_mock.h"
-#include "mocks/domain/board_mock.h"
+#include "gomoku/mocks/application/game_finished_policy_factory_mock.h"
+#include "gomoku/mocks/application/game_finished_policy_mock.h"
+#include "gomoku/mocks/application/player_factory_mock.h"
+#include "gomoku/mocks/application/player_mock.h"
+#include "gomoku/mocks/domain/board_mock.h"
 
 
 namespace gt = testing;

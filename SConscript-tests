@@ -26,10 +26,10 @@ source_files += ['source/gomoku/application/game_controller.cc']
 source_files += ['source/gomoku/application/game_finished_when_five_in_row_policy.cc']
 source_files += ['source/gomoku/domain/board.cc']
 
-source_files += ['tests/application/artificial_intelligence/adjacent_move_candidates_selector_test.cc']
-source_files += ['tests/application/game_controller_test.cc']
-source_files += ['tests/application/game_finished_when_five_in_row_policy_test.cc']
-source_files += ['tests/domain/board_test.cc']
+source_files += ['tests/gomoku/application/artificial_intelligence/adjacent_move_candidates_selector_test.cc']
+source_files += ['tests/gomoku/application/game_controller_test.cc']
+source_files += ['tests/gomoku/application/game_finished_when_five_in_row_policy_test.cc']
+source_files += ['tests/gomoku/domain/board_test.cc']
 
 
 target = 'test'
