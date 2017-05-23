@@ -3,7 +3,7 @@
 libgmock.a
 libgtest.a
 
-/Bin
+/bin
 
 .DS_Store
 .sconsign.dblite

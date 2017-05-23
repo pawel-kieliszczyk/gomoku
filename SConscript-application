@@ -2,31 +2,31 @@ Import('env')
 local_env = env.Clone()
 
 
-local_env.AppendUnique(CPPPATH = ['../Include'])
+local_env.AppendUnique(CPPPATH = ['../include'])
 
 
-source_files = ['Source/main.cpp']
-source_files += ['Source/Game.cpp']
+source_files = ['source/main.cpp']
+source_files += ['source/Game.cpp']
 
-source_files += ['Source/Application/GameController.cpp']
-source_files += ['Source/Application/GameControllerFactory.cpp']
-source_files += ['Source/Application/GameFinishedWhenFiveInRowPolicy.cpp']
-source_files += ['Source/Application/GameFinishedWhenFiveInRowPolicyFactory.cpp']
+source_files += ['source/application/GameController.cpp']
+source_files += ['source/application/GameControllerFactory.cpp']
+source_files += ['source/application/GameFinishedWhenFiveInRowPolicy.cpp']
+source_files += ['source/application/GameFinishedWhenFiveInRowPolicyFactory.cpp']
 
-source_files += ['Source/Application/ArtificialIntelligence/AdjacentMoveCandidatesSelector.cpp']
-source_files += ['Source/Application/ArtificialIntelligence/AlphaBetaPlayer.cpp']
-source_files += ['Source/Application/ArtificialIntelligence/AlphaBetaPlayerFactory.cpp']
-source_files += ['Source/Application/ArtificialIntelligence/BoardEvaluator.cpp']
-source_files += ['Source/Application/ArtificialIntelligence/BoardWithUndo.cpp']
-source_files += ['Source/Application/ArtificialIntelligence/MiniMaxPlayer.cpp']
-source_files += ['Source/Application/ArtificialIntelligence/MiniMaxPlayerFactory.cpp']
+source_files += ['source/application/artificial_intelligence/AdjacentMoveCandidatesSelector.cpp']
+source_files += ['source/application/artificial_intelligence/AlphaBetaPlayer.cpp']
+source_files += ['source/application/artificial_intelligence/AlphaBetaPlayerFactory.cpp']
+source_files += ['source/application/artificial_intelligence/BoardEvaluator.cpp']
+source_files += ['source/application/artificial_intelligence/BoardWithUndo.cpp']
+source_files += ['source/application/artificial_intelligence/MiniMaxPlayer.cpp']
+source_files += ['source/application/artificial_intelligence/MiniMaxPlayerFactory.cpp']
 
-source_files += ['Source/Domain/Board.cpp']
+source_files += ['source/domain/Board.cpp']
 
-source_files += ['Source/Interface/BoardDrawer.cpp']
-source_files += ['Source/Interface/HumanPlayer.cpp']
-source_files += ['Source/Interface/HumanPlayerFactory.cpp']
-source_files += ['Source/Interface/UIController.cpp']
+source_files += ['source/interface/BoardDrawer.cpp']
+source_files += ['source/interface/HumanPlayer.cpp']
+source_files += ['source/interface/HumanPlayerFactory.cpp']
+source_files += ['source/interface/UIController.cpp']
 
 
 target = 'application'

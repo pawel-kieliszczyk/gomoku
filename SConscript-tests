@@ -4,8 +4,8 @@ local_env = env.Clone()
 
 local_env.AppendUnique(CPPPATH = ['Libraries/googletest/gtest-1.8.0/include'])
 local_env.AppendUnique(CPPPATH = ['Libraries/googlemock/gmock-1.8.0/include'])
-local_env.AppendUnique(CPPPATH = ['../Include'])
-local_env.AppendUnique(CPPPATH = ['Tests'])
+local_env.AppendUnique(CPPPATH = ['../include'])
+local_env.AppendUnique(CPPPATH = ['tests'])
 
 local_env.AppendUnique(LIBPATH = ['Libraries/googletest', 'Libraries/googlemock'])
 
@@ -18,18 +18,18 @@ if enable_gcov:
 	local_env.AppendUnique(LINKFLAGS = '-fprofile-arcs')
 
 
-source_files = ['Tests/main.cpp']
+source_files = ['tests/main.cpp']
 
-source_files += ['Source/Application/ArtificialIntelligence/AdjacentMoveCandidatesSelector.cpp']
-source_files += ['Source/Application/ArtificialIntelligence/BoardEvaluator.cpp']
-source_files += ['Source/Application/GameController.cpp']
-source_files += ['Source/Application/GameFinishedWhenFiveInRowPolicy.cpp']
-source_files += ['Source/Domain/Board.cpp']
+source_files += ['source/application/artificial_intelligence/AdjacentMoveCandidatesSelector.cpp']
+source_files += ['source/application/artificial_intelligence/BoardEvaluator.cpp']
+source_files += ['source/application/GameController.cpp']
+source_files += ['source/application/GameFinishedWhenFiveInRowPolicy.cpp']
+source_files += ['source/domain/Board.cpp']
 
-source_files += ['Tests/Application/ArtificialIntelligence/AdjacentMoveCandidatesSelectorTester.cpp']
-source_files += ['Tests/Application/GameControllerTester.cpp']
-source_files += ['Tests/Application/GameFinishedWhenFiveInRowPolicyTester.cpp']
-source_files += ['Tests/Domain/BoardTester.cpp']
+source_files += ['tests/application/artificial_intelligence/AdjacentMoveCandidatesSelectorTester.cpp']
+source_files += ['tests/application/GameControllerTester.cpp']
+source_files += ['tests/application/GameFinishedWhenFiveInRowPolicyTester.cpp']
+source_files += ['tests/domain/BoardTester.cpp']
 
 
 target = 'test'

@@ -7,4 +7,4 @@ env.Append(CXXFLAGS = ['-std=c++1z', '-Wall', '-Werror'])
 
 SConscript('Libraries/googletest/SConscript', variant_dir='Bin/Libraries/googletest', exports='env', duplicate=0)
 SConscript('Libraries/googlemock/SConscript', variant_dir='Bin/Libraries/googlemock', exports='env', duplicate=0)
-SConscript('SConscript-tests', variant_dir='Bin', exports='env', duplicate=0)
+SConscript('SConscript-tests', variant_dir='bin', exports='env', duplicate=0)
