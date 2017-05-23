@@ -1,7 +1,7 @@
 #include <exception>
 #include <iostream>
 
-#include "game.h"
+#include "gomoku/game.h"
 
 
 int main()

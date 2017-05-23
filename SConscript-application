@@ -6,27 +6,28 @@ local_env.AppendUnique(CPPPATH = ['source'])
 
 
 source_files = ['source/main.cc']
-source_files += ['source/game.cc']
 
-source_files += ['source/application/game_controller.cc']
-source_files += ['source/application/game_controller_factory.cc']
-source_files += ['source/application/game_finished_when_five_in_row_policy.cc']
-source_files += ['source/application/game_finished_when_five_in_row_policy_factory.cc']
+source_files += ['source/gomoku/game.cc']
 
-source_files += ['source/application/artificial_intelligence/adjacent_move_candidates_selector.cc']
-source_files += ['source/application/artificial_intelligence/alpha_beta_player.cc']
-source_files += ['source/application/artificial_intelligence/alpha_beta_player_factory.cc']
-source_files += ['source/application/artificial_intelligence/board_evaluator.cc']
-source_files += ['source/application/artificial_intelligence/board_with_undo.cc']
-source_files += ['source/application/artificial_intelligence/mini_max_player.cc']
-source_files += ['source/application/artificial_intelligence/mini_max_player_factory.cc']
+source_files += ['source/gomoku/application/game_controller.cc']
+source_files += ['source/gomoku/application/game_controller_factory.cc']
+source_files += ['source/gomoku/application/game_finished_when_five_in_row_policy.cc']
+source_files += ['source/gomoku/application/game_finished_when_five_in_row_policy_factory.cc']
 
-source_files += ['source/domain/board.cc']
+source_files += ['source/gomoku/application/artificial_intelligence/adjacent_move_candidates_selector.cc']
+source_files += ['source/gomoku/application/artificial_intelligence/alpha_beta_player.cc']
+source_files += ['source/gomoku/application/artificial_intelligence/alpha_beta_player_factory.cc']
+source_files += ['source/gomoku/application/artificial_intelligence/board_evaluator.cc']
+source_files += ['source/gomoku/application/artificial_intelligence/board_with_undo.cc']
+source_files += ['source/gomoku/application/artificial_intelligence/mini_max_player.cc']
+source_files += ['source/gomoku/application/artificial_intelligence/mini_max_player_factory.cc']
 
-source_files += ['source/interface/board_drawer.cc']
-source_files += ['source/interface/human_player.cc']
-source_files += ['source/interface/human_player_factory.cc']
-source_files += ['source/interface/ui_controller.cc']
+source_files += ['source/gomoku/domain/board.cc']
+
+source_files += ['source/gomoku/interface/board_drawer.cc']
+source_files += ['source/gomoku/interface/human_player.cc']
+source_files += ['source/gomoku/interface/human_player_factory.cc']
+source_files += ['source/gomoku/interface/ui_controller.cc']
 
 
 target = 'application'

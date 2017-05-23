@@ -3,7 +3,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "application/game_controller.h"
+#include "gomoku/application/game_controller.h"
 
 #include "mocks/application/game_finished_policy_factory_mock.h"
 #include "mocks/application/game_finished_policy_mock.h"
