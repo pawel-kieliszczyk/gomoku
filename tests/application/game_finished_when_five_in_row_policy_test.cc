@@ -19,7 +19,7 @@ namespace Testing
 {
 
 
-struct GameFinishedWhenFiveInRowPolicyTester : public gt::Test
+struct GameFinishedWhenFiveInRowPolicyTest : public gt::Test
 {
     // mocks:
     std::shared_ptr<Domain::Board> board = std::make_shared<Domain::Board>();
@@ -48,7 +48,7 @@ struct GameFinishedWhenFiveInRowPolicyTester : public gt::Test
  * x x x o o o x x x o o o x x x
  *
  */
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsMakingAllPossibleMoves)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsMakingAllPossibleMoves)
 {
     const int limit = 3;
     int counter = 0;
@@ -84,7 +84,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsMakingAllPossibleMoves)
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveVerticallyIfFifthStonePutAtTheEnd)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsFiveVerticallyIfFifthStonePutAtTheEnd)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -103,7 +103,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveVerticallyIfFifthStonePut
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveVerticallyIfFifthStonePutAtTheBeginning)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsFiveVerticallyIfFifthStonePutAtTheBeginning)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -122,7 +122,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveVerticallyIfFifthStonePut
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveVerticallyIfFifthStonePutInTheMiddle)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsFiveVerticallyIfFifthStonePutInTheMiddle)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -141,7 +141,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveVerticallyIfFifthStonePut
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveHorizontallyIfFifthStonePutAtTheEnd)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsFiveHorizontallyIfFifthStonePutAtTheEnd)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -160,7 +160,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveHorizontallyIfFifthStoneP
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveHorizontallyIfFifthStonePutAtTheBeginning)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsFiveHorizontallyIfFifthStonePutAtTheBeginning)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -179,7 +179,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveHorizontallyIfFifthStoneP
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveHorizontallyIfFifthStonePutAtTheMiddle)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsFiveHorizontallyIfFifthStonePutAtTheMiddle)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -198,7 +198,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsFiveHorizontallyIfFifthStoneP
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalOneIfFifthStonePutAtTheEnd)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsDiagonalOneIfFifthStonePutAtTheEnd)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -217,7 +217,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalOneIfFifthStonePutAtT
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalOneIfFifthStonePutAtTheBeginning)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsDiagonalOneIfFifthStonePutAtTheBeginning)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -236,7 +236,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalOneIfFifthStonePutAtT
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalOneIfFifthStonePutInTheMiddle)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsDiagonalOneIfFifthStonePutInTheMiddle)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -255,7 +255,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalOneIfFifthStonePutInT
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalTwoIfFifthStonePutAtTheEnd)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsDiagonalTwoIfFifthStonePutAtTheEnd)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -274,7 +274,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalTwoIfFifthStonePutAtT
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalTwoIfFifthStonePutAtTheBeginning)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsDiagonalTwoIfFifthStonePutAtTheBeginning)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);
@@ -293,7 +293,7 @@ TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalTwoIfFifthStonePutAtT
 }
 
 
-TEST_F(GameFinishedWhenFiveInRowPolicyTester, testsDiagonalTwoIfFifthStonePutInTheMiddle)
+TEST_F(GameFinishedWhenFiveInRowPolicyTest, testsDiagonalTwoIfFifthStonePutInTheMiddle)
 {
     // given
     board->putStone(7, 7, Domain::Stone::Black);

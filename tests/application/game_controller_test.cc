@@ -5,11 +5,11 @@
 
 #include "application/game_controller.h"
 
-#include "mocks/application/GameFinishedPolicyFactoryMock.hpp"
-#include "mocks/application/GameFinishedPolicyMock.hpp"
-#include "mocks/application/PlayerFactoryMock.hpp"
-#include "mocks/application/PlayerMock.hpp"
-#include "mocks/domain/BoardMock.hpp"
+#include "mocks/application/game_finished_policy_factory_mock.h"
+#include "mocks/application/game_finished_policy_mock.h"
+#include "mocks/application/player_factory_mock.h"
+#include "mocks/application/player_mock.h"
+#include "mocks/domain/board_mock.h"
 
 
 namespace gt = testing;
@@ -26,7 +26,7 @@ namespace Testing
 MATCHER_P(MatchSharedPtr, expectedSharedPtr, "") { return (arg.get() == expectedSharedPtr.get()); }
 
 
-struct GameControllerTester : public gt::Test
+struct GameControllerTest : public gt::Test
 {
     // mocks:
     std::shared_ptr<Domain::Testing::BoardMock> boardMock =
@@ -62,14 +62,14 @@ struct GameControllerTester : public gt::Test
 };
 
 
-TEST_F(GameControllerTester, testsInitializingNewGame)
+TEST_F(GameControllerTest, testsInitializingNewGame)
 {
     // when & then
     initializeNewGame();
 }
 
 
-TEST_F(GameControllerTester, testsMakingOneMove)
+TEST_F(GameControllerTest, testsMakingOneMove)
 {
     // given
     initializeNewGame();
@@ -83,7 +83,7 @@ TEST_F(GameControllerTester, testsMakingOneMove)
 }
 
 
-TEST_F(GameControllerTester, testsMakingTwoMoves)
+TEST_F(GameControllerTest, testsMakingTwoMoves)
 {
     // given
     initializeNewGame();
@@ -101,7 +101,7 @@ TEST_F(GameControllerTester, testsMakingTwoMoves)
 }
 
 
-TEST_F(GameControllerTester, testsMakingThreeMoves)
+TEST_F(GameControllerTest, testsMakingThreeMoves)
 {
     // given
     initializeNewGame();
@@ -120,7 +120,7 @@ TEST_F(GameControllerTester, testsMakingThreeMoves)
 }
 
 
-TEST_F(GameControllerTester, testsMakingFourMoves)
+TEST_F(GameControllerTest, testsMakingFourMoves)
 {
     // given
     initializeNewGame();
@@ -140,7 +140,7 @@ TEST_F(GameControllerTester, testsMakingFourMoves)
 }
 
 
-TEST_F(GameControllerTester, testsMakingFiveMoves)
+TEST_F(GameControllerTest, testsMakingFiveMoves)
 {
     // given
     initializeNewGame();

@@ -21,7 +21,7 @@ namespace Testing
 {
 
 
-struct AdjacentMoveCandidatesSelectorTester : public gt::Test
+struct AdjacentMoveCandidatesSelectorTest : public gt::Test
 {
     // mocks:
     std::shared_ptr<Domain::IBoard> board = std::make_shared<Domain::Board>();
@@ -56,7 +56,7 @@ struct AdjacentMoveCandidatesSelectorTester : public gt::Test
  * |                              |
  *  ------------------------------
  */
-TEST_F(AdjacentMoveCandidatesSelectorTester, testSelectingWithOneStoneOnTheBoard)
+TEST_F(AdjacentMoveCandidatesSelectorTest, testSelectingWithOneStoneOnTheBoard)
 {
     // given
     board->putStone(5, 5, Domain::Stone::Black);
@@ -97,7 +97,7 @@ TEST_F(AdjacentMoveCandidatesSelectorTester, testSelectingWithOneStoneOnTheBoard
  * |                              |
  *  ------------------------------
  */
-TEST_F(AdjacentMoveCandidatesSelectorTester, testSelectingWithTwoDistantStonesOnTheBoard)
+TEST_F(AdjacentMoveCandidatesSelectorTest, testSelectingWithTwoDistantStonesOnTheBoard)
 {
     // given
     board->putStone(5, 5, Domain::Stone::Black);
@@ -148,7 +148,7 @@ TEST_F(AdjacentMoveCandidatesSelectorTester, testSelectingWithTwoDistantStonesOn
  * |                              |
  *  ------------------------------
  */
-TEST_F(AdjacentMoveCandidatesSelectorTester, testSelectingWithTwoCloseStonesOnTheBoard)
+TEST_F(AdjacentMoveCandidatesSelectorTest, testSelectingWithTwoCloseStonesOnTheBoard)
 {
     // given
     board->putStone(5, 5, Domain::Stone::Black);
@@ -199,7 +199,7 @@ TEST_F(AdjacentMoveCandidatesSelectorTester, testSelectingWithTwoCloseStonesOnTh
  * |                              |
  *  ------------------------------
  */
-TEST_F(AdjacentMoveCandidatesSelectorTester, testSelectingWithTwoVeryCloseStonesOnTheBoard)
+TEST_F(AdjacentMoveCandidatesSelectorTest, testSelectingWithTwoVeryCloseStonesOnTheBoard)
 {
     // given
     board->putStone(5, 5, Domain::Stone::Black);

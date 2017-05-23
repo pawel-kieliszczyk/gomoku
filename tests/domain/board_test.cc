@@ -7,7 +7,7 @@
 #include "domain/board.h"
 #include "domain/stone.h"
 
-#include "mocks/domain/BoardObserverMock.hpp"
+#include "mocks/domain/board_observer_mock.h"
 
 
 namespace gt = testing;
@@ -21,7 +21,7 @@ namespace Testing
 {
 
 
-struct BoardTester : public gt::Test
+struct BoardTest : public gt::Test
 {
     // mocks:
     std::shared_ptr<BoardObserverMock> boardObserverMock1 = std::make_shared<gt::StrictMock<BoardObserverMock>>();
@@ -32,13 +32,13 @@ struct BoardTester : public gt::Test
 };
 
 
-TEST_F(BoardTester, testsGetSize)
+TEST_F(BoardTest, testsGetSize)
 {
     EXPECT_EQ(15, board.getSize());
 }
 
 
-TEST_F(BoardTester, testsValuesOfEmptyBoard)
+TEST_F(BoardTest, testsValuesOfEmptyBoard)
 {
     // when & then
     for(int i = 0; i < board.getSize(); ++i)
@@ -47,7 +47,7 @@ TEST_F(BoardTester, testsValuesOfEmptyBoard)
 }
 
 
-TEST_F(BoardTester, testsPuttingBlackStone)
+TEST_F(BoardTest, testsPuttingBlackStone)
 {
     // when
     board.putStone(2, 3, Stone::Black);
@@ -58,7 +58,7 @@ TEST_F(BoardTester, testsPuttingBlackStone)
 }
 
 
-TEST_F(BoardTester, testsPuttingWhiteStone)
+TEST_F(BoardTest, testsPuttingWhiteStone)
 {
     // when
     board.putStone(2, 3, Stone::White);
@@ -69,7 +69,7 @@ TEST_F(BoardTester, testsPuttingWhiteStone)
 }
 
 
-TEST_F(BoardTester, testsRemovingStone)
+TEST_F(BoardTest, testsRemovingStone)
 {
     // given
     board.putStone(2, 3, Stone::Black);
@@ -86,7 +86,7 @@ TEST_F(BoardTester, testsRemovingStone)
 }
 
 
-TEST_F(BoardTester, testsClearingBoard)
+TEST_F(BoardTest, testsClearingBoard)
 {
     // given
     board.putStone(7, 8, Stone::Black);
@@ -101,7 +101,7 @@ TEST_F(BoardTester, testsClearingBoard)
 }
 
 
-TEST_F(BoardTester, testsExceptionWhenPuttingStoneOutOfRange)
+TEST_F(BoardTest, testsExceptionWhenPuttingStoneOutOfRange)
 {
     // when & then
     EXPECT_THROW(board.putStone(-1, 0, Stone::Black), std::out_of_range);
@@ -111,7 +111,7 @@ TEST_F(BoardTester, testsExceptionWhenPuttingStoneOutOfRange)
 }
 
 
-TEST_F(BoardTester, testsExceptionWhenPuttingTwoStonesOnTheSamePlace)
+TEST_F(BoardTest, testsExceptionWhenPuttingTwoStonesOnTheSamePlace)
 {
     // given
     board.putStone(4, 5, Stone::Black);
@@ -122,7 +122,7 @@ TEST_F(BoardTester, testsExceptionWhenPuttingTwoStonesOnTheSamePlace)
 }
 
 
-TEST_F(BoardTester, testsNotifyingObserversAfterStonePut)
+TEST_F(BoardTest, testsNotifyingObserversAfterStonePut)
 {
     // given
     board.addObserver(*boardObserverMock1);
@@ -144,7 +144,7 @@ TEST_F(BoardTester, testsNotifyingObserversAfterStonePut)
 }
 
 
-TEST_F(BoardTester, testsNotifyingObserversAfterBoardCleared)
+TEST_F(BoardTest, testsNotifyingObserversAfterBoardCleared)
 {
     // given
     board.addObserver(*boardObserverMock1);
