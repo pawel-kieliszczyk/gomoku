@@ -4,7 +4,7 @@ local_env = env.Clone()
 
 local_env.AppendUnique(CPPPATH = ['Libraries/googletest/gtest-1.8.0/include'])
 local_env.AppendUnique(CPPPATH = ['Libraries/googlemock/gmock-1.8.0/include'])
-local_env.AppendUnique(CPPPATH = ['../include'])
+local_env.AppendUnique(CPPPATH = ['../source'])
 local_env.AppendUnique(CPPPATH = ['tests'])
 
 local_env.AppendUnique(LIBPATH = ['Libraries/googletest', 'Libraries/googlemock'])

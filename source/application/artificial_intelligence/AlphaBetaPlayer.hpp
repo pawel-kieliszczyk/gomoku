@@ -8,12 +8,11 @@
 #include <utility>
 #include <vector>
 
-#include "domain/IBoard.hpp"
-#include "domain/Stone.hpp"
-
 #include "application/artificial_intelligence/BoardEvaluator.hpp"
 #include "application/artificial_intelligence/BoardWithUndo.hpp"
 #include "application/artificial_intelligence/IMoveCandidatesSelector.hpp"
+#include "domain/IBoard.hpp"
+#include "domain/Stone.hpp"
 
 
 namespace Gomoku

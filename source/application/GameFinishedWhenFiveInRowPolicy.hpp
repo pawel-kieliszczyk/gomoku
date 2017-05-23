@@ -2,7 +2,7 @@
 #define GOMOKU_APPLICATION_GAMEFINISHEDWHENFIVEINROWPOLICY_HPP
 
 
-#include "IGameFinishedPolicy.hpp"
+#include "application/IGameFinishedPolicy.hpp"
 
 #include <memory>
 

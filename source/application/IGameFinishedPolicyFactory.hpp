@@ -4,9 +4,8 @@
 
 #include <memory>
 
+#include "application/IGameFinishedPolicy.hpp"
 #include "domain/IBoard.hpp"
-
-#include "IGameFinishedPolicy.hpp"
 
 
 namespace Gomoku

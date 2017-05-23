@@ -2,8 +2,8 @@
 #define GOMOKU_DOMAIN_IBOARD_HPP
 
 
-#include "IBoardObserver.hpp"
-#include "Stone.hpp"
+#include "domain/IBoardObserver.hpp"
+#include "domain/Stone.hpp"
 
 
 namespace Gomoku

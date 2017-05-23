@@ -4,12 +4,11 @@
 
 #include <memory>
 
+#include "application/IPlayer.hpp"
+#include "application/IPlayerFactory.hpp"
+#include "application/IGameFinishedPolicy.hpp"
+#include "application/IGameFinishedPolicyFactory.hpp"
 #include "domain/IBoard.hpp"
-
-#include "IPlayer.hpp"
-#include "IPlayerFactory.hpp"
-#include "IGameFinishedPolicy.hpp"
-#include "IGameFinishedPolicyFactory.hpp"
 
 
 namespace Gomoku

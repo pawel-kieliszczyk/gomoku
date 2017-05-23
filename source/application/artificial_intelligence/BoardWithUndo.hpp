@@ -3,11 +3,12 @@
 
 
 #include "domain/IBoard.hpp"
-#include "domain/Board.hpp"
 
 #include <memory>
 #include <stack>
 #include <utility>
+
+#include "domain/Board.hpp"
 
 
 namespace Gomoku

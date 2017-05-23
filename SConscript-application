@@ -2,7 +2,7 @@ Import('env')
 local_env = env.Clone()
 
 
-local_env.AppendUnique(CPPPATH = ['../include'])
+local_env.AppendUnique(CPPPATH = ['source'])
 
 
 source_files = ['source/main.cpp']

@@ -4,10 +4,9 @@
 
 #include <memory>
 
+#include "application/IPlayer.hpp"
 #include "domain/IBoard.hpp"
 #include "domain/Stone.hpp"
-
-#include "IPlayer.hpp"
 
 
 namespace Gomoku

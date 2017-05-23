@@ -2,7 +2,7 @@
 #define GOMOKU_DOMAIN_BOARD_HPP
 
 
-#include "IBoard.hpp"
+#include "domain/IBoard.hpp"
 
 #include <experimental/optional>
 #include <functional>
