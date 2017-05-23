@@ -4,7 +4,7 @@
 
 #include <gmock/gmock.h>
 
-#include "application/IGameFinishedPolicy.hpp"
+#include "application/igame_finished_policy.h"
 
 
 namespace Gomoku

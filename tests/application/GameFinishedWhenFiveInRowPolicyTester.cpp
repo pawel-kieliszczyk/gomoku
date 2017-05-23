@@ -3,9 +3,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "application/GameFinishedWhenFiveInRowPolicy.hpp"
-#include "domain/Board.hpp"
-#include "domain/Stone.hpp"
+#include "application/game_finished_when_five_in_row_policy.h"
+#include "domain/board.h"
+#include "domain/stone.h"
 
 
 namespace gt = testing;

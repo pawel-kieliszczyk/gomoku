@@ -4,7 +4,7 @@
 
 #include <gmock/gmock.h>
 
-#include "domain/IBoardObserver.hpp"
+#include "domain/iboard_observer.h"
 
 
 namespace Gomoku

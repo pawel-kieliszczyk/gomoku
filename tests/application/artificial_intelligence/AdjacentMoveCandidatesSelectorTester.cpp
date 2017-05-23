@@ -4,8 +4,8 @@
 
 #include <gtest/gtest.h>
 
-#include "application/artificial_intelligence/AdjacentMoveCandidatesSelector.hpp"
-#include "domain/Board.hpp"
+#include "application/artificial_intelligence/adjacent_move_candidates_selector.h"
+#include "domain/board.h"
 
 
 namespace gt = testing;

@@ -20,11 +20,11 @@ if enable_gcov:
 
 source_files = ['tests/main.cpp']
 
-source_files += ['source/application/artificial_intelligence/AdjacentMoveCandidatesSelector.cpp']
-source_files += ['source/application/artificial_intelligence/BoardEvaluator.cpp']
-source_files += ['source/application/GameController.cpp']
-source_files += ['source/application/GameFinishedWhenFiveInRowPolicy.cpp']
-source_files += ['source/domain/Board.cpp']
+source_files += ['source/application/artificial_intelligence/adjacent_move_candidates_selector.cc']
+source_files += ['source/application/artificial_intelligence/board_evaluator.cc']
+source_files += ['source/application/game_controller.cc']
+source_files += ['source/application/game_finished_when_five_in_row_policy.cc']
+source_files += ['source/domain/board.cc']
 
 source_files += ['tests/application/artificial_intelligence/AdjacentMoveCandidatesSelectorTester.cpp']
 source_files += ['tests/application/GameControllerTester.cpp']

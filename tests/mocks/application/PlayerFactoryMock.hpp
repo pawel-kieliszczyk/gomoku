@@ -4,7 +4,7 @@
 
 #include <gmock/gmock.h>
 
-#include "application/IPlayerFactory.hpp"
+#include "application/iplayer_factory.h"
 
 
 namespace Gomoku

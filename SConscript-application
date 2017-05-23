@@ -5,28 +5,28 @@ local_env = env.Clone()
 local_env.AppendUnique(CPPPATH = ['source'])
 
 
-source_files = ['source/main.cpp']
-source_files += ['source/Game.cpp']
+source_files = ['source/main.cc']
+source_files += ['source/game.cc']
 
-source_files += ['source/application/GameController.cpp']
-source_files += ['source/application/GameControllerFactory.cpp']
-source_files += ['source/application/GameFinishedWhenFiveInRowPolicy.cpp']
-source_files += ['source/application/GameFinishedWhenFiveInRowPolicyFactory.cpp']
+source_files += ['source/application/game_controller.cc']
+source_files += ['source/application/game_controller_factory.cc']
+source_files += ['source/application/game_finished_when_five_in_row_policy.cc']
+source_files += ['source/application/game_finished_when_five_in_row_policy_factory.cc']
 
-source_files += ['source/application/artificial_intelligence/AdjacentMoveCandidatesSelector.cpp']
-source_files += ['source/application/artificial_intelligence/AlphaBetaPlayer.cpp']
-source_files += ['source/application/artificial_intelligence/AlphaBetaPlayerFactory.cpp']
-source_files += ['source/application/artificial_intelligence/BoardEvaluator.cpp']
-source_files += ['source/application/artificial_intelligence/BoardWithUndo.cpp']
-source_files += ['source/application/artificial_intelligence/MiniMaxPlayer.cpp']
-source_files += ['source/application/artificial_intelligence/MiniMaxPlayerFactory.cpp']
+source_files += ['source/application/artificial_intelligence/adjacent_move_candidates_selector.cc']
+source_files += ['source/application/artificial_intelligence/alpha_beta_player.cc']
+source_files += ['source/application/artificial_intelligence/alpha_beta_player_factory.cc']
+source_files += ['source/application/artificial_intelligence/board_evaluator.cc']
+source_files += ['source/application/artificial_intelligence/board_with_undo.cc']
+source_files += ['source/application/artificial_intelligence/mini_max_player.cc']
+source_files += ['source/application/artificial_intelligence/mini_max_player_factory.cc']
 
-source_files += ['source/domain/Board.cpp']
+source_files += ['source/domain/board.cc']
 
-source_files += ['source/interface/BoardDrawer.cpp']
-source_files += ['source/interface/HumanPlayer.cpp']
-source_files += ['source/interface/HumanPlayerFactory.cpp']
-source_files += ['source/interface/UIController.cpp']
+source_files += ['source/interface/board_drawer.cc']
+source_files += ['source/interface/human_player.cc']
+source_files += ['source/interface/human_player_factory.cc']
+source_files += ['source/interface/ui_controller.cc']
 
 
 target = 'application'

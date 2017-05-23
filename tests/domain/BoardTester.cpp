@@ -4,8 +4,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "domain/Board.hpp"
-#include "domain/Stone.hpp"
+#include "domain/board.h"
+#include "domain/stone.h"
 
 #include "mocks/domain/BoardObserverMock.hpp"
 
