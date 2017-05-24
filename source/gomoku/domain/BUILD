@@ -9,7 +9,8 @@ cc_library(
     copts = COPTS,
     visibility = [
         "//source/gomoku/application:__subpackages__",
-        "//source/gomoku/interface:__subpackages__"]
+        "//source/gomoku/interface:__subpackages__",
+        "//tests/gomoku:__subpackages__"]
 )
 
 cc_library(
@@ -18,7 +19,8 @@ cc_library(
     copts = COPTS,
     visibility = [
         "//source/gomoku/application:__subpackages__",
-        "//source/gomoku/interface:__subpackages__"]
+        "//source/gomoku/interface:__subpackages__",
+        "//tests/gomoku:__subpackages__"]
 )
 
 cc_library(
@@ -30,7 +32,8 @@ cc_library(
     copts = COPTS,
     visibility = [
         "//source/gomoku/application:__subpackages__",
-        "//source/gomoku/interface:__subpackages__"]
+        "//source/gomoku/interface:__subpackages__",
+        "//tests/gomoku:__subpackages__"]
 )
 
 cc_library(
@@ -41,7 +44,8 @@ cc_library(
     copts = COPTS,
     visibility = [
         "//source/gomoku/application:__subpackages__",
-        "//source/gomoku/interface:__subpackages__"]
+        "//source/gomoku/interface:__subpackages__",
+        "//tests/gomoku:__subpackages__"]
 )
 
 cc_library(
