@@ -19,10 +19,10 @@ git clone https://github.com/pawel-kieliszczyk/gomoku.git
 Compile:
 ```
 cd gomoku
-scons -f SConstruct-application
+bazel build source:app
 ```
 
 Play:
 ```
-./Bin/application
+./bazel-bin/source/app
 ```
