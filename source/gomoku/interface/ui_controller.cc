@@ -3,9 +3,9 @@
 #include <iostream>
 #include <memory>
 
-#include "gomoku/application/game_controller_factory.h"
 #include "gomoku/application/artificial_intelligence/alpha_beta_player_factory.h"
 #include "gomoku/application/artificial_intelligence/mini_max_player_factory.h"
+#include "gomoku/application/game_controller_factory.h"
 #include "gomoku/domain/board.h"
 #include "gomoku/interface/board_drawer.h"
 #include "gomoku/interface/human_player_factory.h"
