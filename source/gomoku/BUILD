@@ -1,14 +1,11 @@
-COPTS = [
-    "-std=c++1z",
-    "-Isource"
-]
+load("//source:gomoku.bzl", "gomoku_copts")
 
 cc_library(
     name = "game",
     hdrs = ["game.h"],
     srcs = ["game.cc"],
     deps = ["//source/gomoku/interface:ui_controller"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = ["//source:__pkg__"]
 )
 

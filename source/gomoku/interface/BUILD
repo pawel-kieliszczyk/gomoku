@@ -1,7 +1,4 @@
-COPTS = [
-    "-std=c++1z",
-    "-Isource"
-]
+load("//source:gomoku.bzl", "gomoku_copts")
 
 cc_library(
     name = "board_drawer",
@@ -10,7 +7,7 @@ cc_library(
     deps = [
         "//source/gomoku/domain:iboard",
         "//source/gomoku/domain:iboard_observer"],
-    copts = COPTS
+    copts = gomoku_copts()
 )
 
 cc_library(
@@ -20,7 +17,7 @@ cc_library(
     deps = [
         ":human_player",
         "//source/gomoku/application:iplayer_factory"],
-    copts = COPTS
+    copts = gomoku_copts()
 )
 
 cc_library(
@@ -31,7 +28,7 @@ cc_library(
         "//source/gomoku/application:iplayer",
         "//source/gomoku/domain:iboard",
         "//source/gomoku/domain:stone"],
-    copts = COPTS
+    copts = gomoku_copts()
 )
 
 cc_library(
@@ -46,7 +43,7 @@ cc_library(
         "//source/gomoku/application:game_controller_factory",
         "//source/gomoku/application:iplayer_factory",
         "//source/gomoku/domain:board"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = ["//source/gomoku:__pkg__"]
 )
 

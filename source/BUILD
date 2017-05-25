@@ -1,13 +1,10 @@
-COPTS = [
-    "-std=c++1z",
-    "-Isource"
-]
+load("//source:gomoku.bzl", "gomoku_copts")
 
 cc_library(
     name = "main",
     srcs = ["main.cc"],
     deps = ["//source/gomoku:game"],
-    copts = COPTS
+    copts = gomoku_copts()
 )
 
 cc_binary(
