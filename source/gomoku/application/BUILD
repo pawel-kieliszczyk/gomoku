@@ -1,14 +1,11 @@
-COPTS = [
-    "-std=c++1z",
-    "-Isource"
-]
+load("//:gomoku.bzl", "gomoku_copts")
 
 cc_library(
     name = "artificial_intelligence_adjacent_move_candidates_selector",
     hdrs = ["artificial_intelligence/adjacent_move_candidates_selector.h"],
     srcs = ["artificial_intelligence/adjacent_move_candidates_selector.cc"],
     deps = [":artificial_intelligence_imove_candidates_selector"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -22,7 +19,7 @@ cc_library(
         ":iplayer_factory",
         ":artificial_intelligence_adjacent_move_candidates_selector",
         ":artificial_intelligence_alpha_beta_player"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -39,7 +36,7 @@ cc_library(
         ":artificial_intelligence_imove_candidates_selector",
         "//source/gomoku/domain:board",
         "//source/gomoku/domain:stone"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -52,7 +49,7 @@ cc_library(
     deps = [
         "//source/gomoku/domain:iboard",
         "//source/gomoku/domain:stone"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -65,7 +62,7 @@ cc_library(
     deps = [
         "//source/gomoku/domain:iboard",
         "//source/gomoku/domain:board"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -75,7 +72,7 @@ cc_library(
     name = "artificial_intelligence_imove_candidates_selector",
     hdrs = ["artificial_intelligence/imove_candidates_selector.h"],
     deps = ["//source/gomoku/domain:iboard"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -89,7 +86,7 @@ cc_library(
         ":iplayer_factory",
         ":artificial_intelligence_adjacent_move_candidates_selector",
         ":artificial_intelligence_mini_max_player"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -106,7 +103,7 @@ cc_library(
         ":artificial_intelligence_imove_candidates_selector",
         "//source/gomoku/domain:board",
         "//source/gomoku/domain:stone"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -121,7 +118,7 @@ cc_library(
         ":iplayer_factory",
         ":game_finished_when_five_in_row_policy_factory",
         "//source/gomoku/domain:iboard"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -137,7 +134,7 @@ cc_library(
         ":igame_finished_policy",
         ":igame_finished_policy_factory",
         "//source/gomoku/domain:iboard"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -150,7 +147,7 @@ cc_library(
     deps = [
         ":igame_finished_policy_factory",
         ":game_finished_when_five_in_row_policy"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -165,7 +162,7 @@ cc_library(
         "//source/gomoku/domain:iboard",
         "//source/gomoku/domain:iboard_observer",
         "//source/gomoku/domain:stone"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -177,7 +174,7 @@ cc_library(
     deps = [
         ":igame_finished_policy",
         "//source/gomoku/domain:iboard"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -187,7 +184,7 @@ cc_library(
     name = "igame_finished_policy",
     hdrs = ["igame_finished_policy.h"],
     deps = ["//source/gomoku/domain:iboard"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -200,7 +197,7 @@ cc_library(
         ":iplayer",
         "//source/gomoku/domain:iboard",
         "//source/gomoku/domain:stone"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]
@@ -209,7 +206,7 @@ cc_library(
 cc_library(
     name = "iplayer",
     hdrs = ["iplayer.h"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
         "//tests/gomoku:__subpackages__"]

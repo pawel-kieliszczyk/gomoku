@@ -1,16 +1,10 @@
-COPTS = [
-    "-std=c++1z",
-    "-Isource",
-    "-Itests",
-    "-Iexternal/gtest/include",
-    "-Iexternal/gmock/include"
-]
+load("//:gomoku.bzl", "gomoku_tests_copts")
 
 cc_library(
     name = "main",
     srcs = ["main.cc"],
     deps = ["@gtest//:gtest"],
-    copts = COPTS
+    copts = gomoku_tests_copts()
 )
 
 cc_test(
@@ -19,5 +13,6 @@ cc_test(
         ":main",
         "//tests/gomoku/application",
         "//tests/gomoku/domain"],
-    copts = COPTS
+    size = "small",
+    copts = gomoku_tests_copts()
 )

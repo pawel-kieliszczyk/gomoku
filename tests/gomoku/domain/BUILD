@@ -1,3 +1,5 @@
+load("//:gomoku.bzl", "gomoku_tests_copts")
+
 COPTS = [
     "-std=c++1z",
     "-Isource",
@@ -14,12 +16,12 @@ cc_library(
         "//source/gomoku/domain:stone",
         "//tests/gomoku/mocks",
         "@gtest//:gtest"],
-    copts = COPTS
+    copts = gomoku_tests_copts()
 )
 
 cc_library(
     name = "domain",
     deps = [":board_test"],
-    copts = COPTS,
+    copts = gomoku_tests_copts(),
     visibility = ["//tests:__pkg__"]
 )

@@ -1,12 +1,9 @@
-COPTS = [
-    "-std=c++1z",
-    "-Isource"
-]
+load("//:gomoku.bzl", "gomoku_copts")
 
 cc_library(
     name = "stone",
     hdrs = ["stone.h"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/application:__subpackages__",
         "//source/gomoku/interface:__subpackages__",
@@ -16,7 +13,7 @@ cc_library(
 cc_library(
     name = "iboard_observer",
     hdrs = ["iboard_observer.h"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/application:__subpackages__",
         "//source/gomoku/interface:__subpackages__",
@@ -29,7 +26,7 @@ cc_library(
     deps = [
         ":stone",
         "iboard_observer"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/application:__subpackages__",
         "//source/gomoku/interface:__subpackages__",
@@ -41,7 +38,7 @@ cc_library(
     hdrs = ["board.h"],
     srcs = ["board.cc"],
     deps = [":iboard"],
-    copts = COPTS,
+    copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/application:__subpackages__",
         "//source/gomoku/interface:__subpackages__",

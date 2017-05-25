@@ -1,10 +1,4 @@
-COPTS = [
-    "-std=c++1z",
-    "-Isource",
-    "-Itests",
-    "-Iexternal/gtest/include",
-    "-Iexternal/gmock/include"
-]
+load("//:gomoku.bzl", "gomoku_tests_copts")
 
 cc_library(
     name = "artificial_intelligence_adjacent_move_candidates_selector_test",
@@ -13,7 +7,7 @@ cc_library(
         "//source/gomoku/application:artificial_intelligence_adjacent_move_candidates_selector",
         "//source/gomoku/domain:board",
         "@gtest//:gtest"],
-    copts = COPTS
+    copts = gomoku_tests_copts()
 )
 
 cc_library(
@@ -23,7 +17,7 @@ cc_library(
         "//source/gomoku/application:game_controller",
         "//tests/gomoku/mocks",
         "@gtest//:gtest"],
-    copts = COPTS
+    copts = gomoku_tests_copts()
 )
 
 cc_library(
@@ -34,7 +28,7 @@ cc_library(
         "//source/gomoku/domain:board",
         "//source/gomoku/domain:stone",
         "@gtest//:gtest"],
-    copts = COPTS
+    copts = gomoku_tests_copts()
 )
 
 cc_library(
@@ -43,6 +37,6 @@ cc_library(
         ":artificial_intelligence_adjacent_move_candidates_selector_test",
         ":game_controller_test",
         ":game_finished_when_five_in_row_policy_test"],
-    copts = COPTS,
+    copts = gomoku_tests_copts(),
     visibility = ["//tests:__pkg__"]
 )

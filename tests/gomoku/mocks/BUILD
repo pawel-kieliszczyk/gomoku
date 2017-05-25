@@ -1,3 +1,5 @@
+load("//:gomoku.bzl", "gomoku_tests_copts")
+
 COPTS = [
     "-std=c++1z",
     "-Isource"
@@ -13,6 +15,6 @@ cc_library(
         "domain/board_mock.h",
         "domain/board_observer_mock.h"],
     deps = ["@gtest//:gtest"],
-    copts = COPTS,
+    copts = gomoku_tests_copts(),
     visibility = ["//tests/gomoku:__subpackages__"]
 )
