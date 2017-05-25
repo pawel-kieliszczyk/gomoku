@@ -1,4 +1,4 @@
-load("//source:gomoku.bzl", "gomoku_copts")
+load("//:gomoku.bzl", "gomoku_copts")
 
 cc_library(
     name = "artificial_intelligence_adjacent_move_candidates_selector",
