@@ -13,5 +13,6 @@ cc_test(
         ":main",
         "//tests/gomoku/application",
         "//tests/gomoku/domain"],
+    size = "small",
     copts = gomoku_tests_copts()
 )
