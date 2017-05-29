@@ -110,6 +110,52 @@ cc_library(
 )
 
 cc_library(
+    name = "artificial_intelligence_monte_carlo_tree_search_player_factory",
+    hdrs = ["artificial_intelligence/monte_carlo_tree_search_player_factory.h"],
+    srcs = ["artificial_intelligence/monte_carlo_tree_search_player_factory.cc"],
+    deps = [
+        ":iplayer_factory",
+        ":artificial_intelligence_adjacent_move_candidates_selector",
+        ":artificial_intelligence_monte_carlo_tree_search_player"],
+    copts = gomoku_copts(),
+    visibility = [
+        "//source/gomoku/interface:__subpackages__",
+        "//tests/gomoku:__subpackages__"]
+)
+
+cc_library(
+    name = "artificial_intelligence_monte_carlo_tree_search_player",
+    hdrs = ["artificial_intelligence/monte_carlo_tree_search_player.h"],
+    srcs = ["artificial_intelligence/monte_carlo_tree_search_player.cc"],
+    deps = [
+        ":iplayer",
+        ":artificial_intelligence_imove_candidates_selector",
+        ":artificial_intelligence_monte_carlo_tree",
+        "//source/gomoku/domain:iboard",
+        "//source/gomoku/domain:stone"],
+    copts = gomoku_copts(),
+    visibility = [
+        "//source/gomoku/interface:__subpackages__",
+        "//tests/gomoku:__subpackages__"]
+)
+
+cc_library(
+    name = "artificial_intelligence_monte_carlo_tree",
+    hdrs = ["artificial_intelligence/monte_carlo_tree.h"],
+    srcs = ["artificial_intelligence/monte_carlo_tree.cc"],
+    deps = [
+        ":artificial_intelligence_board_with_undo",
+        ":artificial_intelligence_imove_candidates_selector",
+        ":game_finished_when_five_in_row_policy",
+        "//source/gomoku/domain:iboard",
+        "//source/gomoku/domain:stone"],
+    copts = gomoku_copts(),
+    visibility = [
+        "//source/gomoku/interface:__subpackages__",
+        "//tests/gomoku:__subpackages__"]
+)
+
+cc_library(
     name = "game_controller_factory",
     hdrs = ["game_controller_factory.h"],
     srcs = ["game_controller_factory.cc"],
@@ -183,7 +229,7 @@ cc_library(
 cc_library(
     name = "igame_finished_policy",
     hdrs = ["igame_finished_policy.h"],
-    deps = ["//source/gomoku/domain:iboard"],
+    deps = ["//source/gomoku/domain:stone"],
     copts = gomoku_copts(),
     visibility = [
         "//source/gomoku/interface:__subpackages__",
@@ -223,6 +269,8 @@ cc_library(
         ":artificial_intelligence_imove_candidates_selector",
         ":artificial_intelligence_mini_max_player_factory",
         ":artificial_intelligence_mini_max_player",
+        ":artificial_intelligence_monte_carlo_tree_search_player_factory",
+        ":artificial_intelligence_monte_carlo_tree_search_player",
         ":game_controller_factory",
         ":game_controller",
         ":game_finished_when_five_in_row_policy_factory",

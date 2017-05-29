@@ -19,6 +19,7 @@ class GameFinishedPolicyMock : public IGameFinishedPolicy
 {
 public:
     MOCK_CONST_METHOD0(isFinished, bool());
+    MOCK_CONST_METHOD0(getWinner, std::experimental::optional<Domain::Stone>());
 };
 
 

@@ -21,8 +21,11 @@ class GameFinishedWhenFiveInRowPolicy : public IGameFinishedPolicy, public Domai
 {
 public:
     GameFinishedWhenFiveInRowPolicy(std::shared_ptr<Domain::IBoard> board_);
+    ~GameFinishedWhenFiveInRowPolicy();
+    int getMovesLeft() const;
 
     bool isFinished() const override;
+    std::experimental::optional<Domain::Stone> getWinner() const override;
 
     void onStonePutAt(int x, int y) override;
     void onBoardCleared() override;
@@ -37,6 +40,7 @@ private:
     std::shared_ptr<Domain::IBoard> board;
     int movesLeft;
     bool finished;
+    std::experimental::optional<Domain::Stone> winner;
 };
 
 

@@ -25,12 +25,14 @@ public:
     void putStone(int x, int y, const Stone& stone) override;
     Stone getStone(int x, int y) const override;
     void removeStone(int x, int y) override;
+    int getStonesCount() const override;
 
     bool hasStone(int x, int y) const override;
 
     void clear() override;
 
     void addObserver(IBoardObserver& observer) override;
+    void removeObserver(IBoardObserver& observer) override;
 
 private:
     void notifyObserversAfterStonePut(int x, int y);
@@ -39,8 +41,9 @@ private:
     static const int SIZE = 15;
 
     std::experimental::optional<Stone> board[SIZE][SIZE];
+    int stonesCount{0};
 
-    std::vector<std::reference_wrapper<IBoardObserver>> observers;
+    std::vector<IBoardObserver*> observers;
 };
 
 

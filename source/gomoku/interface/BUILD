@@ -40,6 +40,7 @@ cc_library(
         ":human_player_factory",
         "//source/gomoku/application:artificial_intelligence_alpha_beta_player_factory",
         "//source/gomoku/application:artificial_intelligence_mini_max_player_factory",
+        "//source/gomoku/application:artificial_intelligence_monte_carlo_tree_search_player_factory",
         "//source/gomoku/application:game_controller_factory",
         "//source/gomoku/application:iplayer_factory",
         "//source/gomoku/domain:board"],

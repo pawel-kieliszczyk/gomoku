@@ -5,6 +5,7 @@ Play [Gomoku](https://en.wikipedia.org/wiki/Gomoku) versus another human or Arti
 Implemented various Artificial Intelligence strategies:
 * Minimax
 * Minimax + Alpha-beta pruning
+* Monte Carlo Tree Search
 
 Coming soon:
 * Neural Networks
