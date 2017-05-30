@@ -2,7 +2,7 @@
 
 Play [Gomoku](https://en.wikipedia.org/wiki/Gomoku) versus another human or Artificial Intelligence.
 
-Implemented various Artificial Intelligence strategies:
+Implemented various AI strategies:
 * Minimax
 * Minimax + Alpha-beta pruning
 * Monte Carlo Tree Search
