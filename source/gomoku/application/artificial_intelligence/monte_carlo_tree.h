@@ -21,13 +21,17 @@ namespace ArtificialIntelligence
 {
 
 
-class MonteCarloTree
+class MonteCarloTree : public Domain::IBoardObserver
 {
 public:
     MonteCarloTree(
             std::shared_ptr<Domain::IBoard> board_,
             const Domain::Stone& stoneForNextMove_,
             std::shared_ptr<IMoveCandidatesSelector> moveCandidatesSelector_);
+    ~MonteCarloTree();
+
+    void onStonePutAt(int x, int y) override;
+    void onBoardCleared() override;
 
     void runSimulation();
     std::pair<int, int> getBestMove();
@@ -44,22 +48,24 @@ private:
         int numberOfGames{0};
 
         Node* parent;
-        std::vector<Node> children;
+        std::vector<std::shared_ptr<Node>> children;
 
-        Node(int x_, int y_, const Domain::Stone& stone_, Node* parent_) : x(x_), y(y_), stone(stone_), parent(parent_) {}
+        Node(const int x_, const int y_, const Domain::Stone& stone_, Node* parent_) : x(x_), y(y_), stone(stone_), parent(parent_) {}
     };
 
-    Node& chooseLeafToExpand(std::shared_ptr<BoardWithUndo> boardWithUndo);
-    double valueForNode(const Node& node) const;
-    void playRandomGameFor(std::shared_ptr<BoardWithUndo> boardWithUndo, Node& node);
+    std::shared_ptr<Node> findOrCreateRootChild(const int x, const int y);
+
+    std::shared_ptr<Node> chooseLeafToExpand(std::shared_ptr<BoardWithUndo> boardWithUndo);
+    double valueForNode(std::shared_ptr<Node> node) const;
+    void playRandomGameFor(std::shared_ptr<BoardWithUndo> boardWithUndo, std::shared_ptr<Node> node);
     void backpropagateWinsAndGames(Node* node);
 
-    double ratingForMove(const Node& node);
+    double ratingForMove(std::shared_ptr<Node> node);
 
     std::shared_ptr<Domain::IBoard> board;
     std::shared_ptr<IMoveCandidatesSelector> moveCandidatesSelector;
 
-    Node root;
+    std::shared_ptr<Node> root;
 
     std::mt19937 randomGenerator;
 };

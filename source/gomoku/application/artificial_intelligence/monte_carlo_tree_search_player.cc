@@ -3,9 +3,7 @@
 #include <utility>
 #include <vector>
 
-#include "gomoku/application/artificial_intelligence/monte_carlo_tree.h"
 
-#include <iostream>
 namespace Gomoku
 {
 namespace Application
@@ -20,15 +18,14 @@ MonteCarloTreeSearchPlayer::MonteCarloTreeSearchPlayer(
         std::shared_ptr<IMoveCandidatesSelector> moveCandidatesSelector_)
     : board(board_),
       stone(stone_),
-      moveCandidatesSelector(moveCandidatesSelector_)
+      moveCandidatesSelector(moveCandidatesSelector_),
+      monteCarloTree(board, stone, moveCandidatesSelector)
 {
 }
 
 
 void MonteCarloTreeSearchPlayer::performMove()
 {
-    MonteCarloTree monteCarloTree(board, stone, moveCandidatesSelector);
-
     for(int i = 0; i < simulationsLimit; ++i)
         monteCarloTree.runSimulation();
 

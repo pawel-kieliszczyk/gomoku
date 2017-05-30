@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "gomoku/application/artificial_intelligence/imove_candidates_selector.h"
+#include "gomoku/application/artificial_intelligence/monte_carlo_tree.h"
 #include "gomoku/domain/iboard.h"
 #include "gomoku/domain/stone.h"
 
@@ -30,11 +31,13 @@ public:
     void performMove() override;
 
 private:
-    static constexpr int simulationsLimit = 100;
+    static constexpr int simulationsLimit = 500;
 
     std::shared_ptr<Domain::IBoard> board;
     const Domain::Stone stone;
     std::shared_ptr<IMoveCandidatesSelector> moveCandidatesSelector;
+
+    MonteCarloTree monteCarloTree;
 };
 
 

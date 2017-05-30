@@ -20,17 +20,42 @@ MonteCarloTree::MonteCarloTree(
         std::shared_ptr<IMoveCandidatesSelector> moveCandidatesSelector_)
     : board(board_),
       moveCandidatesSelector(moveCandidatesSelector_),
-      root(-1, -1, ((stoneForNextMove_ == Domain::Stone::Black) ? Domain::Stone::White : Domain::Stone::Black), nullptr),
+      root(std::make_shared<Node>(
+              -1,
+              -1,
+              ((stoneForNextMove_ == Domain::Stone::Black) ? Domain::Stone::White : Domain::Stone::Black),
+              nullptr)),
       randomGenerator(time(0))
 {
+    board->addObserver(*this);
 }
+
+
+MonteCarloTree::~MonteCarloTree()
+{
+    board->removeObserver(*this);
+}
+
+
+void MonteCarloTree::onStonePutAt(int x, int y)
+{
+    std::shared_ptr<Node> child = findOrCreateRootChild(x, y);
+    root = child;
+    root->parent = nullptr;
+}
+
+
+void MonteCarloTree::onBoardCleared()
+{
+}
+
 
 void MonteCarloTree::runSimulation()
 {
     auto boardWithUndo = std::make_shared<BoardWithUndo>(board);
     GameFinishedWhenFiveInRowPolicy gameFinishedPolicy(boardWithUndo);
 
-    Node& leaf = chooseLeafToExpand(boardWithUndo);
+    std::shared_ptr<Node> leaf = chooseLeafToExpand(boardWithUndo);
 
     if(gameFinishedPolicy.isFinished())
         return;
@@ -39,33 +64,33 @@ void MonteCarloTree::runSimulation()
 
     for(const auto move : possibleMoves)
     {
-        leaf.children.push_back(Node(
+        leaf->children.push_back(std::make_shared<Node>(
                 move.first,
                 move.second,
-                ((leaf.stone == Domain::Stone::Black) ? Domain::Stone::White : Domain::Stone::Black),
-                &leaf));
-        playRandomGameFor(boardWithUndo, leaf.children.back());
+                ((leaf->stone == Domain::Stone::Black) ? Domain::Stone::White : Domain::Stone::Black),
+                leaf.get()));
+        playRandomGameFor(boardWithUndo, leaf->children.back());
     }
 
-    backpropagateWinsAndGames(&leaf);
+    backpropagateWinsAndGames(leaf.get());
 }
 
 
 std::pair<int, int> MonteCarloTree::getBestMove()
 {
-    auto bestMove = std::make_pair(root.children.front().x, root.children.front().y);
-    auto bestMoveRating = ratingForMove(root.children.front());
+    auto bestMove = std::make_pair(root->children.front()->x, root->children.front()->y);
+    auto bestMoveRating = ratingForMove(root->children.front());
 
-    const auto moves = root.children;
+    const auto& moves = root->children;
     for(const auto move : moves)
     {
         const auto moveRating = ratingForMove(move);
 
-        if(root.stone == Domain::Stone::Black)
+        if(root->stone == Domain::Stone::Black)
         {
             if(moveRating < bestMoveRating)
             {
-                bestMove = std::make_pair(move.x, move.y);
+                bestMove = std::make_pair(move->x, move->y);
                 bestMoveRating = moveRating;
             }
         }
@@ -73,7 +98,7 @@ std::pair<int, int> MonteCarloTree::getBestMove()
         {
             if(moveRating > bestMoveRating)
             {
-                bestMove = std::make_pair(move.x, move.y);
+                bestMove = std::make_pair(move->x, move->y);
                 bestMoveRating = moveRating;
             }
         }
@@ -83,23 +108,41 @@ std::pair<int, int> MonteCarloTree::getBestMove()
 }
 
 
-MonteCarloTree::Node& MonteCarloTree::chooseLeafToExpand(std::shared_ptr<BoardWithUndo> boardWithUndo)
+std::shared_ptr<MonteCarloTree::Node> MonteCarloTree::findOrCreateRootChild(const int x, const int y)
 {
-    Node* n = &root;
+    for(const auto child : root->children)
+    {
+        if((child->x == x) && (child->y == y))
+            return child;
+    }
+
+    root->children.push_back(std::make_shared<Node>(
+            x,
+            y,
+            ((root->stone == Domain::Stone::Black) ? Domain::Stone::White : Domain::Stone::Black),
+            root.get()));
+
+    return root->children.back();
+}
+
+
+std::shared_ptr<MonteCarloTree::Node> MonteCarloTree::chooseLeafToExpand(std::shared_ptr<BoardWithUndo> boardWithUndo)
+{
+    std::shared_ptr<Node> n = root;
 
     while(!n->children.empty())
     {
-        Node* bestChild = &n->children.front();
-        auto bestChildValue = valueForNode(*bestChild);
-        for(auto& child : n->children)
+        std::shared_ptr<Node> bestChild = n->children.front();
+        auto bestChildValue = valueForNode(bestChild);
+        for(auto child : n->children)
         {
             const auto childValue = valueForNode(child);
 
-            if(root.stone == child.stone)
+            if(root->stone == child->stone)
             {
                 if(childValue < bestChildValue)
                 {
-                    bestChild = &child;
+                    bestChild = child;
                     bestChildValue = childValue;
                 }
             }
@@ -107,7 +150,7 @@ MonteCarloTree::Node& MonteCarloTree::chooseLeafToExpand(std::shared_ptr<BoardWi
             {
                 if(childValue > bestChildValue)
                 {
-                    bestChild = &child;
+                    bestChild = child;
                     bestChildValue = childValue;
                 }
             }
@@ -117,26 +160,26 @@ MonteCarloTree::Node& MonteCarloTree::chooseLeafToExpand(std::shared_ptr<BoardWi
         boardWithUndo->putStone(n->x, n->y, n->stone);
     }
 
-    return *n;
+    return n;
 }
 
 
-double MonteCarloTree::valueForNode(const MonteCarloTree::Node& node) const
+double MonteCarloTree::valueForNode(std::shared_ptr<Node> node) const
 {
-    double value = static_cast<double>(node.numberOfWinsByBlack) / static_cast<double>(node.numberOfGames);
-    value += C * std::sqrt(std::log(static_cast<double>(node.parent->numberOfGames)) / static_cast<double>(node.numberOfGames));
+    double value = static_cast<double>(node->numberOfWinsByBlack) / static_cast<double>(node->numberOfGames);
+    value += C * std::sqrt(std::log(static_cast<double>(node->parent->numberOfGames)) / static_cast<double>(node->numberOfGames));
 
     return value;
 }
 
 
-void MonteCarloTree::playRandomGameFor(std::shared_ptr<BoardWithUndo> boardWithUndo, MonteCarloTree::Node& node)
+void MonteCarloTree::playRandomGameFor(std::shared_ptr<BoardWithUndo> boardWithUndo, std::shared_ptr<Node> node)
 {
     GameFinishedWhenFiveInRowPolicy gameFinishedPolicy(boardWithUndo);
-    boardWithUndo->putStone(node.x, node.y, node.stone);
+    boardWithUndo->putStone(node->x, node->y, node->stone);
 
     int movesCount = 1;
-    auto stoneForNextMove = ((node.stone == Domain::Stone::Black) ? Domain::Stone::White : Domain::Stone::Black);
+    auto stoneForNextMove = ((node->stone == Domain::Stone::Black) ? Domain::Stone::White : Domain::Stone::Black);
     while(!gameFinishedPolicy.isFinished())
     {
         // play random move
@@ -153,23 +196,23 @@ void MonteCarloTree::playRandomGameFor(std::shared_ptr<BoardWithUndo> boardWithU
     }
 
     const auto winner = gameFinishedPolicy.getWinner();
-    node.numberOfWinsByBlack = ((winner && (*winner == Domain::Stone::Black)) ? 1 : 0);
-    node.numberOfGames = 1;
+    node->numberOfWinsByBlack = ((winner && (*winner == Domain::Stone::Black)) ? 1 : 0);
+    node->numberOfGames = 1;
 
     while(movesCount--)
         boardWithUndo->undoMove();
 }
 
 
-void MonteCarloTree::backpropagateWinsAndGames(MonteCarloTree::Node* node)
+void MonteCarloTree::backpropagateWinsAndGames(Node* node)
 {
     int wins = 0;
     int games = 0;
 
-    for(const auto& child : node->children)
+    for(const auto child : node->children)
     {
-        wins += child.numberOfWinsByBlack;
-        games += child.numberOfGames;
+        wins += child->numberOfWinsByBlack;
+        games += child->numberOfGames;
     }
 
     while(node != nullptr)
@@ -182,9 +225,9 @@ void MonteCarloTree::backpropagateWinsAndGames(MonteCarloTree::Node* node)
 }
 
 
-double MonteCarloTree::ratingForMove(const MonteCarloTree::Node& node)
+double MonteCarloTree::ratingForMove(std::shared_ptr<Node> node)
 {
-    return static_cast<double>(node.numberOfWinsByBlack) / static_cast<double>(node.numberOfGames);
+    return static_cast<double>(node->numberOfWinsByBlack) / static_cast<double>(node->numberOfGames);
 }
 
 
