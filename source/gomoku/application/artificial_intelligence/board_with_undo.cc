@@ -49,6 +49,12 @@ void BoardWithUndo::removeStone(int x, int y)
 }
 
 
+int BoardWithUndo::getStonesCount() const
+{
+    return originalBoard.getStonesCount();
+}
+
+
 bool BoardWithUndo::hasStone(int x, int y) const
 {
     return originalBoard.hasStone(x, y);
@@ -60,9 +66,16 @@ void BoardWithUndo::clear()
     originalBoard.clear();
 }
 
+
 void BoardWithUndo::addObserver(Domain::IBoardObserver& observer)
 {
     originalBoard.addObserver(observer);
+}
+
+
+void BoardWithUndo::removeObserver(Domain::IBoardObserver& observer)
+{
+    originalBoard.removeObserver(observer);
 }
 
 

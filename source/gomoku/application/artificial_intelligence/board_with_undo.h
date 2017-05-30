@@ -28,12 +28,14 @@ public:
     void putStone(int x, int y, const Domain::Stone& stone) override;
     Domain::Stone getStone(int x, int y) const override;
     void removeStone(int x, int y) override;
+    int getStonesCount() const override;
 
     bool hasStone(int x, int y) const override;
 
     void clear() override;
 
     void addObserver(Domain::IBoardObserver& observer) override;
+    void removeObserver(Domain::IBoardObserver& observer) override;
 
     void undoMove();
 

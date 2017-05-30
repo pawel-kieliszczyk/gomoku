@@ -5,6 +5,7 @@
 
 #include "gomoku/application/artificial_intelligence/alpha_beta_player_factory.h"
 #include "gomoku/application/artificial_intelligence/mini_max_player_factory.h"
+#include "gomoku/application/artificial_intelligence/monte_carlo_tree_search_player_factory.h"
 #include "gomoku/application/game_controller_factory.h"
 #include "gomoku/domain/board.h"
 #include "gomoku/interface/board_drawer.h"
@@ -76,8 +77,10 @@ UIController::GameMode UIController::readGameMode()
 
 std::shared_ptr<Application::IPlayerFactory> UIController::getFirstPlayerFactoryFor(GameMode gameMode)
 {
+//    if(gameMode == GameMode::ArtificialIntelligenceVsPlayer)
+//        return std::make_shared<Application::ArtificialIntelligence::AlphaBetaPlayerFactory>();
     if(gameMode == GameMode::ArtificialIntelligenceVsPlayer)
-        return std::make_shared<Application::ArtificialIntelligence::AlphaBetaPlayerFactory>();
+        return std::make_shared<Application::ArtificialIntelligence::MonteCarloTreeSearchPlayerFactory>();
 
     return std::make_shared<HumanPlayerFactory>("Player 1");
 }
@@ -85,8 +88,10 @@ std::shared_ptr<Application::IPlayerFactory> UIController::getFirstPlayerFactory
 
 std::shared_ptr<Application::IPlayerFactory> UIController::getSecondPlayerFactoryFor(GameMode gameMode)
 {
+//    if(gameMode == GameMode::PlayerVsArtificialIntelligence)
+//        return std::make_shared<Application::ArtificialIntelligence::AlphaBetaPlayerFactory>();
     if(gameMode == GameMode::PlayerVsArtificialIntelligence)
-        return std::make_shared<Application::ArtificialIntelligence::AlphaBetaPlayerFactory>();
+        return std::make_shared<Application::ArtificialIntelligence::MonteCarloTreeSearchPlayerFactory>();
 
     return std::make_shared<HumanPlayerFactory>("Player 2");
 }

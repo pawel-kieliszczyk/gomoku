@@ -9,16 +9,34 @@ namespace Application
 
 GameFinishedWhenFiveInRowPolicy::GameFinishedWhenFiveInRowPolicy(std::shared_ptr<Domain::IBoard> board_)
     : board(board_),
-      movesLeft(board->getSize() * board->getSize()),
-      finished(false)
+      movesLeft(board->getSize() * board->getSize() - board_->getStonesCount()),
+      finished((movesLeft == 0) ? true : false)
 {
+    // TODO: check for 5 stones
     board->addObserver(*this);
 }
 
 
+GameFinishedWhenFiveInRowPolicy::~GameFinishedWhenFiveInRowPolicy()
+{
+    board->removeObserver(*this);
+}
+
+
+int GameFinishedWhenFiveInRowPolicy::getMovesLeft() const
+{
+    return movesLeft;
+}
+
 bool GameFinishedWhenFiveInRowPolicy::isFinished() const
 {
     return finished;
+}
+
+
+std::experimental::optional<Domain::Stone> GameFinishedWhenFiveInRowPolicy::getWinner() const
+{
+    return winner;
 }
 
 
@@ -105,7 +123,10 @@ void GameFinishedWhenFiveInRowPolicy::check(int x, int y, const Domain::Stone& s
 
     const auto sameStones = sameStonesLeft + sameStonesRight + 1;
     if(sameStones >= 5)
+    {
         finished = true;
+        winner = stone;
+    }
 }
 
 
