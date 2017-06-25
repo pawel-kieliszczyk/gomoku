@@ -76,9 +76,9 @@ void MonteCarloTree::runSimulation()
 }
 
 
-std::pair<int, int> MonteCarloTree::getBestMove()
+std::tuple<int, int> MonteCarloTree::getBestMove()
 {
-    auto bestMove = std::make_pair(root->children.front()->x, root->children.front()->y);
+    auto bestMove = std::make_tuple(root->children.front()->x, root->children.front()->y);
     auto bestMoveRating = ratingForMove(root->children.front());
 
     const auto& moves = root->children;
@@ -90,7 +90,7 @@ std::pair<int, int> MonteCarloTree::getBestMove()
         {
             if(moveRating < bestMoveRating)
             {
-                bestMove = std::make_pair(move->x, move->y);
+                bestMove = std::make_tuple(move->x, move->y);
                 bestMoveRating = moveRating;
             }
         }
@@ -98,7 +98,7 @@ std::pair<int, int> MonteCarloTree::getBestMove()
         {
             if(moveRating > bestMoveRating)
             {
-                bestMove = std::make_pair(move->x, move->y);
+                bestMove = std::make_tuple(move->x, move->y);
                 bestMoveRating = moveRating;
             }
         }

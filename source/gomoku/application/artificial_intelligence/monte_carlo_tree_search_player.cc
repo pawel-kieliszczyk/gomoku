@@ -29,8 +29,8 @@ void MonteCarloTreeSearchPlayer::performMove()
     for(int i = 0; i < simulationsLimit; ++i)
         monteCarloTree.runSimulation();
 
-    const auto move = monteCarloTree.getBestMove();
-    board->putStone(move.first, move.second, stone);
+    const auto [move_x, move_y] = monteCarloTree.getBestMove();
+    board->putStone(move_x, move_y, stone);
 }
 
 
