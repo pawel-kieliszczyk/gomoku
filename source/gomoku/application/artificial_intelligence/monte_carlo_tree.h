@@ -4,7 +4,7 @@
 
 #include <memory>
 #include <random>
-#include <utility>
+#include <tuple>
 #include <vector>
 
 #include "gomoku/application/artificial_intelligence/board_with_undo.h"
@@ -34,7 +34,7 @@ public:
     void onBoardCleared() override;
 
     void runSimulation();
-    std::pair<int, int> getBestMove();
+    std::tuple<int, int> getBestMove();
 
 private:
     static double constexpr C = 1.41;
